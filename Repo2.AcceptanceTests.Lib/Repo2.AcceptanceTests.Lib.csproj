@@ -52,6 +52,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FitNesse\fitnesse-standalone.jar" />
+    <Content Include="FitNesse\FitNesseRoot\content.txt" />
+    <Content Include="FitNesse\FitNesseRoot\FrontPage\content.txt" />
+    <Content Include="FitNesse\FitNesseRoot\FrontPage\properties.xml" />
+    <Content Include="FitNesse\FitNesseRoot\WhenToBuyMilk\content.txt" />
+    <Content Include="FitNesse\FitNesseRoot\WhenToBuyMilk\properties.xml" />
     <Content Include="FitNesse\fitSharp\CPLicense.txt" />
     <Content Include="FitNesse\fitSharp\dbfit.dll" />
     <Content Include="FitNesse\fitSharp\dbfit.mysql.dll" />
