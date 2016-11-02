@@ -255,3 +255,7 @@ paket-files/
 /Repo2.AcceptanceTests.Lib/FitNesse/fitSharp/SUTs/ServiceStack.Text.dll
 /Repo2.AcceptanceTests.Lib/FitNesse/fitSharp/SUTs/ServiceStack.Text.xml
 /Repo2.AcceptanceTests.Lib/FitNesse/fitSharp/SUTs/Repo2.SDK.WPF45.dll
+/Repo2.AcceptanceTests.Lib/FitNesse/fitSharp/SUTs/fit.dll
+/Repo2.AcceptanceTests.Lib/FitNesse/fitSharp/SUTs/fitSharp.dll
+/Repo2.AcceptanceTests.Lib/FitNesse/fitSharp/SUTs/Repo2.AcceptanceTests.Lib.dll
+/Repo2.AcceptanceTests.Lib/FitNesse/fitSharp/SUTs/Repo2.Core.ns11.dll
