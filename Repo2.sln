@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repo2.Core.ns11", "Repo2.Core.ns11\Repo2.Core.ns11.csproj", "{100E7348-7231-4F9B-B3F1-E3188F6343CB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repo2.Uploader.Lib45", "Repo2.Uploader.Lib45\Repo2.Uploader.Lib45.csproj", "{3F8B37E9-CCA1-45F6-81CF-7BD29ED0BB1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repo2.SDK.WPF45", "Repo2.SDK.WPF45\Repo2.SDK.WPF45.csproj", "{5BF836B0-618A-4C82-8318-0C1E8E3702B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +30,14 @@ Global
 		{100E7348-7231-4F9B-B3F1-E3188F6343CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{100E7348-7231-4F9B-B3F1-E3188F6343CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{100E7348-7231-4F9B-B3F1-E3188F6343CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F8B37E9-CCA1-45F6-81CF-7BD29ED0BB1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F8B37E9-CCA1-45F6-81CF-7BD29ED0BB1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F8B37E9-CCA1-45F6-81CF-7BD29ED0BB1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F8B37E9-CCA1-45F6-81CF-7BD29ED0BB1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BF836B0-618A-4C82-8318-0C1E8E3702B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BF836B0-618A-4C82-8318-0C1E8E3702B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BF836B0-618A-4C82-8318-0C1E8E3702B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BF836B0-618A-4C82-8318-0C1E8E3702B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

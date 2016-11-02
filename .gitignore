@@ -251,3 +251,7 @@ paket-files/
 .idea/
 *.sln.iml
 *.zip
+/Repo2.AcceptanceTests.Lib/FitNesse/fitSharp/SUTs/Repo2.Uploader.Lib45.dll
+/Repo2.AcceptanceTests.Lib/FitNesse/fitSharp/SUTs/ServiceStack.Text.dll
+/Repo2.AcceptanceTests.Lib/FitNesse/fitSharp/SUTs/ServiceStack.Text.xml
+/Repo2.AcceptanceTests.Lib/FitNesse/fitSharp/SUTs/Repo2.SDK.WPF45.dll
