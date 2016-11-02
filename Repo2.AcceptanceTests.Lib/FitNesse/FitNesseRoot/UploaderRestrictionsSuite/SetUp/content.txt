@@ -1,0 +1,6 @@
+!|import|
+|Repo2.AcceptanceTests.Lib.UploaderRestrictionsSuite|
+
+| Get Valid Uploader Credentials    |
+| valid username? | valid password? |
+|    $validUsr=   |    $validPwd=   |

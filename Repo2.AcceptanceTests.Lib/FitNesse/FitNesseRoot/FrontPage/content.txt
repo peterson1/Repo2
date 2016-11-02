@@ -1,7 +1,26 @@
+UploaderRestrictionsSuite
+
+Check Registration of Package
+As an Uploader, I want the system to prevent me from uploading a package which is not registered with the system, so that I can take corrective actions early.
+
+Upload Package in Parts
+As an Uploader, I want the system to split the package into smaller parts, so that when internet gets cut, resuming the upload won't start from zero.
+
+Download latest version of file in the background
+As an end user, I want the system to regularly check for a newer version of the package.
+As an end user, when the system finds an update, I want it to download the new version and install it in the background, so that I can keep using the app without interruptions.
+
+Verify downloaded package, Retry until successful
+As an end user, I want the system to notify me of the need to relaunch the app only when the update is downloaded and installed correctly, so that I can keep using the app without interruptions.
+As an end user, when the update fails to download/install correctly, I want the system to retry until successful, so that I can keep using the app without interruptions.
+
+
+
 !1 Welcome to [[FitNesse][FitNesse.FitNesse]]!
 !3 ''The fully integrated stand-alone acceptance testing framework and wiki.''
 # Here is a good place to add your first page (WikiWord). For example, MyTopLevelApplicationPage
 WhenToBuyMilk
+CheckUploaderCredentials
 
 To add your first "page", click the [[Edit][.FrontPage?edit]] button and add a [[!-WikiWord-!][.FitNesse.UserGuide.FitNesseWiki.WikiWord]] to the page.
 

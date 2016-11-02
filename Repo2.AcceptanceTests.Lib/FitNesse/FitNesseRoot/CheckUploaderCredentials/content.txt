@@ -1,0 +1,6 @@
+As an end user, I want the system to prevent unauthorized users from uploading a package, so that I am protected from malicious/fraudulent content.
+
+| Validate Uploader Credentials            |
+|    username    | password  | can upload? |
+| wrong_username | wrong_pwd |    no       |
+|   $validUsr    | $validPwd |    yes      |

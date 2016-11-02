@@ -1,6 +1,6 @@
 ﻿namespace Repo2.AcceptanceTests.Lib
 {
-    public class ShouldIBuyMilk //: fitSharp.Fit.Fixtures.
+    public class ShouldIBuyMilk
     {
         private int _cash;
         private int _pintsOfMilkRemaining;
