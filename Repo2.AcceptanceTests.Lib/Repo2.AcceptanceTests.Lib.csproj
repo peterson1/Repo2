@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.1.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.1.1\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="fit, Version=2.4.5819.38080, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>FitNesse\fitSharp\fit.dll</HintPath>
@@ -48,15 +52,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutofacFitCreateOperator.cs" />
+    <Compile Include="AutofacSlimCreateOperator.cs" />
+    <Compile Include="ComponentRegistry\ContainerFactory.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ShouldIBuyMilk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UploaderRestrictionsSuite\CheckUploaderCredentials.cs" />
     <Compile Include="UploaderRestrictionsSuite\GetValidUploaderCredentials.cs" />
+    <Compile Include="UploaderRestrictionsSuite\TestCredentialsChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FitNesse\FitNesseRoot\properties" />
     <None Include="FitNesse\start_server.bat" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="FitNesse\fitnesse-standalone.jar" />
@@ -83,11 +92,16 @@
     <Content Include="FitNesse\fitSharp\GPLicense.txt" />
     <Content Include="FitNesse\fitSharp\Runner.exe" />
     <Content Include="FitNesse\fitSharp\RunnerW.exe" />
+    <Content Include="FitNesse\fitSharp\SUTs\suite.config.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Repo2.Core.ns11\Repo2.Core.ns11.csproj">
       <Project>{100e7348-7231-4f9b-b3f1-e3188f6343cb}</Project>
       <Name>Repo2.Core.ns11</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Repo2.SDK.WPF45\Repo2.SDK.WPF45.csproj">
+      <Project>{5BF836B0-618A-4C82-8318-0C1E8E3702B0}</Project>
+      <Name>Repo2.SDK.WPF45</Name>
     </ProjectReference>
     <ProjectReference Include="..\Repo2.Uploader.Lib45\Repo2.Uploader.Lib45.csproj">
       <Project>{3F8B37E9-CCA1-45F6-81CF-7BD29ED0BB1F}</Project>

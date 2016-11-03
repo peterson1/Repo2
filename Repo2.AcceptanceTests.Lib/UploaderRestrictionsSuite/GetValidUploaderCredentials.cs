@@ -1,6 +1,6 @@
 ﻿using Repo2.Uploader.Lib45.Configuration;
 
-namespace Repo2.AcceptanceTests.Lib.UploaderRestrictionsSuite
+namespace Repo2.AcceptanceTests.Lib
 {
     public class GetValidUploaderCredentials
     {

@@ -1,5 +1,5 @@
 !define TEST_SYSTEM {slim}
-!define COMMAND_PATTERN {%m -r fitSharp.Slim.Service.Runner,fitSharp\fitsharp.dll %p}
-!define TEST_RUNNER {fitSharp\Runner.exe}
+!define COMMAND_PATTERN {%m -c fitSharp\SUTs\suite.config.xml -r fitSharp.Slim.Service.Runner,fitSharp\fitsharp.dll %p}
+!define TEST_RUNNER {fitSharp\RunnerW.exe}
 
 !path fitSharp\SUTs\Repo2.AcceptanceTests.Lib.dll
