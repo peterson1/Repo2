@@ -39,10 +39,15 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authentication\IR2CredentialsChecker.cs" />
     <Compile Include="Authentication\R2Credentials.cs" />
+    <Compile Include="Authentication\R2D8CredentialsCheckerBase.cs" />
     <Compile Include="Extensions\BooleanExtensions\BasicBooleanExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions\BasicStringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReflectionTools\AssemblyReflector.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

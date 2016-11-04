@@ -1,21 +1,22 @@
-﻿using Repo2.Core.ns11.Authentication;
+﻿using System.Threading.Tasks;
+using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.Extensions.BooleanExtensions;
 
-namespace Repo2.AcceptanceTests.Lib
+namespace Repo2.AcceptanceTests.Lib.UploaderRestrictionsSuite
 {
     public class CheckUploaderCredentials : R2Credentials
     {
-        private TestCredentialsChecker _chekr;
+        private IR2CredentialsChecker _chekr;
 
-        public CheckUploaderCredentials(TestCredentialsChecker credentialsChecker)
+        public CheckUploaderCredentials(IR2CredentialsChecker credentialsChecker)
         {
             _chekr = credentialsChecker;
         }
 
         public string CanUpload()
         {
-            //var ok = Credentials
-            return _chekr?.Check().ToYesNo().ToLower();
+            _chekr.Check(this).Wait();
+            return _chekr.CanWrite.ToYesNo().ToLower();
         }
     }
 }

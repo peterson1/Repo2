@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Repo2.Core.ns11.Authentication;
 
-namespace Repo2.AcceptanceTests.Lib
+namespace Repo2.AcceptanceTests.Lib.UploaderRestrictionsSuite
 {
-    public class TestCredentialsChecker
+    public class TestCredentialsChecker : IR2CredentialsChecker
     {
-        public bool Check() => false;
+        public bool  CanRead   { get; private set; }
+        public bool  CanWrite  { get; private set; }
+
+
+        public async Task Check(R2Credentials credentials)
+        {
+            await Task.Delay(1000 * 5);
+        }
     }
 }
