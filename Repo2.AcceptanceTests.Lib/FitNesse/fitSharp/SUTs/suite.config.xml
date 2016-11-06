@@ -2,9 +2,6 @@
 	<ApplicationUnderTest>
 		<AddAssembly>fitSharp\SUTs\Repo2.AcceptanceTests.Lib.dll</AddAssembly>
 	</ApplicationUnderTest>
-    <Fit.Operators>
-        <AddFirst>Repo2.AcceptanceTests.Lib.AutofacFitCreateOperator</AddFirst>
-    </Fit.Operators>
     <Slim.Operators>
         <AddFirst>Repo2.AcceptanceTests.Lib.AutofacSlimCreateOperator</AddFirst>
     </Slim.Operators>

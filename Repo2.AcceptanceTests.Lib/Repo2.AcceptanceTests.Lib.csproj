@@ -52,15 +52,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutofacFitCreateOperator.cs" />
     <Compile Include="AutofacSlimCreateOperator.cs" />
     <Compile Include="ComponentRegistry\ContainerFactory.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="PackageRegistrationSuite\CheckPackageRegistration.cs" />
     <Compile Include="ShouldIBuyMilk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UploaderRestrictionsSuite\CheckUploaderCredentials.cs" />
     <Compile Include="UploaderRestrictionsSuite\GetValidUploaderCredentials.cs" />
-    <Compile Include="UploaderRestrictionsSuite\TestCredentialsChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FitNesse\FitNesseRoot\properties" />
@@ -72,6 +71,10 @@
     <Content Include="FitNesse\FitNesseRoot\content.txt" />
     <Content Include="FitNesse\FitNesseRoot\FrontPage\content.txt" />
     <Content Include="FitNesse\FitNesseRoot\FrontPage\properties.xml" />
+    <Content Include="FitNesse\FitNesseRoot\PackageRegistrationSuite\CheckPackageRegistration\content.txt" />
+    <Content Include="FitNesse\FitNesseRoot\PackageRegistrationSuite\CheckPackageRegistration\properties.xml" />
+    <Content Include="FitNesse\FitNesseRoot\PackageRegistrationSuite\content.txt" />
+    <Content Include="FitNesse\FitNesseRoot\PackageRegistrationSuite\properties.xml" />
     <Content Include="FitNesse\FitNesseRoot\properties.xml" />
     <Content Include="FitNesse\FitNesseRoot\UploaderRestrictionsSuite\CheckCredentials\content.txt" />
     <Content Include="FitNesse\FitNesseRoot\UploaderRestrictionsSuite\CheckCredentials\properties.xml" />

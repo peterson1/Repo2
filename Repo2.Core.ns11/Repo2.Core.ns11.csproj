@@ -41,11 +41,16 @@
   <ItemGroup>
     <Compile Include="Authentication\IR2CredentialsChecker.cs" />
     <Compile Include="Authentication\R2Credentials.cs" />
-    <Compile Include="Authentication\R2D8CredentialsCheckerBase.cs" />
+    <Compile Include="Authentication\R2D8CredentialsChecker.cs" />
+    <Compile Include="Drupal8\D8Constants.cs" />
+    <Compile Include="Drupal8\D8Cookie.cs" />
     <Compile Include="Extensions\BooleanExtensions\BasicBooleanExtensions.cs" />
+    <Compile Include="Extensions\ExceptionExtensions\BasicExceptionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions\BasicStringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionTools\AssemblyReflector.cs" />
+    <Compile Include="RestClients\IR2RestClient.cs" />
+    <Compile Include="RestClients\R2RestClientBase.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

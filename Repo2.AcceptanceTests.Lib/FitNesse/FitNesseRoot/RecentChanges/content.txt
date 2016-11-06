@@ -1,7 +1,9 @@
+|PackageRegistrationSuite.CheckPackageRegistration||16:14:06 Sun, Nov 06, 2016|
+|UploaderRestrictionsSuite.SetUp||16:05:48 Sun, Nov 06, 2016|
+|PackageRegistrationSuite||15:54:13 Sun, Nov 06, 2016|
+|FrontPage||15:53:32 Sun, Nov 06, 2016|
 |UploaderRestrictionsSuite.CheckCredentials||17:45:01 Wed, Nov 02, 2016|
-|UploaderRestrictionsSuite.SetUp||17:41:09 Wed, Nov 02, 2016|
 |UploaderRestrictionsSuite||17:40:15 Wed, Nov 02, 2016|
-|FrontPage||17:36:23 Wed, Nov 02, 2016|
 |CheckUploaderCredentials||02:45:58 Wed, Nov 02, 2016|
 |||11:45:35 Tue, Nov 01, 2016|
 |WhenToBuyMilk||11:45:26 Tue, Nov 01, 2016|

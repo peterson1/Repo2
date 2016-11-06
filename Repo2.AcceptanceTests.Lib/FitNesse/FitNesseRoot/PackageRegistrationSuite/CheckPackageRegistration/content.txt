@@ -1,0 +1,6 @@
+As an Uploader, I want the system to prevent me from uploading a package which is not registered with the system, so that I can take corrective actions early.
+
+| Check Package Registration          |
+|    package name    | is registered? |
+| unregd_package.pkg |      no		  |
+| Test_Package_1.pkg |      yes		  |

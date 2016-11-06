@@ -6,6 +6,8 @@ using fitSharp.Machine.Model;
 using fitSharp.Slim.Operators;
 using Repo2.AcceptanceTests.Lib.ComponentRegistry;
 using Repo2.Core.ns11.ReflectionTools;
+using Repo2.SDK.WPF45.Authentication;
+using Repo2.Uploader.Lib45.Configuration;
 
 namespace Repo2.AcceptanceTests.Lib
 {
@@ -18,7 +20,11 @@ namespace Repo2.AcceptanceTests.Lib
 
         public AutofacSlimCreateOperator()
         {
-            _container = ContainerFactory.Build();
+            var cfg = LocalConfigFile.Parse(UploaderCfg.KEY);
+
+            Certificator.AllowFrom(cfg.CertificateThumb);
+
+            _container = ContainerFactory.Build(cfg);
         }
 
         public bool CanCreate(NameMatcher memberName, Tree<T> parameters)

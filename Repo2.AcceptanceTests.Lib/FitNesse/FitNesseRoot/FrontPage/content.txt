@@ -1,5 +1,7 @@
 UploaderRestrictionsSuite
 
+PackageRegistrationSuite
+
 Check Registration of Package
 As an Uploader, I want the system to prevent me from uploading a package which is not registered with the system, so that I can take corrective actions early.
 

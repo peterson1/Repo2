@@ -1,17 +1,17 @@
-﻿using Repo2.Uploader.Lib45.Configuration;
+﻿using Repo2.Core.ns11.Authentication;
 
 namespace Repo2.AcceptanceTests.Lib.UploaderRestrictionsSuite
 {
     public class GetValidUploaderCredentials
     {
-        private LocalConfigFile _cfg;
+        private R2Credentials _creds;
 
-        public GetValidUploaderCredentials()
+        public GetValidUploaderCredentials(R2Credentials r2Credentials)
         {
-            _cfg = LocalConfigFile.Parse(UploaderCfg.KEY);
+            _creds = r2Credentials;
         }
 
-        public string ValidUsername() => _cfg.Username;
-        public string ValidPassword() => _cfg.Password;
+        public string ValidUsername() => _creds.Username;
+        public string ValidPassword() => _creds.Password;
     }
 }
