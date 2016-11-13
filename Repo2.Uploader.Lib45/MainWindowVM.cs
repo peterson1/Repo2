@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using PropertyChanged;
@@ -8,32 +7,32 @@ using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.PackageRegistration;
+using Repo2.Core.ns11.PackageUploaders;
 using Repo2.SDK.WPF45.InputCommands;
 using Repo2.Uploader.Lib45.Configuration;
+using Repo2.Uploader.Lib45.PackageFinders;
 
 namespace Repo2.Uploader.Lib45
 {
     [ImplementPropertyChanged]
     public class MainWindowVM
     {
-        private IR2PackageChecker     _pkgCheckr;
         private IR2CredentialsChecker _credsCheckr;
+        private IR2PreUploadChecker   _preCheckr;
+        private IR2PackageUploader    _pkgUploadr;
         private LocalConfigFile       _cfg;
 
-        public MainWindowVM(IR2CredentialsChecker credentialsChecker, IR2PackageChecker packageChecker)
+        public MainWindowVM(IR2CredentialsChecker credentialsChecker, 
+                            IR2PreUploadChecker preUploadChecker,
+                            IR2PackageUploader packageUploader)
         {
-            _pkgCheckr          = packageChecker;
-            _credsCheckr        = credentialsChecker;
-            FillConfigKeysCmd   = R2Command.Relay(FillConfigKeys);
-
-            CheckCredentialsCmd = R2Command.Async(CheckCredentials,
-                              x => !ConfigKey.IsBlank());
-
-            CheckRegistrationCmd = R2Command.Async(CheckRegistration,
-                               x => _credsCheckr.CanWrite 
-                                 && !PackagePath.IsBlank());
-
-            UploadPackageCmd = R2Command.Async(UploadPackage, x => IsRegistered);
+            _credsCheckr          = credentialsChecker;
+            _preCheckr            = preUploadChecker;
+            _pkgUploadr           = packageUploader;
+            FillConfigKeysCmd     = CreateFillConfigKeysCmd();
+            CheckCredentialsCmd   = CreateCheckCredentialsCmd();
+            CheckUploadabilityCmd = CreateCheckUploadabilityCmd();
+            UploadPackageCmd      = CreateUploadPackageCmd();
 
             FillConfigKeysCmd.ExecuteIfItCan();
         }
@@ -43,12 +42,12 @@ namespace Repo2.Uploader.Lib45
         public string  PackagePath   { get; set; }
         public bool    CanURead      { get; private set; }
         public bool    CanWrite      { get; private set; }
-        public bool    IsRegistered  { get; private set; }
+        public bool    IsUploadable  { get; private set; }
 
-        public IR2Command  FillConfigKeysCmd     { get; private set; }
-        public IR2Command  CheckCredentialsCmd   { get; private set; }
-        public IR2Command  CheckRegistrationCmd  { get; private set; }
-        public IR2Command  UploadPackageCmd      { get; private set; }
+        public IR2Command  FillConfigKeysCmd      { get; private set; }
+        public IR2Command  CheckCredentialsCmd    { get; private set; }
+        public IR2Command  CheckUploadabilityCmd  { get; private set; }
+        public IR2Command  UploadPackageCmd       { get; private set; }
 
         public Observables<string> ConfigKeys { get; private set; } = new Observables<string>();
 
@@ -76,21 +75,40 @@ namespace Repo2.Uploader.Lib45
 
             CanURead = _credsCheckr.CanRead;
             CanWrite = _credsCheckr.CanWrite;
-            CheckRegistrationCmd.ExecuteIfItCan();
+            CheckUploadabilityCmd.ExecuteIfItCan();
         }
 
 
-        private async Task CheckRegistration()
+        private async Task CheckUploadability()
         {
-            IsRegistered = false;
-            var fName = Path.GetFileName(PackagePath);
-            IsRegistered = await _pkgCheckr.IsRegistered(fName, _cfg);
+            IsUploadable = false;
+            var localPkg = LocalR2Package.From(PackagePath);
+            IsUploadable = await _preCheckr.IsUploadable(localPkg);
         }
 
 
-        private Task UploadPackage()
+        private async Task UploadPackage()
         {
-            throw new NotImplementedException();
+            await Task.Delay(1);
+            var ok = await _pkgUploadr.Upload(PackagePath);
         }
+
+
+        private IR2Command CreateFillConfigKeysCmd()
+            => R2Command.Relay(FillConfigKeys,
+                        null, "refresh config keys");
+
+        private IR2Command CreateCheckCredentialsCmd()
+            => R2Command.Async(CheckCredentials,
+                              x => !ConfigKey.IsBlank(),
+                              "Check Credentials");
+
+        private IR2Command CreateCheckUploadabilityCmd()
+            => R2Command.Async(CheckUploadability,
+                               x => _credsCheckr.CanWrite && !PackagePath.IsBlank(),
+                               "Check Package Registration");
+
+        private IR2Command CreateUploadPackageCmd()
+            => R2Command.Async(UploadPackage, x => IsUploadable);
     }
 }

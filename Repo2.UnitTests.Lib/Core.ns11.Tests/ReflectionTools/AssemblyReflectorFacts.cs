@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Repo2.UnitTests.Lib.Core.ns11.Tests.ReflectionTools
 {
+    [Trait("Core", "Unit")]
     public class AssemblyReflectorFacts
     {
         [Fact(DisplayName = "Prepends namespace to type name in same assembly")]

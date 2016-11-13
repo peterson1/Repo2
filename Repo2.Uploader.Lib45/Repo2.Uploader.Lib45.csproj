@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Configuration\LocalConfigFile.cs" />
     <Compile Include="MainWindowVM.cs" />
+    <Compile Include="PackageFinders\LocalR2Package.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

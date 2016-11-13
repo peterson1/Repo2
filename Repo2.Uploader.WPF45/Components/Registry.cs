@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.PackageRegistration;
+using Repo2.Core.ns11.PackageUploaders;
 using Repo2.Core.ns11.RestClients;
 using Repo2.SDK.WPF45.Extensions.IOCExtensions;
 using Repo2.SDK.WPF45.RestClients;
@@ -16,11 +17,12 @@ namespace Repo2.Uploader.WPF45.Components
             var b = new ContainerBuilder();
 
             b.Solo<MainWindowVM>();
+            b.Solo<IR2RestClient, ResilientClient1>();
 
             b.Multi<CrappyConnectionRetryer>();
-            b.Multi<IR2RestClient, ResilientClient1>();
             b.Multi<IR2CredentialsChecker, R2D8CredentialsChecker>();
-            b.Multi<IR2PackageChecker, R2D8PackageChecker>();
+            b.Multi<IR2PreUploadChecker, R2D8PreUploadChecker>();
+            b.Multi<IR2PackageUploader, R2D8PackageUploader>();
 
             return b.Build();
         }

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Linq;
 using Autofac;
 using Repo2.Uploader.Lib45;
 using Repo2.Uploader.WPF45.Components;
@@ -14,7 +15,9 @@ namespace Repo2.Uploader.WPF45
             var win = new MainWindow();
             using (var scope = Registry.Build().BeginLifetimeScope())
             {
-                win.DataContext = scope.Resolve<MainWindowVM>();
+                var vm = scope.Resolve<MainWindowVM>();
+                vm.PackagePath = e.Args.FirstOrDefault();
+                win.DataContext = vm;
             }
             win.Show();
         }

@@ -42,6 +42,8 @@ namespace Repo2.SDK.WPF45.InputCommands
 
             IsBusy             = true;
             var origOverride   = OverrideEnabled;
+            var origLabel      = CurrentLabel;
+            CurrentLabel       = "please wait...";
             OverrideEnabled    = false;
             LastExecutedOK     = false;
             LastExecuteStart   = DateTime.Now;
@@ -60,6 +62,7 @@ namespace Repo2.SDK.WPF45.InputCommands
             {
                 LastExecuteEnd  = DateTime.Now;
                 IsBusy          = false;
+                CurrentLabel    = origLabel;
                 OverrideEnabled = DisableWhenDone ? false : origOverride;
                 CommandManager.InvalidateRequerySuggested();
             }

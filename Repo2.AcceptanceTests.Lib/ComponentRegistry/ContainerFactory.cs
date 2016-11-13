@@ -25,7 +25,7 @@ namespace Repo2.AcceptanceTests.Lib.ComponentRegistry
             b.Multi<CrappyConnectionRetryer>();
             b.Multi<IR2RestClient, ResilientClient1>();
             b.Multi<IR2CredentialsChecker, R2D8CredentialsChecker>();
-            b.Multi<IR2PackageChecker, R2D8PackageChecker>();
+            b.Multi<IR2PreUploadChecker, R2D8PreUploadChecker>();
 
             return b.Build();
         }

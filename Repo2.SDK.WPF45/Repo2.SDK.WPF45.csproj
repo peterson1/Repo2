@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Authentication\Certificator.cs" />
     <Compile Include="ExceptionCasters\WebExceptionCaster.cs" />
+    <Compile Include="Extensions\FileInfoExtensions\CommonFileInfoExtensions.cs" />
     <Compile Include="Extensions\IOCExtensions\AutofacBuilderExtensions.cs" />
     <Compile Include="InputCommands\R2AsyncCommandWPF.cs" />
     <Compile Include="InputCommands\R2CommandFactoryWPF.cs" />

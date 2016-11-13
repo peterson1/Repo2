@@ -5,9 +5,9 @@ namespace Repo2.AcceptanceTests.Lib.PackageRegistrationSuite
 {
     public class CheckPackageRegistration
     {
-        private IR2PackageChecker _checkr;
+        private IR2PreUploadChecker _checkr;
 
-        public CheckPackageRegistration(IR2PackageChecker packageChecker)
+        public CheckPackageRegistration(IR2PreUploadChecker packageChecker)
         {
             _checkr = packageChecker;
         }
@@ -17,6 +17,7 @@ namespace Repo2.AcceptanceTests.Lib.PackageRegistrationSuite
 
 
         public string IsRegistered()
-            => _checkr.IsRegistered(PackageName, null).Result.ToYesNo();
+            //=> _checkr.IsUploadable(PackageName).Result.ToYesNo();
+            => _checkr.IsUploadable(null).Result.ToYesNo();
     }
 }

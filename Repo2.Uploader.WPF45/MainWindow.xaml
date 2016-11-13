@@ -8,29 +8,43 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <StackPanel>
-        <Button Command="{Binding FillConfigKeysCmd}"
-                Content="Fill Config Keys"
-                />
-        <ComboBox ItemsSource="{Binding ConfigKeys}"
-                  SelectedItem="{Binding ConfigKey}"
-                  />
-        <Button Command="{Binding CheckCredentialsCmd}"
-                Content="Check Credentials"
-                />
-        <sdk:DualText Text1="can read"
-                      Text2="{Binding CanRead}"
+        
+        <StackPanel Orientation="Horizontal">
+            <ComboBox ItemsSource="{Binding ConfigKeys}"
+                      SelectedItem="{Binding ConfigKey}"
                       />
-        <sdk:DualText Text1="can write"
-                      Text2="{Binding CanWrite}"
-                      />
-        <TextBox Text="{Binding PackagePath, UpdateSourceTrigger=PropertyChanged}"
-                 />
-        <Button Command="{Binding CheckRegistrationCmd}"
-                Content="Check Registration"
-                />
-        <sdk:DualText Text1="registered"
-                      Text2="{Binding IsRegistered}"
-                      />
+            <Button Command="{Binding FillConfigKeysCmd}"
+                    Content="{Binding FillConfigKeysCmd.CurrentLabel}"
+                    />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+            <StackPanel>
+                <sdk:DualText Text1="can read"
+                              Text2="{Binding CanRead}"
+                              />
+                <sdk:DualText Text1="can write"
+                              Text2="{Binding CanWrite}"
+                              />
+            </StackPanel>
+            <Button Command="{Binding CheckCredentialsCmd}"
+                    Content="{Binding CheckCredentialsCmd.CurrentLabel}"
+                    />
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+            <StackPanel>
+                <TextBox Text="{Binding PackagePath, UpdateSourceTrigger=PropertyChanged}"
+                         />
+                <sdk:DualText Text1="registered"
+                              Text2="{Binding IsRegistered}"
+                              />
+            </StackPanel>
+            <Button Command="{Binding CheckRegistrationCmd}"
+                    Content="{Binding CheckRegistrationCmd.CurrentLabel}"
+                    />
+        </StackPanel>
+        
         <Button Command="{Binding UploadPackageCmd}"
                 Content="Upload Package"
                 />
