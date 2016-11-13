@@ -4,5 +4,6 @@
     {
         public const string API_USER_LOGIN     = "api1/user/login";
         public const string REST_SESSION_TOKEN = "rest/session/token";
+        public const string PACKAGE_CHECKER_1  = "package-checker-1";
     }
 }

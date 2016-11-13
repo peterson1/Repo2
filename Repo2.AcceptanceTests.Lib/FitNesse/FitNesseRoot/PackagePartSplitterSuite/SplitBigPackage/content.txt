@@ -1,0 +1,1 @@
+As an Uploader, I want the system to split a big package into smaller parts, so that when internet gets cut, resuming the upload won't start from zero.

@@ -2,5 +2,5 @@ As an end user, I want the system to prevent unauthorized users from uploading a
 
 | Check Uploader Credentials               |
 |    username    | password  | can upload? |
-| wrong_username | wrong_pwd |    no       |
-|   $validUsr    | $validPwd |    yes      |
+| wrong_username | wrong_pwd |    No       |
+|   $validUsr    | $validPwd |    Yes      |

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.Drupal8;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.RestClients;
+using Repo2.SDK.WPF45.Authentication;
 using Repo2.SDK.WPF45.ExceptionCasters;
 using Repo2.SDK.WPF45.Serialization;
 using Repo2.SDK.WPF45.TaskResilience;
@@ -15,9 +18,20 @@ namespace Repo2.SDK.WPF45.RestClients
     {
         private CrappyConnectionRetryer _retry;
 
-        public ResilientClient1(CrappyConnectionRetryer taskRetryer, R2Credentials r2Credentials) : base(r2Credentials)
+        public ResilientClient1(CrappyConnectionRetryer taskRetryer) : base()
         {
             _retry = taskRetryer;
+        }
+
+
+        protected override Task<T> BasicAuthGET<T>(string resourceUrl)
+            => RetryForever<T>(resourceUrl, url 
+                => url.GetJsonFromUrlAsync(SetBasicAuthRequest));
+
+
+        private void SetBasicAuthRequest(HttpWebRequest req)
+        {
+            req.AddBasicAuth(_creds.Username, _creds.Password);
         }
 
 
@@ -30,6 +44,7 @@ namespace Repo2.SDK.WPF45.RestClients
         {
             var json = string.Empty;
             var url  = ToAbsolute(resourceUrl);
+
             try
             {
                 json = await _retry.Forever(() => task(url));
@@ -66,6 +81,10 @@ namespace Repo2.SDK.WPF45.RestClients
                 return default(T);
             }
         }
+
+
+        public override void AllowUntrustedCertificate(string serverThumbprint)
+            => Certificator.AllowFrom(serverThumbprint);
 
 
         //public override bool TryDeserialize<T>(string json, out T output)

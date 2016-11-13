@@ -5,6 +5,7 @@ using Repo2.Core.ns11.RestClients;
 
 namespace Repo2.Core.ns11.Authentication
 {
+    
     public class R2D8CredentialsChecker : IR2CredentialsChecker
     {
         private IR2RestClient _client;
@@ -23,9 +24,12 @@ namespace Repo2.Core.ns11.Authentication
 
         public async Task Check(R2Credentials credentials)
         {
+            _client.SetCredentials(credentials);
+            _client.AllowUntrustedCertificate(credentials.CertificateThumb);
+
             var cookie = await GetCookie(credentials);
 
-            CanRead    = cookie != null;
+            CanRead = cookie != null;
             if (!CanRead) return;
 
             _csrfToken = await GetCsrfToken(cookie);

@@ -199,5 +199,10 @@ namespace Repo2.Core.ns11.Extensions.StringExtensions
             if (s2.StartsWith(filling)) s2 = s2.TrimStart(filling);
             return leftLoaf + s2;
         }
+
+
+
+        public static string Join(this IEnumerable<string> list, string delimeter)
+            => string.Join(delimeter, list);
     }
 }

@@ -1,0 +1,39 @@
+﻿<Window x:Class="Repo2.Uploader.WPF45.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Repo2.Uploader.WPF45"
+        xmlns:sdk="clr-namespace:Repo2.SDK.WPF45.UserControls;assembly=Repo2.SDK.WPF45"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <StackPanel>
+        <Button Command="{Binding FillConfigKeysCmd}"
+                Content="Fill Config Keys"
+                />
+        <ComboBox ItemsSource="{Binding ConfigKeys}"
+                  SelectedItem="{Binding ConfigKey}"
+                  />
+        <Button Command="{Binding CheckCredentialsCmd}"
+                Content="Check Credentials"
+                />
+        <sdk:DualText Text1="can read"
+                      Text2="{Binding CanRead}"
+                      />
+        <sdk:DualText Text1="can write"
+                      Text2="{Binding CanWrite}"
+                      />
+        <TextBox Text="{Binding PackagePath, UpdateSourceTrigger=PropertyChanged}"
+                 />
+        <Button Command="{Binding CheckRegistrationCmd}"
+                Content="Check Registration"
+                />
+        <sdk:DualText Text1="registered"
+                      Text2="{Binding IsRegistered}"
+                      />
+        <Button Command="{Binding UploadPackageCmd}"
+                Content="Upload Package"
+                />
+
+    </StackPanel>
+</Window>

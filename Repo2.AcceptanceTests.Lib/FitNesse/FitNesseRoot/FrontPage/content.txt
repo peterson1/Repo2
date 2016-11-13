@@ -2,11 +2,12 @@ UploaderRestrictionsSuite
 
 PackageRegistrationSuite
 
-Check Registration of Package
-As an Uploader, I want the system to prevent me from uploading a package which is not registered with the system, so that I can take corrective actions early.
+PackageUploadSuite
 
-Upload Package in Parts
-As an Uploader, I want the system to split the package into smaller parts, so that when internet gets cut, resuming the upload won't start from zero.
+PackagePartSplitterSuite
+
+
+
 
 Download latest version of file in the background
 As an end user, I want the system to regularly check for a newer version of the package.

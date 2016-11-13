@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repo2.SDK.WPF45", "Repo2.SD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repo2.UnitTests.Lib", "Repo2.UnitTests.Lib\Repo2.UnitTests.Lib.csproj", "{E6ADC37E-4D5D-4633-AAE5-1437572FC0BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repo2.Uploader.WPF45", "Repo2.Uploader.WPF45\Repo2.Uploader.WPF45.csproj", "{CD3A9DB6-E8F8-47B3-BF9E-9A65FC8DD3FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{E6ADC37E-4D5D-4633-AAE5-1437572FC0BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6ADC37E-4D5D-4633-AAE5-1437572FC0BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6ADC37E-4D5D-4633-AAE5-1437572FC0BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD3A9DB6-E8F8-47B3-BF9E-9A65FC8DD3FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD3A9DB6-E8F8-47B3-BF9E-9A65FC8DD3FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD3A9DB6-E8F8-47B3-BF9E-9A65FC8DD3FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD3A9DB6-E8F8-47B3-BF9E-9A65FC8DD3FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

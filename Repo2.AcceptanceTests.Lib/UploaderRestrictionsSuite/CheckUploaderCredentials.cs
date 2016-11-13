@@ -16,7 +16,7 @@ namespace Repo2.AcceptanceTests.Lib.UploaderRestrictionsSuite
         public string CanUpload()
         {
             _chekr.Check(this).Wait();
-            return _chekr.CanWrite.ToYesNo().ToLower();
+            return _chekr.CanWrite.ToYesNo();
         }
     }
 }

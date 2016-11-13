@@ -1,18 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Repo2.Core.ns11.Extensions.BooleanExtensions;
+using Repo2.Core.ns11.PackageRegistration;
 
 namespace Repo2.AcceptanceTests.Lib.PackageRegistrationSuite
 {
     public class CheckPackageRegistration
     {
+        private IR2PackageChecker _checkr;
+
+        public CheckPackageRegistration(IR2PackageChecker packageChecker)
+        {
+            _checkr = packageChecker;
+        }
+
+
         public string PackageName { get; set; }
 
-        public bool IsRegistered()
-        {
-            return false;
-        }
+
+        public string IsRegistered()
+            => _checkr.IsRegistered(PackageName, null).Result.ToYesNo();
     }
 }
