@@ -66,6 +66,10 @@
       <HintPath>..\packages\ServiceStack.Text.4.5.4\lib\net45\ServiceStack.Text.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SevenZipSharp, Version=1.0.5.0, Culture=neutral, PublicKeyToken=c8ff6ba0184838bb, processorArchitecture=MSIL">
+      <HintPath>..\packages\SevenZipSharp.Net45.1.0.5\lib\net45\SevenZipSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -83,9 +87,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication\Certificator.cs" />
+    <Compile Include="Compression\FileArchiver1.cs" />
+    <Compile Include="Compression\SevenZipper1.cs" />
     <Compile Include="ExceptionCasters\WebExceptionCaster.cs" />
     <Compile Include="Extensions\FileInfoExtensions\CommonFileInfoExtensions.cs" />
     <Compile Include="Extensions\IOCExtensions\AutofacBuilderExtensions.cs" />
+    <Compile Include="FileSystems\FileSystemAccesor1.cs" />
     <Compile Include="InputCommands\R2AsyncCommandWPF.cs" />
     <Compile Include="InputCommands\R2CommandFactoryWPF.cs" />
     <Compile Include="RestClients\ResilientClient1.cs" />

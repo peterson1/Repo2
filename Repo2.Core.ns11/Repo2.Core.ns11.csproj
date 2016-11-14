@@ -51,7 +51,6 @@
     <Compile Include="Extensions\BooleanExtensions\BasicBooleanExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions\BasicExceptionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions\BasicStringExtensions.cs" />
-    <Compile Include="FileSystems\IFileSplitter.cs" />
     <Compile Include="FileSystems\IFileSystemAccesor.cs" />
     <Compile Include="HashLib\Crypto\SHA0.cs" />
     <Compile Include="HashLib\Crypto\SHA1.cs" />

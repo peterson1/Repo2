@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Repo2.Core.ns11.Compression
 {
     public interface IFileArchiver
     {
-        Task  CompressInPlace (string filePath);
+        Task<IEnumerable<string>>  CompressAndSplit 
+            (string filePath, double maxPartSizeMB);
     }
 }

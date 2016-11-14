@@ -15,21 +15,18 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
     {
         private IFileSystemAccesor _fileIO;
         private IFileArchiver      _archivr;
-        private IFileSplitter      _splitr;
         private IPartSender        _sendr;
         private IPackageManager    _pkgMgr;
         private IPackageDownloader _downloadr;
 
         public R2D8PackageUploader(IFileSystemAccesor fileSystemAccesor,
                                    IFileArchiver fileArchiver,
-                                   IFileSplitter fileSplitter,
                                    IPartSender partSender,
                                    IPackageManager packageManager,
                                    IPackageDownloader packageDownloader)
         {
             _fileIO    = fileSystemAccesor;
             _archivr   = fileArchiver;
-            _splitr    = fileSplitter;
             _sendr     = partSender;
             _pkgMgr    = packageManager;
             _downloadr = packageDownloader;
@@ -42,11 +39,8 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
 
         public async Task Upload(R2Package localPkg)
         {
-            var pkgPath = await _fileIO.IsolateFile(localPkg);
-
-            await _archivr.CompressInPlace(pkgPath);
-
-            var partPaths = await _splitr.Split(pkgPath, MaxPartSizeMB);
+            var pkgPath   = await _fileIO.IsolateFile(localPkg);
+            var partPaths = await _archivr.CompressAndSplit(pkgPath, MaxPartSizeMB);
             await _fileIO.Delete(pkgPath);
 
             await _sendr.SendParts(partPaths, localPkg);
