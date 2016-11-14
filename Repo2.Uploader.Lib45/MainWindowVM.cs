@@ -1,9 +1,9 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using PropertyChanged;
 using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.DataStructures;
+using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.PackageRegistration;
@@ -19,12 +19,13 @@ namespace Repo2.Uploader.Lib45
     {
         private IR2CredentialsChecker _credsCheckr;
         private IR2PreUploadChecker   _preCheckr;
-        private IR2PackageUploader    _pkgUploadr;
+        private IPackageUploader    _pkgUploadr;
         private LocalConfigFile       _cfg;
+        private R2Package             _pkg;
 
         public MainWindowVM(IR2CredentialsChecker credentialsChecker, 
                             IR2PreUploadChecker preUploadChecker,
-                            IR2PackageUploader packageUploader)
+                            IPackageUploader packageUploader)
         {
             _credsCheckr          = credentialsChecker;
             _preCheckr            = preUploadChecker;
@@ -82,15 +83,14 @@ namespace Repo2.Uploader.Lib45
         private async Task CheckUploadability()
         {
             IsUploadable = false;
-            var localPkg = LocalR2Package.From(PackagePath);
-            IsUploadable = await _preCheckr.IsUploadable(localPkg);
+            _pkg         = LocalR2Package.From(PackagePath);
+            IsUploadable = await _preCheckr.IsUploadable(_pkg);
         }
 
 
         private async Task UploadPackage()
         {
-            await Task.Delay(1);
-            var ok = await _pkgUploadr.Upload(PackagePath);
+            await _pkgUploadr.Upload(_pkg);
         }
 
 

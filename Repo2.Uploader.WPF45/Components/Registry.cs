@@ -7,6 +7,7 @@ using Repo2.SDK.WPF45.Extensions.IOCExtensions;
 using Repo2.SDK.WPF45.RestClients;
 using Repo2.SDK.WPF45.TaskResilience;
 using Repo2.Uploader.Lib45;
+using Repo2.Uploader.Lib45.PackageUploaders;
 
 namespace Repo2.Uploader.WPF45.Components
 {
@@ -22,7 +23,7 @@ namespace Repo2.Uploader.WPF45.Components
             b.Multi<CrappyConnectionRetryer>();
             b.Multi<IR2CredentialsChecker, R2D8CredentialsChecker>();
             b.Multi<IR2PreUploadChecker, R2D8PreUploadChecker>();
-            b.Multi<IR2PackageUploader, R2D8PackageUploader>();
+            b.Multi<IPackageUploader, R2D8PackageUploader>();
 
             return b.Build();
         }

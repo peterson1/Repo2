@@ -23,8 +23,12 @@ namespace Repo2.Core.ns11.PackageRegistration
             var list = await _client.BasicAuthList<R2Package>(url, nme);
 
             if (list == null) return false;
+            if (list.Count < 1) return false;
+            var remotePkg = list[0];
 
-            return list.Count == 1;
+            if (remotePkg.RemoteHash == localPackage.LocalHash) return false;
+
+            return true;
         }
     }
 }
