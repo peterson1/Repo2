@@ -25,7 +25,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.PackageRegistration
         {
             ServerWillReturn(R2Pkg("Test.pkg", "v1"));
 
-            var sut = new R2D8PreUploadChecker(_moq.Object);
+            var sut = new D8PreUploadChecker1(_moq.Object);
             var pkg = R2Pkg("Test.pkg", "v2");
             (await sut.IsUploadable(pkg)).Should().BeTrue();
         }
@@ -36,7 +36,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.PackageRegistration
         {
             ServerWillReturn();
 
-            var sut = new R2D8PreUploadChecker(_moq.Object);
+            var sut = new D8PreUploadChecker1(_moq.Object);
             var pkg = new R2Package("non-registered.pkg");
             (await sut.IsUploadable(pkg)).Should().BeFalse();
         }
@@ -47,7 +47,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.PackageRegistration
         {
             ServerWillReturn(R2Pkg("Pkg.name", "Pkg.hash"));
 
-            var sut = new R2D8PreUploadChecker(_moq.Object);
+            var sut = new D8PreUploadChecker1(_moq.Object);
             var pkg = R2Pkg("Pkg.name");
             pkg.LocalHash = "Pkg.hash";
             (await sut.IsUploadable(pkg)).Should().BeFalse();

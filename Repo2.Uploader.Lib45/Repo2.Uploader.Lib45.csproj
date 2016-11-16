@@ -49,6 +49,7 @@
     <Compile Include="Configuration\LocalConfigFile.cs" />
     <Compile Include="MainWindowVM.cs" />
     <Compile Include="PackageFinders\LocalR2Package.cs" />
+    <Compile Include="PackageUploaders\PartSender1.cs" />
     <Compile Include="PackageUploaders\R2D8PackageUploader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,6 +64,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="binaries\7za.dll" />
     <Content Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>

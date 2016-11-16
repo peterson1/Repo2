@@ -41,10 +41,11 @@
   <ItemGroup>
     <Compile Include="Authentication\IR2CredentialsChecker.cs" />
     <Compile Include="Authentication\R2Credentials.cs" />
-    <Compile Include="Authentication\R2D8CredentialsChecker.cs" />
+    <Compile Include="Authentication\D8CredentialsChecker1.cs" />
     <Compile Include="Compression\IFileArchiver.cs" />
     <Compile Include="DataStructures\Observables.cs" />
     <Compile Include="DomainModels\R2Package.cs" />
+    <Compile Include="DomainModels\R2PackagePart.cs" />
     <Compile Include="Drupal8\D8Constants.cs" />
     <Compile Include="Drupal8\D8Cookie.cs" />
     <Compile Include="Exceptions\FaultFactory.cs" />
@@ -64,9 +65,11 @@
     <Compile Include="HashLib\IHashInfo.cs" />
     <Compile Include="InputCommands\IR2Command.cs" />
     <Compile Include="NodeManagers\IPackageManager.cs" />
+    <Compile Include="NodeManagers\IPackagePartManager.cs" />
+    <Compile Include="NodeManagers\D8PkgPartManager1.cs" />
     <Compile Include="PackageDownloaders\IPackageDownloader.cs" />
     <Compile Include="PackageRegistration\IR2PreUploadChecker.cs" />
-    <Compile Include="PackageRegistration\R2D8PreUploadChecker.cs" />
+    <Compile Include="PackageRegistration\D8PreUploadChecker1.cs" />
     <Compile Include="PackageUploaders\IPartSender.cs" />
     <Compile Include="PackageUploaders\IPackageUploader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

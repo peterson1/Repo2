@@ -88,7 +88,9 @@
   <ItemGroup>
     <Compile Include="Authentication\Certificator.cs" />
     <Compile Include="Compression\FileArchiver1.cs" />
-    <Compile Include="Compression\SevenZipper1.cs" />
+    <Compile Include="Compression\FileChunker1.cs" />
+    <Compile Include="Compression\SevenZipper2.cs" />
+    <Compile Include="EmbeddedResources\EmbeddedResrc.cs" />
     <Compile Include="ExceptionCasters\WebExceptionCaster.cs" />
     <Compile Include="Extensions\FileInfoExtensions\CommonFileInfoExtensions.cs" />
     <Compile Include="Extensions\IOCExtensions\AutofacBuilderExtensions.cs" />
@@ -136,7 +138,9 @@
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Compression\7zxa.dll" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="UserControls\DualText.xaml">
       <SubType>Designer</SubType>

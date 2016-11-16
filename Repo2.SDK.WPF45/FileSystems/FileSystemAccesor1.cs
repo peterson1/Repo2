@@ -11,26 +11,24 @@ namespace Repo2.SDK.WPF45.FileSystems
 {
     public class FileSystemAccesor1 : IFileSystemAccesor
     {
-        public Task Delete(IEnumerable<string> filePaths)
+        public void Delete(IEnumerable<string> filePaths)
             => Delete(filePaths.ToArray());
 
 
-        public Task Delete(params string[] filePaths)
-            => new Task(() =>
-            {
-                foreach (var file in filePaths)
-                    File.Delete(file);
-            });
+        public void Delete(params string[] filePaths)
+        {
+            foreach (var file in filePaths)
+                File.Delete(file);
+        }
 
 
         public Task<string> IsolateFile(R2Package localPkg)
         {
             var srcPath  = Chain(localPkg.LocalDir, localPkg.Filename);
-            var uniqName = $"{DateTime.Now.Ticks}.tmp";
-            var destPath = Path.Combine(TempDir, uniqName);
+            var destPath = Path.GetTempFileName();
             return new Task<string>(() =>
             {
-                File.Copy(srcPath, destPath);
+                File.Copy(srcPath, destPath, true);
                 return destPath;
             });
         }
@@ -46,5 +44,13 @@ namespace Repo2.SDK.WPF45.FileSystems
 
         public string TempDir 
             => Chain(Path.GetTempPath(), GetType().Name);
+    }
+
+
+
+    public class FileIO
+    {
+        public static void Delete(IEnumerable<string> filePaths)
+            => new FileSystemAccesor1().Delete(filePaths);
     }
 }

@@ -41,10 +41,10 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
         {
             var pkgPath   = await _fileIO.IsolateFile(localPkg);
             var partPaths = await _archivr.CompressAndSplit(pkgPath, MaxPartSizeMB);
-            await _fileIO.Delete(pkgPath);
+            _fileIO.Delete(pkgPath);
 
             await _sendr.SendParts(partPaths, localPkg);
-            await _fileIO.Delete(partPaths);
+            _fileIO.Delete(partPaths);
 
             await _pkgMgr.UpdateNode(localPkg);
 
@@ -52,7 +52,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
                 .DownloadAndUnpack(localPkg, _fileIO.TempDir);
 
             var newHash = _fileIO.GetSHA1(downloadedPkgPath);
-            await _fileIO.Delete(downloadedPkgPath);
+            _fileIO.Delete(downloadedPkgPath);
 
             if (newHash != localPkg.LocalHash)
                 throw Fault.HashMismatch("Original Package File", "Downloaded Package File");

@@ -27,7 +27,7 @@ namespace Repo2.AcceptanceTests.Lib.PackageUploaderSuite.PreUploadCheckerTests
         [Fact(DisplayName = "Uploadable if registered")]
         public async void Registered()
         {
-            var sut    = new R2D8PreUploadChecker(_client);
+            var sut    = new D8PreUploadChecker1(_client);
             var pkg    = new R2Package("Test_Package_1.pkg");
             var actual = await sut.IsUploadable(pkg);
             actual.Should().BeTrue();
@@ -37,7 +37,7 @@ namespace Repo2.AcceptanceTests.Lib.PackageUploaderSuite.PreUploadCheckerTests
         [Fact(DisplayName = "Not registered: NO Upload")]
         public async void NotRegistered()
         {
-            var sut    = new R2D8PreUploadChecker(_client);
+            var sut    = new D8PreUploadChecker1(_client);
             var pkg    = new R2Package("non-registered.pkg");
             var actual = await sut.IsUploadable(pkg);
             actual.Should().BeFalse();
@@ -47,7 +47,7 @@ namespace Repo2.AcceptanceTests.Lib.PackageUploaderSuite.PreUploadCheckerTests
         [Fact(DisplayName = "Same Hash: NO Upload")]
         public async void SameHash()
         {
-            var sut    = new R2D8PreUploadChecker(_client);
+            var sut    = new D8PreUploadChecker1(_client);
             var pkg    = new R2Package("non-registered.pkg");
             var actual = await sut.IsUploadable(pkg);
             actual.Should().BeFalse();
