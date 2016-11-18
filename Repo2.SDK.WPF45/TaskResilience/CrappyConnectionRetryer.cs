@@ -2,15 +2,33 @@
 using System.Net;
 using System.Threading.Tasks;
 using Polly;
+using Repo2.SDK.WPF45.Exceptions;
+using Repo2.SDK.WPF45.Serialization;
 
 namespace Repo2.SDK.WPF45.TaskResilience
 {
     public class CrappyConnectionRetryer
     {
         public Action<Exception, TimeSpan>  OnRetry  { get; set; } = delegate { };
+        public Func<string, string> MakeAbsolute { get; set; }
 
 
-        public Task<T> Forever <T>(Func<Task<T>> task)
+        public async Task<T> Forever<T>(string resourceUrl, Func<string, Task<string>> task)
+        {
+            var json = string.Empty;
+            var url = MakeAbsolute(resourceUrl);
+
+            try
+            {
+                json = await KeepTrying(() => task(url));
+            }
+            catch (Exception ex) { throw ex.FromUrl(url); }
+
+            return Json.DeserializeOrDefault<T>(json);
+        }
+
+
+        private Task<T> KeepTrying <T>(Func<Task<T>> task)
         {
             var policy = Policy.Handle<AggregateException>(ex => IsRetryable(ex))
                                .WaitAndRetryForeverAsync(attempts

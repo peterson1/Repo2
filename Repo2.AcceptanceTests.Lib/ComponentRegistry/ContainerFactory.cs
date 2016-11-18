@@ -19,12 +19,10 @@ namespace Repo2.AcceptanceTests.Lib.ComponentRegistry
             b.RegisterInstance(r2Credentials);
 
             b.Multi<GetValidUploaderCredentials>();
-            b.Multi<CheckUploaderCredentials>();
             b.Multi<CheckPackageRegistration>();
 
             b.Multi<CrappyConnectionRetryer>();
             b.Multi<IR2RestClient, ResilientClient1>();
-            b.Multi<IR2CredentialsChecker, D8CredentialsChecker1>();
             b.Multi<IR2PreUploadChecker, D8PreUploadChecker1>();
 
             return b.Build();

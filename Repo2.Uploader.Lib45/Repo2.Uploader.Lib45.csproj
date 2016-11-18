@@ -50,7 +50,7 @@
     <Compile Include="MainWindowVM.cs" />
     <Compile Include="PackageFinders\LocalR2Package.cs" />
     <Compile Include="PackageUploaders\PartSender1.cs" />
-    <Compile Include="PackageUploaders\R2D8PackageUploader.cs" />
+    <Compile Include="PackageUploaders\D8PackageUploader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

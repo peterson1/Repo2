@@ -7,11 +7,12 @@ namespace Repo2.Core.ns11.RestClients
 {
     public interface IR2RestClient
     {
-        void   SetCredentials            (R2Credentials credentials);
-        void   AllowUntrustedCertificate (string serverThumbprint);
+        void        SetCredentials     (R2Credentials credentials);
+        Task<bool>  EnableWriteAccess  (R2Credentials credentials);
 
-        Task<T>        NoAuthPOST      <T>(string url, object postBody);
-        Task<T>        CookieAuthGET   <T>(D8Cookie cookie, string url);
-        Task<List<T>>  BasicAuthList   <T>(string url, params string[] args);
+        Task<List<T>>  GetList   <T>(string url, params string[] args);
+
+        Task<Dictionary<string, object>>  PostNode  <T>
+            (T node) where T : D8NodeBase;
     }
 }

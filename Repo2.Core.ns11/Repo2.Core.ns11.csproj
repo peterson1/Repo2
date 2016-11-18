@@ -39,18 +39,22 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authentication\IR2CredentialsChecker.cs" />
     <Compile Include="Authentication\R2Credentials.cs" />
-    <Compile Include="Authentication\D8CredentialsChecker1.cs" />
     <Compile Include="Compression\IFileArchiver.cs" />
+    <Compile Include="DataStructures\Reply.cs" />
     <Compile Include="DataStructures\Observables.cs" />
     <Compile Include="DomainModels\R2Package.cs" />
     <Compile Include="DomainModels\R2PackagePart.cs" />
+    <Compile Include="Drupal8\Attributes\ContentTitleAttribute.cs" />
+    <Compile Include="Drupal8\Attributes\_Attribute.cs" />
     <Compile Include="Drupal8\D8Constants.cs" />
     <Compile Include="Drupal8\D8Cookie.cs" />
+    <Compile Include="Drupal8\D8HALJson.cs" />
+    <Compile Include="Drupal8\D8NodeBase.cs" />
+    <Compile Include="Drupal8\D8NodeMapper.cs" />
     <Compile Include="Exceptions\FaultFactory.cs" />
     <Compile Include="Extensions\BooleanExtensions\BasicBooleanExtensions.cs" />
-    <Compile Include="Extensions\ExceptionExtensions\BasicExceptionExtensions.cs" />
+    <Compile Include="Exceptions\ErrorMessageTrimmer.cs" />
     <Compile Include="Extensions\StringExtensions\BasicStringExtensions.cs" />
     <Compile Include="FileSystems\IFileSystemAccesor.cs" />
     <Compile Include="HashLib\Crypto\SHA0.cs" />

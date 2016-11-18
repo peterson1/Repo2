@@ -1,50 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Repo2.Core.ns11.Drupal8;
+using Repo2.Core.ns11.Drupal8.Attributes;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 
 namespace Repo2.Core.ns11.DomainModels
 {
-    public class R2PackagePart
+    public class R2PackagePart : D8NodeBase
     {
-        public string   PackageFilename  { get; set; }
-        public string   PackageHash      { get; set; }
-        public string   PartHash         { get; set; }
-        public int      PartNumber       { get; set; }
-        public int      TotalParts       { get; set; }
+        public override string D8TypeName => "package_part";
+
+        [_("package_filename")] public string   PackageFilename  { get; set; }
+        [_("package_hash")]     public string   PackageHash      { get; set; }
+        [_("part_hash")]        public string   PartHash         { get; set; }
+        [_("part_number")]      public int      PartNumber       { get; set; }
+        [_("total_parts")]      public int      TotalParts       { get; set; }
+        [ContentTitle]          public string   Description      => GetDescription();
+
+
+        private string GetDescription()
+            => $"{PackageFilename} part {PartNumber} of {TotalParts}";
 
 
         public bool IsValid()
         {
-            IEnumerable<string> errMsgs;
-            return IsValid(out errMsgs);
+            var errMsgs = new List<string>();
+            return IsValid(ref errMsgs);
         }
 
 
-        public bool IsValid(out IEnumerable<string> validationErrors)
+        public bool IsValid(ref List<string> errors)
         {
             var typ = $"‹{GetType().Name}›";
-            var ers = new List<string>();
 
             if (PackageFilename.IsBlank())
-                ers.Add($"{typ}.{nameof(PackageFilename)} should not be blank.");
+                errors.Add($"{typ}.{nameof(PackageFilename)} should not be blank.");
 
             if (PackageHash.IsBlank())
-                ers.Add($"{typ}.{nameof(PackageHash)} should not be blank.");
+                errors.Add($"{typ}.{nameof(PackageHash)} should not be blank.");
 
             if (PartHash.IsBlank())
-                ers.Add($"{typ}.{nameof(PartHash)} should not be blank.");
+                errors.Add($"{typ}.{nameof(PartHash)} should not be blank.");
 
             if (PartNumber < 1)
-                ers.Add($"{typ}.{nameof(PartNumber)} should be greater than zero; but found [{PartNumber}].");
+                errors.Add($"{typ}.{nameof(PartNumber)} should be greater than zero; but found [{PartNumber}].");
 
             if (TotalParts < 1)
-                ers.Add($"{typ}.{nameof(TotalParts)} should be greater than zero; but found [{TotalParts}].");
+                errors.Add($"{typ}.{nameof(TotalParts)} should be greater than zero; but found [{TotalParts}].");
 
             if (PartNumber > TotalParts)
-                ers.Add($"{typ}.{nameof(PartNumber)} [{PartNumber}] should NOT be greater than {nameof(TotalParts)} [{TotalParts}].");
+                errors.Add($"{typ}.{nameof(PartNumber)} [{PartNumber}] should NOT be greater than {nameof(TotalParts)} [{TotalParts}].");
 
-            validationErrors = ers.Count == 0 ? null : ers;
-            return validationErrors == null;            
+            return errors.Count == 0;            
         }
     }
 }

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using Autofac.Builder;
+using Autofac.Core;
+using Repo2.Core.ns11.Extensions.StringExtensions;
 
 namespace Repo2.SDK.WPF45.Extensions.IOCExtensions
 {
@@ -21,5 +18,16 @@ namespace Repo2.SDK.WPF45.Extensions.IOCExtensions
 
         public static IRegistrationBuilder<TConcrete, ConcreteReflectionActivatorData, SingleRegistrationStyle> Multi<TInterface, TConcrete>(this ContainerBuilder buildr) where TConcrete : TInterface
             => buildr.RegisterType<TConcrete>().As<TInterface>();
+
+
+        public static string GetMessage(this DependencyResolutionException ex)
+        {
+            var msg = ex.InnerException.InnerException.Message;
+            var resolving = msg.Between("DefaultConstructorFinder' on type '", "'");
+            var argTyp = msg.Between("Cannot resolve parameter '", " ");
+            var argNme = msg.Between(argTyp + " ", "'");
+            return $"Check constructor of :{L.f}‹{resolving}›{L.F}"
+                 + $"Can't resolve argument “{argNme}” of type :{L.f}‹{argTyp}›";
+        }
     }
 }

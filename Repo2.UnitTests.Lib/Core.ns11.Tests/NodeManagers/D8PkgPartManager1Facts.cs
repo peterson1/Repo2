@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using FluentAssertions;
@@ -15,45 +16,62 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
     [Trait("Core", "Unit")]
     public class D8PkgPartManager1Facts
     {
-        private D8PkgPartManager1 _sut;
-
-
-        public D8PkgPartManager1Facts()
+        [Fact(DisplayName = "Warning if already in server")]
+        public async void WarningIfAlreadyInServer()
         {
-            _sut = new D8PkgPartManager1(null);
+            var part = SamplePkgPart();
+            var moq  = MockClientReturning(part);
+            var sut  = new D8PkgPartManager1(moq.Object);
+
+            var rply = await sut.AddNode(part);
+
+            rply.IsSuccessful.Should().BeTrue();
+            rply.Errors  .Should().HaveCount(0);
+            rply.Warnings.Should().HaveCount(1);
+
+            moq.Verify(c => c.PostNode(Any.Node), Times.Never);
         }
 
 
-        [Fact(DisplayName = "Rejects blank PkgFilename")]
-        public async void RejecstBlank_PkgFilename()
+        [Fact(DisplayName = "AddNode: Happy Path")]
+        public async void AddNode_HappyPath()
         {
-            var part = GetValidPkgPart();
-            part.PackageFilename = null;
+            var moq  = MockClientReturning();
+            var part = SamplePkgPart();
+            var sut  = new D8PkgPartManager1(moq.Object);
 
-            await Assert.ThrowsAsync<InvalidDataException>
-                (async () => await _sut.AddNode(part));
+            var rply = await sut.AddNode(part);
+
+            rply.IsSuccessful.Should().BeTrue();
+            rply.Errors  .Should().HaveCount(0);
+            rply.Warnings.Should().HaveCount(0);
+
+            moq.Verify(c => c.PostNode(Any.Node), Times.Once);
         }
 
 
-        [Fact(DisplayName = "Rejects blank PkgHash")]
-        public async void RejecstBlank_PkgHash()
+        private Mock<IR2RestClient> MockClientReturning(params R2PackagePart[] parts)
         {
-            var part = GetValidPkgPart();
-            part.PackageHash = null;
+            var moq = new Mock<IR2RestClient>();
 
-            await Assert.ThrowsAsync<InvalidDataException>
-                (async () => await _sut.AddNode(part));
+            moq.Setup(x => x.GetList<R2PackagePart>(Any.Text, Any.Text, Any.Text))
+               .ReturnsAsync(parts.ToList());
+
+            moq.Setup(x => x.PostNode(Any.Node))
+                .ReturnsAsync(new Dictionary<string, object>());
+
+            return moq;
         }
 
 
-        private R2PackagePart GetValidPkgPart()
+        private R2PackagePart SamplePkgPart()
             => new R2PackagePart
             {
                 PackageFilename = "sample.pkg",
-                PackageHash     = "abc123",
-                PartHash        = "cdf456",
-                PartNumber      = 1,
-                TotalParts      = 2
+                PackageHash = "abc123",
+                PartHash = "cdf456",
+                PartNumber = 1,
+                TotalParts = 2
             };
     }
 }

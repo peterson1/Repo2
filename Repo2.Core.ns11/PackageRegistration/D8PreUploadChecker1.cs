@@ -20,7 +20,7 @@ namespace Repo2.Core.ns11.PackageRegistration
         {
             var nme  = localPackage.Filename;
             var url  = D8.PACKAGE_CHECKER_1;
-            var list = await _client.BasicAuthList<R2Package>(url, nme);
+            var list = await _client.GetList<R2Package>(url, nme);
 
             if (list == null) return false;
             if (list.Count < 1) return false;

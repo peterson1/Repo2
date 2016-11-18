@@ -84,9 +84,9 @@
     <Compile Include="Constants.cs" />
     <Compile Include="PackageRegistrationSuite\CheckPackageRegistration.cs" />
     <Compile Include="PackageUploaderSuite\PreUploadCheckerTests\PreUploadCheckerFacts.cs" />
+    <Compile Include="SDK.WPF45.Tests\RestClients\ResilientClient1Facts.cs" />
     <Compile Include="ShouldIBuyMilk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UploaderRestrictionsSuite\CheckUploaderCredentials.cs" />
     <Compile Include="UploaderRestrictionsSuite\GetValidUploaderCredentials.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 
-namespace Repo2.Core.ns11.Extensions.ExceptionExtensions
+namespace Repo2.Core.ns11.Exceptions
 {
-    public static class BasicExceptionExtensions
+    public static class ErrorMessageTrimmer
     {
         public static string Info(this Exception ex, bool withTypeNames = false, bool withShortStackTrace = false)
         {

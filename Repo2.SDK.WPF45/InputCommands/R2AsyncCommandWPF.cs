@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using PropertyChanged;
-using Repo2.Core.ns11.Extensions.ExceptionExtensions;
 using Repo2.Core.ns11.InputCommands;
+using Repo2.Core.ns11.Exceptions;
 
 namespace Repo2.SDK.WPF45.InputCommands
 {

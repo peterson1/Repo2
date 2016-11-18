@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using PropertyChanged;
-using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.PackageRegistration;
 using Repo2.Core.ns11.PackageUploaders;
+using Repo2.Core.ns11.RestClients;
 using Repo2.SDK.WPF45.InputCommands;
 using Repo2.Uploader.Lib45.Configuration;
 using Repo2.Uploader.Lib45.PackageFinders;
@@ -17,17 +17,17 @@ namespace Repo2.Uploader.Lib45
     [ImplementPropertyChanged]
     public class MainWindowVM
     {
-        private IR2CredentialsChecker _credsCheckr;
-        private IR2PreUploadChecker   _preCheckr;
+        private IR2RestClient       _client;
+        private IR2PreUploadChecker _preCheckr;
         private IPackageUploader    _pkgUploadr;
-        private LocalConfigFile       _cfg;
-        private R2Package             _pkg;
+        private LocalConfigFile     _cfg;
+        private R2Package           _pkg;
 
-        public MainWindowVM(IR2CredentialsChecker credentialsChecker, 
+        public MainWindowVM(IR2RestClient restClient,
                             IR2PreUploadChecker preUploadChecker,
                             IPackageUploader packageUploader)
         {
-            _credsCheckr          = credentialsChecker;
+            _client               = restClient;
             _preCheckr            = preUploadChecker;
             _pkgUploadr           = packageUploader;
             FillConfigKeysCmd     = CreateFillConfigKeysCmd();
@@ -72,10 +72,9 @@ namespace Repo2.Uploader.Lib45
             _cfg = LocalConfigFile.Parse(ConfigKey);
             if (_cfg == null) return;
 
-            await _credsCheckr.Check(_cfg);
+            CanWrite = await _client.EnableWriteAccess(_cfg);
+            CanURead = CanWrite;
 
-            CanURead = _credsCheckr.CanRead;
-            CanWrite = _credsCheckr.CanWrite;
             CheckUploadabilityCmd.ExecuteIfItCan();
         }
 
@@ -105,7 +104,7 @@ namespace Repo2.Uploader.Lib45
 
         private IR2Command CreateCheckUploadabilityCmd()
             => R2Command.Async(CheckUploadability,
-                               x => _credsCheckr.CanWrite && !PackagePath.IsBlank(),
+                               x => CanWrite && !PackagePath.IsBlank(),
                                "Check Package Registration");
 
         private IR2Command CreateUploadPackageCmd()

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.DomainModels;
 
 namespace Repo2.Core.ns11.NodeManagers
@@ -7,6 +8,6 @@ namespace Repo2.Core.ns11.NodeManagers
     {
         //R2Package  Package  { get; set; }
 
-        Task AddNode(R2PackagePart pkgPart);
+        Task<Reply> AddNode(R2PackagePart pkgPart);
     }
 }

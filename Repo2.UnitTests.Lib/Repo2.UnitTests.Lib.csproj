@@ -77,8 +77,9 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Core.ns11.Tests\DomainModels\R2PackagePartValidations.cs" />
+    <Compile Include="Core.ns11.Tests\Drupal8\D8NodeMapperFacts.cs" />
     <Compile Include="Core.ns11.Tests\NodeManagers\D8PkgPartManager1Facts.cs" />
-    <Compile Include="Core.ns11.Tests\PackageRegistration\R2D8PreUploadCheckerFacts.cs" />
+    <Compile Include="Core.ns11.Tests\PackageRegistration\D8PreUploadCheckerFacts.cs" />
     <Compile Include="Core.ns11.Tests\ReflectionTools\AssemblyReflectorFacts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SDK.WPF45.Tests\Compression\SevenZipper2Facts.cs" />

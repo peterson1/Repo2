@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
-using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.Drupal8;
-using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.RestClients;
 using Repo2.SDK.WPF45.Authentication;
-using Repo2.SDK.WPF45.ExceptionCasters;
 using Repo2.SDK.WPF45.Serialization;
 using Repo2.SDK.WPF45.TaskResilience;
 using ServiceStack;
@@ -18,76 +13,57 @@ namespace Repo2.SDK.WPF45.RestClients
     {
         private CrappyConnectionRetryer _retry;
 
-        public ResilientClient1(CrappyConnectionRetryer taskRetryer) : base()
+        public ResilientClient1()
         {
-            _retry = taskRetryer;
+            _retry = ConfigureNewRetryer();
         }
 
 
+
         protected override Task<T> BasicAuthGET<T>(string resourceUrl)
-            => RetryForever<T>(resourceUrl, url 
-                => url.GetJsonFromUrlAsync(SetBasicAuthRequest));
+            => _retry.Forever<T>(resourceUrl, url => 
+                url.GetJsonFromUrlAsync(SetBasicAuthRequest));
+
+
+        protected override Task<T> BasicAuthPOST<T>(string resourceUrl, object postBody)
+            => _retry.Forever<T>(resourceUrl, url =>
+                 url.PostStringToUrlAsync(Json.Serialize(postBody),
+                    D8.CONTENT_TYPE_HAL, D8.CONTENT_TYPE_HAL, SetBasicAuthRequest));
+
+
+        protected override Task<T> NoAuthPOST<T>(string resourceUrl, object postBody)
+            => _retry.Forever<T>(resourceUrl, url => 
+                url.PostJsonToUrlAsync(postBody));
+
+
+
+
+        protected override Task<T> CookieAuthGET<T>(D8Cookie cookie, string resourceUrl)
+        {
+            var client = new JsonServiceClient(_creds.BaseURL);
+            client.SetCookie(cookie.Name, cookie.Id);
+
+            return _retry.Forever<T>(resourceUrl, x 
+                => client.GetAsync<string>(resourceUrl));
+        }
+
+
+        protected override void AllowUntrustedCertificate(string serverThumbprint)
+            => Certificator.AllowFrom(serverThumbprint);
 
 
         private void SetBasicAuthRequest(HttpWebRequest req)
         {
             req.AddBasicAuth(_creds.Username, _creds.Password);
+            req.Headers["X-CSRF-Token"] = _csrfToken;
         }
 
 
-        public override Task<T> NoAuthPOST<T>(string resourceUrl, object postBody)
-            => RetryForever<T>(resourceUrl, url
-                => url.PostJsonToUrlAsync(postBody));
-
-
-        private async Task<T> RetryForever<T>(string resourceUrl, Func<string, Task<string>> task)
+        private CrappyConnectionRetryer ConfigureNewRetryer()
         {
-            var json = string.Empty;
-            var url  = ToAbsolute(resourceUrl);
-
-            try
-            {
-                json = await _retry.Forever(() => task(url));
-            }
-            catch (Exception ex){ throw ex.FromUrl(url); }
-
-            return TryDeserialize<T>(json);
+            var retryr = new CrappyConnectionRetryer();
+            retryr.MakeAbsolute = url => ToAbsolute(url);
+            return retryr;
         }
-
-
-        public override async Task<T> CookieAuthGET<T>(D8Cookie cookie, string resourceUrl)
-        {
-            var client = new JsonServiceClient(_creds.BaseURL);
-            client.SetCookie(cookie.Name, cookie.Id);
-
-            var ret = await RetryForever<T>(resourceUrl, x 
-                => client.GetAsync<string>(resourceUrl));
-
-            //Console.WriteLine($"ret: {ret?.ToString()}");
-            return ret;
-        }
-
-
-        private T TryDeserialize<T>(string json)
-        {
-            var output = default(T);
-
-            if (Json.TryDeserialize<T>(json, out output))
-                return output;
-            else
-            {
-                var msg = $"Failed to deserialize ‹{typeof(T).Name}› from json:{L.f}“{json}”";
-                Console.WriteLine(msg);
-                return default(T);
-            }
-        }
-
-
-        public override void AllowUntrustedCertificate(string serverThumbprint)
-            => Certificator.AllowFrom(serverThumbprint);
-
-
-        //public override bool TryDeserialize<T>(string json, out T output)
-        //    => Json.TryDeserialize(json, out output);
     }
 }

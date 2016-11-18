@@ -10,22 +10,13 @@ using Xunit;
 namespace Repo2.UnitTests.Lib.Core.ns11.Tests.PackageRegistration
 {
     [Trait("Core", "Unit")]
-    public class R2D8PreUploadCheckerFacts
+    public class D8PreUploadCheckerFacts
     {
-        private Mock<IR2RestClient> _moq;
-
-        public R2D8PreUploadCheckerFacts()
-        {
-            _moq = new Mock<IR2RestClient>();
-        }
-
-
         [Fact(DisplayName = "Uploadable if registered")]
         public async void Registered()
         {
-            ServerWillReturn(R2Pkg("Test.pkg", "v1"));
-
-            var sut = new D8PreUploadChecker1(_moq.Object);
+            var moq = MockClientReturning(R2Pkg("Test.pkg", "v1"));
+            var sut = new D8PreUploadChecker1(moq.Object);
             var pkg = R2Pkg("Test.pkg", "v2");
             (await sut.IsUploadable(pkg)).Should().BeTrue();
         }
@@ -34,9 +25,8 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.PackageRegistration
         [Fact(DisplayName = "Not registered: NO Upload")]
         public async void NotRegistered()
         {
-            ServerWillReturn();
-
-            var sut = new D8PreUploadChecker1(_moq.Object);
+            var moq = MockClientReturning();
+            var sut = new D8PreUploadChecker1(moq.Object);
             var pkg = new R2Package("non-registered.pkg");
             (await sut.IsUploadable(pkg)).Should().BeFalse();
         }
@@ -45,19 +35,23 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.PackageRegistration
         [Fact(DisplayName = "Same hash: NO Upload")]
         public async void SameHash()
         {
-            ServerWillReturn(R2Pkg("Pkg.name", "Pkg.hash"));
+            var moq = MockClientReturning(R2Pkg("Pkg.name", "Pkg.hash"));
 
-            var sut = new D8PreUploadChecker1(_moq.Object);
+            var sut = new D8PreUploadChecker1(moq.Object);
             var pkg = R2Pkg("Pkg.name");
             pkg.LocalHash = "Pkg.hash";
             (await sut.IsUploadable(pkg)).Should().BeFalse();
         }
 
 
-        private void ServerWillReturn(params R2Package[] r2Packages)
+        private Mock<IR2RestClient> MockClientReturning(params R2Package[] r2Packages)
         {
-            _moq.Setup(c => c.BasicAuthList<R2Package>(Any.Text, Any.Text))
+            var moq = new Mock<IR2RestClient>();
+
+            moq.Setup(c => c.GetList<R2Package>(Any.Text, Any.Text))
                 .ReturnsAsync(r2Packages.ToList());
+
+            return moq;
         }
 
 

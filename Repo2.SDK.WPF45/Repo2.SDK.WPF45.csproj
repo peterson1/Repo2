@@ -91,7 +91,9 @@
     <Compile Include="Compression\FileChunker1.cs" />
     <Compile Include="Compression\SevenZipper2.cs" />
     <Compile Include="EmbeddedResources\EmbeddedResrc.cs" />
-    <Compile Include="ExceptionCasters\WebExceptionCaster.cs" />
+    <Compile Include="Exceptions\Alerter.cs" />
+    <Compile Include="Exceptions\ThreadedAlerter.cs" />
+    <Compile Include="Exceptions\WebExceptionCaster.cs" />
     <Compile Include="Extensions\FileInfoExtensions\CommonFileInfoExtensions.cs" />
     <Compile Include="Extensions\IOCExtensions\AutofacBuilderExtensions.cs" />
     <Compile Include="FileSystems\FileSystemAccesor1.cs" />

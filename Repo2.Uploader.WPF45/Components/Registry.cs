@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.Compression;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.NodeManagers;
@@ -30,9 +29,8 @@ namespace Repo2.Uploader.WPF45.Components
             b.Multi<IFileArchiver, FileArchiver1>();
             b.Multi<IPartSender, PartSender1>();
             b.Multi<CrappyConnectionRetryer>();
-            b.Multi<IR2CredentialsChecker, D8CredentialsChecker1>();
             b.Multi<IR2PreUploadChecker, D8PreUploadChecker1>();
-            b.Multi<IPackageUploader, R2D8PackageUploader>();
+            b.Multi<IPackageUploader, D8PackageUploader>();
 
             return b.Build();
         }

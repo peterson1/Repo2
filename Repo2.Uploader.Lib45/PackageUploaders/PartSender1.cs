@@ -32,7 +32,8 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
                     PartNumber      = i + 1,
                     TotalParts      = partPaths.Count()
                 };
-                await _partMgr.AddNode(partNode);
+                var reply = await _partMgr.AddNode(partNode);
+                //todo: handle non-success reply
             }
         }
     }

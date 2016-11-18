@@ -11,7 +11,7 @@ using Repo2.Core.ns11.PackageUploaders;
 namespace Repo2.Uploader.Lib45.PackageUploaders
 {
     [ImplementPropertyChanged]
-    public class R2D8PackageUploader : IPackageUploader
+    public class D8PackageUploader : IPackageUploader
     {
         private IFileSystemAccesor _fileIO;
         private IFileArchiver      _archivr;
@@ -19,11 +19,11 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
         private IPackageManager    _pkgMgr;
         private IPackageDownloader _downloadr;
 
-        public R2D8PackageUploader(IFileSystemAccesor fileSystemAccesor,
-                                   IFileArchiver fileArchiver,
-                                   IPartSender partSender,
-                                   IPackageManager packageManager,
-                                   IPackageDownloader packageDownloader)
+        public D8PackageUploader(IFileSystemAccesor fileSystemAccesor,
+                                 IFileArchiver fileArchiver,
+                                 IPartSender partSender,
+                                 IPackageManager packageManager,
+                                 IPackageDownloader packageDownloader)
         {
             _fileIO    = fileSystemAccesor;
             _archivr   = fileArchiver;

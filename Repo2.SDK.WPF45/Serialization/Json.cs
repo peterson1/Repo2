@@ -1,4 +1,6 @@
-﻿using ServiceStack.Text;
+﻿using System;
+using Repo2.Core.ns11.Extensions.StringExtensions;
+using ServiceStack.Text;
 
 namespace Repo2.SDK.WPF45.Serialization
 {
@@ -25,5 +27,21 @@ namespace Repo2.SDK.WPF45.Serialization
                 return false;
             }
         }
+
+
+        public static T DeserializeOrDefault<T>(string json)
+        {
+            var output = default(T);
+
+            if (Json.TryDeserialize<T>(json, out output))
+                return output;
+            else
+            {
+                var msg = $"Failed to deserialize ‹{typeof(T).Name}› from json:{L.f}“{json}”";
+                Console.WriteLine(msg);
+                return default(T);
+            }
+        }
+
     }
 }

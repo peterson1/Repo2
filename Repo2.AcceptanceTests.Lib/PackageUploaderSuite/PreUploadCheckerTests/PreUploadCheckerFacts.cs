@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.PackageRegistration;
 using Repo2.Core.ns11.RestClients;
@@ -17,10 +18,8 @@ namespace Repo2.AcceptanceTests.Lib.PackageUploaderSuite.PreUploadCheckerTests
         public PreUploadCheckerFacts()
         {
             var cfg = LocalConfigFile.Parse(UploaderCfg.KEY);
-            var retryr = new CrappyConnectionRetryer();
-            _client = new ResilientClient1(retryr);
+            _client = new ResilientClient1();
             _client.SetCredentials(cfg);
-            _client.AllowUntrustedCertificate(cfg.CertificateThumb);
         }
 
 
@@ -29,6 +28,7 @@ namespace Repo2.AcceptanceTests.Lib.PackageUploaderSuite.PreUploadCheckerTests
         {
             var sut    = new D8PreUploadChecker1(_client);
             var pkg    = new R2Package("Test_Package_1.pkg");
+            pkg.LocalHash = DateTime.Now.Ticks.ToString();
             var actual = await sut.IsUploadable(pkg);
             actual.Should().BeTrue();
         }

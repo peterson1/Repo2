@@ -2,7 +2,7 @@
 using System.Net;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 
-namespace Repo2.SDK.WPF45.ExceptionCasters
+namespace Repo2.SDK.WPF45.Exceptions
 {
     public static class WebExceptionCaster
     {
