@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.DomainModels;
@@ -33,7 +34,9 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
                     TotalParts      = partPaths.Count()
                 };
                 var reply = await _partMgr.AddNode(partNode);
-                //todo: handle non-success reply
+
+                if (reply.Failed)
+                    throw new Exception(reply.ErrorsText);
             }
         }
     }

@@ -46,7 +46,7 @@
         </StackPanel>
         
         <Button Command="{Binding UploadPackageCmd}"
-                Content="Upload Package"
+                Content="{Binding UploadPackageCmd.CurrentLabel}"
                 />
 
     </StackPanel>

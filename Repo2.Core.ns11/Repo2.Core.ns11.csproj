@@ -68,10 +68,12 @@
     <Compile Include="HashLib\IHash.cs" />
     <Compile Include="HashLib\IHashInfo.cs" />
     <Compile Include="InputCommands\IR2Command.cs" />
+    <Compile Include="NodeManagers\D8PackageManager1.cs" />
     <Compile Include="NodeManagers\IPackageManager.cs" />
     <Compile Include="NodeManagers\IPackagePartManager.cs" />
     <Compile Include="NodeManagers\D8PkgPartManager1.cs" />
     <Compile Include="PackageDownloaders\IPackageDownloader.cs" />
+    <Compile Include="PackageDownloaders\D8PackageDownloader1.cs" />
     <Compile Include="PackageRegistration\IR2PreUploadChecker.cs" />
     <Compile Include="PackageRegistration\D8PreUploadChecker1.cs" />
     <Compile Include="PackageUploaders\IPartSender.cs" />

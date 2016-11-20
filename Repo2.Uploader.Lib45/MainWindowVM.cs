@@ -84,6 +84,9 @@ namespace Repo2.Uploader.Lib45
             IsUploadable = false;
             _pkg         = LocalR2Package.From(PackagePath);
             IsUploadable = await _preCheckr.IsUploadable(_pkg);
+
+            UploadPackageCmd.CurrentLabel = IsUploadable 
+                ? "Upload Package" : _preCheckr.ReasonWhyNot;
         }
 
 
@@ -108,6 +111,7 @@ namespace Repo2.Uploader.Lib45
                                "Check Package Registration");
 
         private IR2Command CreateUploadPackageCmd()
-            => R2Command.Async(UploadPackage, x => IsUploadable);
+            => R2Command.Async(UploadPackage, x => IsUploadable,
+                    "...");
     }
 }

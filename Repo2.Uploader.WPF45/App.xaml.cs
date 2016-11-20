@@ -26,6 +26,7 @@ namespace Repo2.Uploader.WPF45
             catch (DependencyResolutionException ex)
             {
                 Alerter.ShowError("Resolver Error", ex.GetMessage());
+                win.Close();
             }
         }
 

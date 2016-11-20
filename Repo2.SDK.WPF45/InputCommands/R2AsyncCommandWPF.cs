@@ -5,12 +5,14 @@ using System.Windows.Input;
 using PropertyChanged;
 using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.Exceptions;
+using Repo2.SDK.WPF45.Exceptions;
 
 namespace Repo2.SDK.WPF45.InputCommands
 {
     [ImplementPropertyChanged]
     public class R2AsyncCommandWPF : IR2Command
     {
+        private   string            _origLabel;
         protected Func<Task>        _task;
         protected Predicate<object> _canExecute;
 
@@ -42,7 +44,7 @@ namespace Repo2.SDK.WPF45.InputCommands
 
             IsBusy             = true;
             var origOverride   = OverrideEnabled;
-            var origLabel      = CurrentLabel;
+            _origLabel         = CurrentLabel;
             CurrentLabel       = "please wait...";
             OverrideEnabled    = false;
             LastExecutedOK     = false;
@@ -62,7 +64,7 @@ namespace Repo2.SDK.WPF45.InputCommands
             {
                 LastExecuteEnd  = DateTime.Now;
                 IsBusy          = false;
-                CurrentLabel    = origLabel;
+                CurrentLabel    = _origLabel;
                 OverrideEnabled = DisableWhenDone ? false : origOverride;
                 CommandManager.InvalidateRequerySuggested();
             }
@@ -70,16 +72,9 @@ namespace Repo2.SDK.WPF45.InputCommands
 
 
         protected virtual void OnError(Exception error)
-        {
-            //var targ  = _action.Target.GetType().Name;
-            //var methd = _action.Method.Name;
-            //var cap   = $"Error on ‹{targ}› {methd}";
-            var cap = "Error on Task";
-            var msg   = error.Info(true, true);
+            => Alerter.ShowError($"Error on task :  “{_origLabel}”", 
+                                 error.Info(false, true));
 
-            MessageBox.Show(msg, cap,
-                MessageBoxButton.OK, MessageBoxImage.Error);
-        }
 
 
         public event EventHandler CanExecuteChanged

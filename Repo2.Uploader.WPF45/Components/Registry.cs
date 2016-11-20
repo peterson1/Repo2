@@ -2,6 +2,7 @@
 using Repo2.Core.ns11.Compression;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.NodeManagers;
+using Repo2.Core.ns11.PackageDownloaders;
 using Repo2.Core.ns11.PackageRegistration;
 using Repo2.Core.ns11.PackageUploaders;
 using Repo2.Core.ns11.RestClients;
@@ -23,6 +24,7 @@ namespace Repo2.Uploader.WPF45.Components
 
             b.Solo<MainWindowVM>();
             b.Solo<IR2RestClient, ResilientClient1>();
+            b.Solo<IPackageManager, D8PackageManager1>();
             b.Solo<IPackagePartManager, D8PkgPartManager1>();
 
             b.Multi<IFileSystemAccesor, FileSystemAccesor1>();
@@ -31,6 +33,7 @@ namespace Repo2.Uploader.WPF45.Components
             b.Multi<CrappyConnectionRetryer>();
             b.Multi<IR2PreUploadChecker, D8PreUploadChecker1>();
             b.Multi<IPackageUploader, D8PackageUploader>();
+            b.Multi<IPackageDownloader, D8PackageDownloader1>();
 
             return b.Build();
         }
