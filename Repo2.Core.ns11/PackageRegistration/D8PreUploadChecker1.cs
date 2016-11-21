@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Drupal8;
 using Repo2.Core.ns11.RestClients;
+using Repo2.Core.ns11.RestExportViews;
 
 namespace Repo2.Core.ns11.PackageRegistration
 {
@@ -19,17 +18,21 @@ namespace Repo2.Core.ns11.PackageRegistration
         public string ReasonWhyNot { get; private set; }
 
 
-        public async Task<bool> IsUploadable(R2Package localPackage)
+        public async Task<bool> IsUploadable(R2Package localPkg)
         {
-            if (localPackage == null)
+            if (localPkg == null)
             {
-                ReasonWhyNot = $"“{nameof(localPackage)}” argument is NULL.";
+                ReasonWhyNot = $"“{nameof(localPkg)}” argument is NULL.";
                 return false;
             }
-            var nme  = localPackage.Filename;
-            var url  = D8.PACKAGE_CHECKER_1;
-            var list = await _client.GetList<R2Package>(url, nme);
 
+            if (!localPkg.FileFound)
+            {
+                ReasonWhyNot = $"“{localPkg.Filename}” not found in {localPkg.LocalDir}.";
+                return false;
+            }
+
+            var list = await _client.List<PackagesByTitle1>(localPkg);
             if (list == null)
             {
                 ReasonWhyNot = "List from server is NULL.";
@@ -42,7 +45,7 @@ namespace Repo2.Core.ns11.PackageRegistration
             }
             var remotePkg = list[0];
 
-            if (remotePkg.RemoteHash == localPackage.LocalHash)
+            if (remotePkg.RemoteHash == localPkg.LocalHash)
             {
                 ReasonWhyNot = "Local hash matches remote hash.";
                 return false;

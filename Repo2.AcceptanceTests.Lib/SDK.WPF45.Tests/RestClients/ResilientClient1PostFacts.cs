@@ -10,12 +10,12 @@ using Xunit;
 namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
 {
     [Trait("Local:453", "Write")]
-    public class ResilientClient1Facts
+    public class ResilientClient1PostFacts
     {
         private IR2RestClient _sut;
         private R2Credentials _creds;
 
-        public ResilientClient1Facts()
+        public ResilientClient1PostFacts()
         {
             _creds = LocalConfigFile.Parse(UploaderCfg.KEY);
             _sut   = new ResilientClient1();
@@ -30,6 +30,16 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
             var dict = await _sut.PostNode(SamplePkgPart());
             dict.Should().NotBeNull();
         }
+
+
+        //[Fact(DisplayName = "Can PATCH Package")]
+        //public async void CanPatchPackage()
+        //{
+        //    (await _sut.EnableWriteAccess(_creds)).Should().BeTrue();
+
+        //    var dict = await _sut.PatchNode(SamplePackage());
+        //    dict.Should().NotBeNull();
+        //}
 
 
         private R2PackagePart SamplePkgPart()

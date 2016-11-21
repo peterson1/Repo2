@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using PropertyChanged;
+using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Extensions.StringExtensions;
@@ -20,7 +22,6 @@ namespace Repo2.Uploader.Lib45
         private IR2RestClient       _client;
         private IR2PreUploadChecker _preCheckr;
         private IPackageUploader    _pkgUploadr;
-        private LocalConfigFile     _cfg;
         private R2Package           _pkg;
 
         public MainWindowVM(IR2RestClient restClient,
@@ -30,6 +31,10 @@ namespace Repo2.Uploader.Lib45
             _client               = restClient;
             _preCheckr            = preUploadChecker;
             _pkgUploadr           = packageUploader;
+
+            _pkgUploadr.StatusChanged += (s, e) 
+                => UploaderStatus = e.Text;
+
             FillConfigKeysCmd     = CreateFillConfigKeysCmd();
             CheckCredentialsCmd   = CreateCheckCredentialsCmd();
             CheckUploadabilityCmd = CreateCheckUploadabilityCmd();
@@ -39,11 +44,14 @@ namespace Repo2.Uploader.Lib45
         }
 
 
-        public string  ConfigKey     { get; set; }
-        public string  PackagePath   { get; set; }
-        public bool    CanURead      { get; private set; }
-        public bool    CanWrite      { get; private set; }
-        public bool    IsUploadable  { get; private set; }
+        public string  ConfigKey       { get; set; }
+        public string  PackagePath     { get; set; }
+        public bool    CanWrite        { get; private set; }
+        public bool    IsUploadable    { get; private set; }
+        public string  UploaderStatus  { get; private set; }
+        public double  MaxPartSizeMB   { get; set; } = 0.5;
+
+        public LocalConfigFile  Config  { get; private set; }
 
         public IR2Command  FillConfigKeysCmd      { get; private set; }
         public IR2Command  CheckCredentialsCmd    { get; private set; }
@@ -68,12 +76,11 @@ namespace Repo2.Uploader.Lib45
 
         private async Task CheckCredentials()
         {
-            _cfg = null;
-            _cfg = LocalConfigFile.Parse(ConfigKey);
-            if (_cfg == null) return;
+            Config = null;
+            Config = LocalConfigFile.Parse(ConfigKey);
+            if (Config == null) return;
 
-            CanWrite = await _client.EnableWriteAccess(_cfg);
-            CanURead = CanWrite;
+            CanWrite = await _client.EnableWriteAccess(Config);
 
             CheckUploadabilityCmd.ExecuteIfItCan();
         }
@@ -92,7 +99,9 @@ namespace Repo2.Uploader.Lib45
 
         private async Task UploadPackage()
         {
-            await _pkgUploadr.Upload(_pkg);
+            _pkgUploadr.MaxPartSizeMB = this.MaxPartSizeMB;
+            var ok = await _pkgUploadr.Upload(_pkg);
+            MessageBox.Show(ok.ToString());
         }
 
 
@@ -111,7 +120,8 @@ namespace Repo2.Uploader.Lib45
                                "Check Package Registration");
 
         private IR2Command CreateUploadPackageCmd()
-            => R2Command.Async(UploadPackage, x => IsUploadable,
+            => R2Command.Async(UploadPackage, 
+                x => IsUploadable && (MaxPartSizeMB > 0),
                     "...");
     }
 }

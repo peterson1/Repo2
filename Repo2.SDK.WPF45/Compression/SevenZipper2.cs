@@ -20,6 +20,10 @@ namespace Repo2.SDK.WPF45.Compression
         public static Task<IEnumerable<string>> CompressAndSplit
             (string filePath, double maxPartSizeMB)
         {
+            if (maxPartSizeMB <= 0)
+                throw new ArgumentOutOfRangeException(nameof(maxPartSizeMB), 
+                    maxPartSizeMB, $"“{nameof(maxPartSizeMB)}” must be greater than zero.");
+
             var tcs   = new TaskCompletionSource<IEnumerable<string>>();
             var tmp7z = Path.GetTempFileName();
             var zpr   = GetUltra7z2Compressor();

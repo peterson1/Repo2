@@ -8,12 +8,14 @@ namespace Repo2.Uploader.Lib45.PackageFinders
     {
         public static R2Package From (string filePath)
         {
-            var inf   = new FileInfo(filePath);
-            if (!inf.Exists) return null;
-
+            var inf       = new FileInfo(filePath);
             var pkg       = new R2Package(inf.Name);
             pkg.LocalDir  = inf.DirectoryName;
-            pkg.LocalHash = inf.SHA1ForFile();
+            pkg.FileFound = inf.Exists;
+
+            if (pkg.FileFound)
+                pkg.LocalHash = inf.SHA1ForFile();
+
             return pkg;
         }
     }

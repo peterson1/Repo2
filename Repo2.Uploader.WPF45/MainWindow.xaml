@@ -5,49 +5,69 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Repo2.Uploader.WPF45"
         xmlns:sdk="clr-namespace:Repo2.SDK.WPF45.UserControls;assembly=Repo2.SDK.WPF45"
+        xmlns:xtk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <StackPanel>
+    <Grid>
+        <StackPanel>
         
-        <StackPanel Orientation="Horizontal">
-            <ComboBox ItemsSource="{Binding ConfigKeys}"
-                      SelectedItem="{Binding ConfigKey}"
-                      />
-            <Button Command="{Binding FillConfigKeysCmd}"
-                    Content="{Binding FillConfigKeysCmd.CurrentLabel}"
-                    />
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal">
-            <StackPanel>
-                <sdk:DualText Text1="can read"
-                              Text2="{Binding CanRead}"
-                              />
-                <sdk:DualText Text1="can write"
-                              Text2="{Binding CanWrite}"
-                              />
+            <StackPanel Orientation="Horizontal">
+                <ComboBox ItemsSource="{Binding ConfigKeys}"
+                          SelectedItem="{Binding ConfigKey}"
+                          />
+                <Button Command="{Binding FillConfigKeysCmd}"
+                        Content="{Binding FillConfigKeysCmd.CurrentLabel}"
+                        />
             </StackPanel>
-            <Button Command="{Binding CheckCredentialsCmd}"
-                    Content="{Binding CheckCredentialsCmd.CurrentLabel}"
-                    />
-        </StackPanel>
 
-        <StackPanel Orientation="Horizontal">
-            <StackPanel>
-                <TextBox Text="{Binding PackagePath, UpdateSourceTrigger=PropertyChanged}"
-                         />
-                <sdk:DualText Text1="registered"
-                              Text2="{Binding IsRegistered}"
-                              />
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <sdk:DualText Text1="server"
+                                  Text2="{Binding Config.BaseURL}"
+                                  />
+                    <sdk:DualText Text1="username"
+                                  Text2="{Binding Config.Username}"
+                                  />
+                    <sdk:DualText Text1="password"
+                                  Text2="{Binding Config.Password}"
+                                  />
+                    <sdk:DualText Text1="svr thumb"
+                                  Text2="{Binding Config.CertificateThumb}"
+                                  />
+                    <sdk:DualText Text1="can write"
+                                  Text2="{Binding CanWrite}"
+                                  />
+                </StackPanel>
+                <Button Command="{Binding CheckCredentialsCmd}"
+                        Content="{Binding CheckCredentialsCmd.CurrentLabel}"
+                        />
             </StackPanel>
-            <Button Command="{Binding CheckRegistrationCmd}"
-                    Content="{Binding CheckRegistrationCmd.CurrentLabel}"
-                    />
-        </StackPanel>
-        
-        <Button Command="{Binding UploadPackageCmd}"
-                Content="{Binding UploadPackageCmd.CurrentLabel}"
-                />
 
-    </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <TextBox Text="{Binding PackagePath, UpdateSourceTrigger=PropertyChanged}"
+                             />
+                    <sdk:DualText Text1="uploadable"
+                                  Text2="{Binding IsUploadable}"
+                                  />
+                </StackPanel>
+                <Button Command="{Binding CheckUploadabilityCmd}"
+                        Content="{Binding CheckUploadabilityCmd.CurrentLabel}"
+                        />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+
+                <xtk:DoubleUpDown Value="{Binding MaxPartSizeMB, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Button Command="{Binding UploadPackageCmd}"
+                        Content="{Binding UploadPackageCmd.CurrentLabel}"
+                        />
+            </StackPanel>
+        </StackPanel>
+
+        <xtk:BusyIndicator IsBusy="{Binding UploadPackageCmd.IsBusy}"
+                           BusyContent="{Binding UploaderStatus}"
+                           />
+    </Grid>
 </Window>

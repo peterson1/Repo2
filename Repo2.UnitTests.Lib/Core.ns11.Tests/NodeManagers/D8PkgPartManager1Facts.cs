@@ -8,6 +8,7 @@ using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.PackageRegistration;
 using Repo2.Core.ns11.RestClients;
+using Repo2.Core.ns11.RestExportViews;
 using Repo2.UnitTests.Lib.TestTools.MoqExtensions;
 using Xunit;
 
@@ -54,8 +55,8 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
         {
             var moq = new Mock<IR2RestClient>();
 
-            moq.Setup(x => x.GetList<R2PackagePart>(Any.Text, Any.Text, Any.Text))
-               .ReturnsAsync(parts.ToList());
+            moq.Setup(x => x.List<PartsByPkgHash1>(Any.Obj))
+               .ReturnsAsync(parts.Select(x => x as PartsByPkgHash1).ToList());
 
             moq.Setup(x => x.PostNode(Any.Node))
                 .ReturnsAsync(new Dictionary<string, object>());

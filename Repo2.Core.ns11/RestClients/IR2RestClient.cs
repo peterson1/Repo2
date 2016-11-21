@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.Drupal8;
+using Repo2.Core.ns11.RestExportViews;
 
 namespace Repo2.Core.ns11.RestClients
 {
@@ -10,7 +11,7 @@ namespace Repo2.Core.ns11.RestClients
         void        SetCredentials     (R2Credentials credentials);
         Task<bool>  EnableWriteAccess  (R2Credentials credentials);
 
-        Task<List<T>>  GetList   <T>(string url, params string[] args);
+        Task<List<T>> List<T>(params object[] args) where T : IRestExportView, new();
 
         Task<Dictionary<string, object>>  PostNode  <T>
             (T node) where T : D8NodeBase;

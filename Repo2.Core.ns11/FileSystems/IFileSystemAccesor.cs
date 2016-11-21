@@ -9,8 +9,8 @@ namespace Repo2.Core.ns11.FileSystems
         string TempDir { get; }
 
         Task<string> IsolateFile (R2Package localPkg);
-        void         Delete      (params string[] filePaths);
-        void         Delete      (IEnumerable<string> filePaths);
+        Task<bool>   Delete      (params string[] filePaths);
+        Task<bool>   Delete      (IEnumerable<string> filePaths);
         string       GetSHA1     (string filePath);
     }
 }

@@ -4,14 +4,12 @@ using System.Threading.Tasks;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.RestClients;
+using Repo2.Core.ns11.RestExportViews;
 
 namespace Repo2.Core.ns11.NodeManagers
 {
     public class D8PkgPartManager1 : IPackagePartManager
     {
-        const string PARTS_BY_PKGHASH = "dsasd";
-        const string POST_NODE = "node";
-
         private IR2RestClient _client;
 
         public D8PkgPartManager1(IR2RestClient r2RestClient)
@@ -34,8 +32,6 @@ namespace Repo2.Core.ns11.NodeManagers
                 goto ReturnReply;
             }
 
-            //var dto = D8NodeMapper.Cast(pkgPart, _client.BaseURL);
-            //var resp = await _client.BasicAuthPOST<string>(POST_NODE, dto);
             var dict = await _client.PostNode(pkgPart);
 
             //todo: add status and result to returned reply
@@ -51,10 +47,7 @@ namespace Repo2.Core.ns11.NodeManagers
 
         private async Task<bool> AlreadyInServer(R2PackagePart part)
         {
-            var list = await _client.GetList<R2PackagePart>
-                        (PARTS_BY_PKGHASH, part.PackageFilename, 
-                                           part.PackageHash);
-
+            var list = await _client.List<PartsByPkgHash1>(part);
             return list.Any(x => x.PartHash == part.PartHash
                             && x.PartNumber == part.PartNumber
                             && x.TotalParts == part.TotalParts);

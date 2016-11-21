@@ -11,26 +11,35 @@ namespace Repo2.SDK.WPF45.FileSystems
 {
     public class FileSystemAccesor1 : IFileSystemAccesor
     {
-        public void Delete(IEnumerable<string> filePaths)
+        public Task<bool> Delete(IEnumerable<string> filePaths)
             => Delete(filePaths.ToArray());
 
 
-        public void Delete(params string[] filePaths)
+        public async Task<bool> Delete(params string[] filePaths)
         {
             foreach (var file in filePaths)
-                File.Delete(file);
+            {
+                await Task.Run(() =>
+                {
+                    try   { File.Delete(file); }
+                    catch { }
+                });
+                if (File.Exists(file)) return false;
+            }
+            return true;
         }
 
 
-        public Task<string> IsolateFile(R2Package localPkg)
+        public async Task<string> IsolateFile(R2Package localPkg)
         {
             var srcPath  = Chain(localPkg.LocalDir, localPkg.Filename);
             var destPath = Path.GetTempFileName();
-            return new Task<string>(() =>
-            {
-                File.Copy(srcPath, destPath, true);
-                return destPath;
-            });
+
+            var task = Task.Run(() 
+                => File.Copy(srcPath, destPath, true));
+
+            await task;
+            return destPath;
         }
 
 

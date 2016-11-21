@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.Drupal8;
 using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.Extensions.StringExtensions;
+using Repo2.Core.ns11.RestExportViews;
 
 namespace Repo2.Core.ns11.RestClients
 {
@@ -13,14 +15,18 @@ namespace Repo2.Core.ns11.RestClients
         protected string        _csrfToken;
 
 
-        protected  abstract Task<T>   BasicAuthPOST  <T>(string url, object postBody);
-        protected  abstract Task<T>   CookieAuthGET  <T>(D8Cookie cookie, string url);
-        protected  abstract Task<T>   NoAuthPOST     <T>(string url, object postBody);
+        protected abstract Task<T>   BasicAuthPOST  <T>(string url, object postBody);
+        protected abstract Task<T>   CookieAuthGET  <T>(D8Cookie cookie, string url);
+        protected abstract Task<T>   NoAuthPOST     <T>(string url, object postBody);
 
         protected abstract Task<T>   BasicAuthGET   <T>(string resourceUrl);
         protected abstract void      AllowUntrustedCertificate (string serverThumbprint);
 
-        //public string BaseURL => _creds?.BaseURL;
+
+        public Task<List<T>> List<T>(params object[] args) 
+            where T : IRestExportView, new()
+                => GetList<T>(new T().DisplayPath, 
+                              new T().CastArguments(args));
 
 
         public void SetCredentials(R2Credentials credentials)
@@ -56,9 +62,9 @@ namespace Repo2.Core.ns11.RestClients
 
 
 
-        public Task<List<T>> GetList<T>(string url, params string[] args)
+        private Task<List<T>> GetList<T>(string url, IEnumerable<string> args)
         {
-            if (args?.Length > 0)
+            if (args?.Count() > 0)
                 url = url.Slash(args.Join("/"));
 
             return BasicAuthGET<List<T>>(url);

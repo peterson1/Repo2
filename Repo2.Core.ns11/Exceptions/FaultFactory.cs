@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 
 namespace Repo2.Core.ns11.Exceptions
@@ -15,6 +16,10 @@ namespace Repo2.Core.ns11.Exceptions
             => new FileNotFoundException(
                 $"“{fileDescription}” not found in:{L.f}{filePath}");
 
+
+        public static InvalidCastException BadCast<T>(object obj)
+            => new InvalidCastException(
+                $"Failed to cast ‹{obj?.GetType().Name}› to ‹{typeof(T).Name}›");
 
         public static NullReferenceException NullRef<T>(string memberName)
             => new NullReferenceException(

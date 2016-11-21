@@ -6,6 +6,7 @@ using PropertyChanged;
 using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.Exceptions;
 using Repo2.SDK.WPF45.Exceptions;
+using Repo2.Core.ns11.Extensions.StringExtensions;
 
 namespace Repo2.SDK.WPF45.InputCommands
 {
@@ -45,7 +46,7 @@ namespace Repo2.SDK.WPF45.InputCommands
             IsBusy             = true;
             var origOverride   = OverrideEnabled;
             _origLabel         = CurrentLabel;
-            CurrentLabel       = "please wait...";
+            CurrentLabel       = $"Running «{_origLabel}» ...{L.f}Please wait.";
             OverrideEnabled    = false;
             LastExecutedOK     = false;
             LastExecuteStart   = DateTime.Now;

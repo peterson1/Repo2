@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.PackageUploaders;
@@ -11,8 +12,9 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
 {
     public class PartSender1 : IPartSender
     {
-        private IPackagePartManager _partMgr;
+        public event EventHandler<StatusText> StatusChanged;
 
+        private IPackagePartManager _partMgr;
 
         public PartSender1(IPackagePartManager partManager)
         {
@@ -22,6 +24,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
 
         public async Task SendParts(IEnumerable<string> partPaths, R2Package localPkg)
         {
+
             for (int i = 0; i < partPaths.Count(); i++)
             {
                 var path     = partPaths.ElementAt(i);
@@ -33,6 +36,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
                     PartNumber      = i + 1,
                     TotalParts      = partPaths.Count()
                 };
+                StatusChanged.Raise($"Sending {partNode.Description} ...");
                 var reply = await _partMgr.AddNode(partNode);
 
                 if (reply.Failed)

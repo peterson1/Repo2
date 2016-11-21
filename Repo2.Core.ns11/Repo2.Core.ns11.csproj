@@ -40,6 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication\R2Credentials.cs" />
+    <Compile Include="ChangeNotification\IStatusChanger.cs" />
+    <Compile Include="ChangeNotification\PropertyChangedExtensions.cs" />
+    <Compile Include="ChangeNotification\StatusText.cs" />
     <Compile Include="Compression\IFileArchiver.cs" />
     <Compile Include="DataStructures\Reply.cs" />
     <Compile Include="DataStructures\Observables.cs" />
@@ -82,6 +85,9 @@
     <Compile Include="ReflectionTools\AssemblyReflector.cs" />
     <Compile Include="RestClients\IR2RestClient.cs" />
     <Compile Include="RestClients\R2RestClientBase.cs" />
+    <Compile Include="RestExportViews\IRestExportView.cs" />
+    <Compile Include="RestExportViews\PackagesByTitle1.cs" />
+    <Compile Include="RestExportViews\PartsByPkgHash1.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
