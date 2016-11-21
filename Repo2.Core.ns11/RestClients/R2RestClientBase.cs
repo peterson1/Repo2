@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.Authentication;
+using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.Drupal8;
 using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.Extensions.StringExtensions;
@@ -12,20 +13,21 @@ namespace Repo2.Core.ns11.RestClients
     public abstract class R2RestClientBase : IR2RestClient
     {
         protected R2Credentials _creds;
-        protected string        _csrfToken;
+        protected string _csrfToken;
 
 
-        protected abstract Task<T>   BasicAuthPOST  <T>(string url, object postBody);
-        protected abstract Task<T>   CookieAuthGET  <T>(D8Cookie cookie, string url);
-        protected abstract Task<T>   NoAuthPOST     <T>(string url, object postBody);
+        protected abstract Task<T> BasicAuthPOST<T>(string url, object postBody);
+        protected abstract Task<T> BasicAuthDELETE<T>(string url);
+        protected abstract Task<T> CookieAuthGET<T>(D8Cookie cookie, string url);
+        protected abstract Task<T> NoAuthPOST<T>(string url, object postBody);
 
-        protected abstract Task<T>   BasicAuthGET   <T>(string resourceUrl);
-        protected abstract void      AllowUntrustedCertificate (string serverThumbprint);
+        protected abstract Task<T> BasicAuthGET<T>(string resourceUrl);
+        protected abstract void AllowUntrustedCertificate(string serverThumbprint);
 
 
-        public Task<List<T>> List<T>(params object[] args) 
+        public Task<List<T>> List<T>(params object[] args)
             where T : IRestExportView, new()
-                => GetList<T>(new T().DisplayPath, 
+                => GetList<T>(new T().DisplayPath,
                               new T().CastArguments(args));
 
 
@@ -81,8 +83,23 @@ namespace Repo2.Core.ns11.RestClients
         }
 
 
-        public Task<Dictionary<string, object>> PostNode<T>(T node) where T : D8NodeBase
-            => BasicAuthPOST<Dictionary<string, object>>(D8.NODE_FORMAT_HAL, 
-                D8NodeMapper.Cast(node, _creds.BaseURL));
+        public async Task<NodeReply> PostNode<T>(T node) where T : D8NodeBase
+        {
+            var url  = D8.NODE_FORMAT_HAL;
+            var mapd = D8NodeMapper.Cast(node, _creds.BaseURL);
+            var dict = await BasicAuthPOST
+                        <Dictionary<string, object>>(url, mapd);
+
+            return new NodeReply(dict);
+        }
+
+
+        public async Task<RestReply> DeleteNode(int nodeID)
+        {
+            var url = string.Format(D8.NODE_X_FORMAT_HAL, nodeID);
+            var dict = await BasicAuthDELETE
+                        <Dictionary<string, object>>(url);
+            return new RestReply(dict);
+        }
     }
 }

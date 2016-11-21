@@ -7,5 +7,6 @@
         //public const string PACKAGE_CHECKER_1  = "package-checker-1";
         public const string CONTENT_TYPE_HAL   = "application/hal+json";
         public const string NODE_FORMAT_HAL    = "entity/node?_format=hal_json";
+        public const string NODE_X_FORMAT_HAL  = "node/{0}?_format=hal_json";
     }
 }

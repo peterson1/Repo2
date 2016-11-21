@@ -18,6 +18,11 @@ namespace Repo2.Core.ns11.DataStructures
 
     public class Reply<T> : Reply
     {
-        public T  Result  { get; set; }
+        public Reply(T result)
+        {
+            Result = result;
+        }
+
+        public T  Result  { get; }
     }
 }

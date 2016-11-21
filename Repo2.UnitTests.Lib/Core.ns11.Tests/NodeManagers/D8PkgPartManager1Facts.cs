@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using FluentAssertions;
 using Moq;
+using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.PackageRegistration;
@@ -59,7 +60,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
                .ReturnsAsync(parts.Select(x => x as PartsByPkgHash1).ToList());
 
             moq.Setup(x => x.PostNode(Any.Node))
-                .ReturnsAsync(new Dictionary<string, object>());
+                .ReturnsAsync(new NodeReply(new Dictionary<string, object>()));
 
             return moq;
         }

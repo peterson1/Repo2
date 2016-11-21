@@ -44,8 +44,10 @@
     <Compile Include="ChangeNotification\PropertyChangedExtensions.cs" />
     <Compile Include="ChangeNotification\StatusText.cs" />
     <Compile Include="Compression\IFileArchiver.cs" />
+    <Compile Include="DataStructures\NodeReply.cs" />
     <Compile Include="DataStructures\Reply.cs" />
     <Compile Include="DataStructures\Observables.cs" />
+    <Compile Include="DataStructures\RestReply.cs" />
     <Compile Include="DomainModels\R2Package.cs" />
     <Compile Include="DomainModels\R2PackagePart.cs" />
     <Compile Include="Drupal8\Attributes\ContentTitleAttribute.cs" />

@@ -31,6 +31,11 @@ namespace Repo2.Core.ns11.Exceptions
                 $"‹{typeof(T).Name}› contains invalid data.{L.f}{validationError}");
 
 
+        public static InvalidDataException BlankText(string textDescription)
+            => new InvalidDataException(
+                $"Wasn't expecting “{textDescription}” to be BLANK.");
+
+
         public static DataMisalignedException HashMismatch(string hashSrc1, string hashSrc2)
             => new DataMisalignedException(
                 $"Hash of {hashSrc1} did not match hash of {hashSrc2}.");

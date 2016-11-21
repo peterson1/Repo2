@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.Drupal8;
 using Repo2.Core.ns11.RestClients;
@@ -29,6 +30,11 @@ namespace Repo2.SDK.WPF45.RestClients
             => _retry.Forever<T>(resourceUrl, url =>
                  url.PostStringToUrlAsync(Json.Serialize(postBody),
                     D8.CONTENT_TYPE_HAL, D8.CONTENT_TYPE_HAL, SetBasicAuthRequest));
+
+
+        protected override Task<T> BasicAuthDELETE<T>(string resourceUrl)
+            => _retry.Forever<T>(resourceUrl, url =>
+                url.DeleteFromUrlAsync(D8.CONTENT_TYPE_HAL, SetBasicAuthRequest));
 
 
         protected override Task<T> NoAuthPOST<T>(string resourceUrl, object postBody)
