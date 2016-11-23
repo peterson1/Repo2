@@ -22,6 +22,7 @@ namespace Repo2.AcceptanceTests.Lib.Uploader.Lib45.Tests.PackageUploaders
         private FakeFactory         _fke = new FakeFactory();
         private R2Credentials       _creds;
         private IPackagePartManager _parts;
+        private IPackageManager     _pkgs;
         private IR2RestClient       _client;
         private IPackageUploader    _sut;
 
@@ -33,6 +34,7 @@ namespace Repo2.AcceptanceTests.Lib.Uploader.Lib45.Tests.PackageUploaders
                 _client = scope.Resolve<IR2RestClient>();
                 _sut    = scope.Resolve<IPackageUploader>();
                 _parts  = scope.Resolve<IPackagePartManager>();
+                _pkgs   = scope.Resolve<IPackageManager>();
             }
         }
 
@@ -46,11 +48,14 @@ namespace Repo2.AcceptanceTests.Lib.Uploader.Lib45.Tests.PackageUploaders
             await _parts.DeleteByPkgHash(pkg);
 
             _sut.MaxPartSizeMB = maxMB;
-            var ok = await _sut.Upload(pkg);
-            ok.Should().BeTrue();
+            await _sut.Upload(pkg);
 
-            var list = await _parts.ListByPkgHash(pkg);
-            list.Should().HaveCount(parts);
+            var list1 = await _parts.ListByPkgHash(pkg);
+            list1.Should().HaveCount(parts);
+
+            var pkgs = await _pkgs.ListByFilename(pkg);
+            pkgs.Should().HaveCount(1);
+            pkgs[0].Hash.Should().Be(pkg.Hash);
         }
 
         private async Task EnableWriteAccess()

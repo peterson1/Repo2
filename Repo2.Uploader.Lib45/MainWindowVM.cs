@@ -92,6 +92,8 @@ namespace Repo2.Uploader.Lib45
             _pkg         = LocalR2Package.From(PackagePath);
             IsUploadable = await _preCheckr.IsUploadable(_pkg);
 
+            _pkg.nid = _preCheckr.LastPackage.nid;
+
             UploadPackageCmd.CurrentLabel = IsUploadable 
                 ? "Upload Package" : _preCheckr.ReasonWhyNot;
         }
@@ -100,8 +102,8 @@ namespace Repo2.Uploader.Lib45
         private async Task UploadPackage()
         {
             _pkgUploadr.MaxPartSizeMB = this.MaxPartSizeMB;
-            var ok = await _pkgUploadr.Upload(_pkg);
-            MessageBox.Show(ok.ToString());
+            await _pkgUploadr.Upload(_pkg);
+            CheckUploadabilityCmd.ExecuteIfItCan();
         }
 
 
@@ -117,7 +119,7 @@ namespace Repo2.Uploader.Lib45
         private IR2Command CreateCheckUploadabilityCmd()
             => R2Command.Async(CheckUploadability,
                                x => CanWrite && !PackagePath.IsBlank(),
-                               "Check Package Registration");
+                               "Check Uploadability");
 
         private IR2Command CreateUploadPackageCmd()
             => R2Command.Async(UploadPackage, 

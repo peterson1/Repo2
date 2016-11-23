@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using PropertyChanged;
 using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.Compression;
+using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.FileSystems;
@@ -46,21 +47,19 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
         public double  MaxPartSizeMB  { get; set; }
 
 
-        public async Task<bool> Upload(R2Package localPkg)
+        public async Task Upload(R2Package localPkg)
         {
             try
             {
-                await ExecuteUpload(localPkg);
-                return true;
+                Alerter.Show(await ExecuteUpload(localPkg), "Upload");
             }
             catch (Exception ex)
             {
                 Alerter.ShowError("Upload Error", ex.Info(false, true));
-                return false;
             }
         }
 
-        private async Task ExecuteUpload(R2Package localPkg)
+        private async Task<Reply> ExecuteUpload(R2Package localPkg)
         {
             StatusChanged.Raise("Isolating local package file...");
             var pkgPath = await _fileIO.IsolateFile(localPkg);
@@ -77,7 +76,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
                 throw Fault.HashMismatch("Original Package File", "Downloaded Package File");
 
             StatusChanged.Raise("Updating package node ...");
-            await _pkgMgr.UpdateNode(localPkg);
+            return await _pkgMgr.UpdateNode(localPkg);
         }
 
         private async Task<string> TryDownloadAndGetHash(R2Package localPkg)

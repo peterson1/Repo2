@@ -13,7 +13,9 @@ namespace Repo2.Core.ns11.PackageRegistration
             _pkgs   = packageManager;
         }
 
-        public string ReasonWhyNot { get; private set; }
+
+        public string     ReasonWhyNot  { get; private set; }
+        public R2Package  LastPackage   { get; private set; }
 
 
         public async Task<bool> IsUploadable(R2Package localPkg)
@@ -41,9 +43,9 @@ namespace Repo2.Core.ns11.PackageRegistration
                 ReasonWhyNot = "List from server is EMPTY.";
                 return false;
             }
-            var remotePkg = list[0];
+            LastPackage = list[0];
 
-            if (remotePkg.Hash == localPkg.Hash)
+            if (LastPackage.Hash == localPkg.Hash)
             {
                 ReasonWhyNot = "Local hash matches remote hash.";
                 return false;

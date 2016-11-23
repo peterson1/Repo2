@@ -6,7 +6,7 @@ namespace Repo2.Core.ns11.PackageUploaders
 {
     public interface IPackageUploader : IStatusChanger
     {
-        Task<bool>  Upload  (R2Package localPackage);
+        Task  Upload  (R2Package localPackage);
 
         double MaxPartSizeMB { get; set; }
     }

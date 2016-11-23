@@ -7,6 +7,8 @@ namespace Repo2.Core.ns11.PackageRegistration
     {
         Task<bool>  IsUploadable  (R2Package localPackage);
 
+        R2Package LastPackage { get; }
+
         string ReasonWhyNot { get; }
     }
 }
