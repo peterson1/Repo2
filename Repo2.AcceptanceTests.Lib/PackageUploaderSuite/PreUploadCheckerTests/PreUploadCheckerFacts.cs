@@ -31,10 +31,11 @@ namespace Repo2.AcceptanceTests.Lib.PackageUploaderSuite.PreUploadCheckerTests
         [Fact(DisplayName = "Uploadable if registered")]
         public async void Registered()
         {
-            var pkg    = new R2Package("Test_Package_1.pkg");
-            pkg.Hash   = DateTime.Now.Ticks.ToString();
-            var actual = await _sut.IsUploadable(pkg);
-            actual.Should().BeTrue();
+            var pkg       = new R2Package("Test_Package_1.pkg");
+            pkg.FileFound = true;
+            pkg.Hash      = DateTime.Now.Ticks.ToString();
+            var actual    = await _sut.IsUploadable(pkg);
+            actual.Should().BeTrue(_sut.ReasonWhyNot);
         }
 
 

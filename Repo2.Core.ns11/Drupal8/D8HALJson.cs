@@ -7,9 +7,9 @@ using Repo2.Core.ns11.Extensions.StringExtensions;
 
 namespace Repo2.Core.ns11.Drupal8
 {
-    class D8HALJson
+    public class D8HALJson
     {
-        internal static Dictionary<string, object> GetNodeLinks<T>(T sourceObj, string baseUrl) where T : D8NodeBase
+        public static Dictionary<string, object> GetNodeLinks<T>(T sourceObj, string baseUrl) where T : D8NodeBase
         {
             var dict = new Dictionary<string, object>();
 
@@ -18,7 +18,7 @@ namespace Repo2.Core.ns11.Drupal8
             return dict;
         }
 
-        internal static object GetFileLinks(string baseUrl)
+        public static object GetFileLinks(string baseUrl)
         {
             var dict = new Dictionary<string, object>();
 
@@ -36,11 +36,11 @@ namespace Repo2.Core.ns11.Drupal8
             => new Dictionary<string, object> { { "href", baseUrl.Slash(value) } };
 
 
-        internal static List<Dictionary<string, object>> ValueField<T>(T value,
+        public static List<Dictionary<string, object>> ValueField<T>(T value,
             string key = "value") => WrapField(key, value);
 
 
-        internal static List<Dictionary<string, object>> TargetIdField<T>(T value,
+        public static List<Dictionary<string, object>> TargetIdField<T>(T value,
             string key = "target_id") => WrapField(key, value);
 
 

@@ -41,6 +41,8 @@ namespace Repo2.Core.ns11.DataStructures
             if (json.IsBlank())
                 throw Fault.BlankText("json nid");
 
+            json = json.Replace("\"", "");
+
             var numbr = json.Between("[{value:", "}]");
             if (!numbr.IsNumeric())
                 throw Fault.BadCast<int>(numbr);

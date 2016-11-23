@@ -6,10 +6,12 @@ using FluentAssertions;
 using Moq;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.DomainModels;
+using Repo2.Core.ns11.Drupal8;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.PackageRegistration;
 using Repo2.Core.ns11.RestClients;
 using Repo2.Core.ns11.RestExportViews;
+using Repo2.SDK.WPF45.Serialization;
 using Repo2.UnitTests.Lib.TestTools.MoqExtensions;
 using Xunit;
 
@@ -52,22 +54,25 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
         }
 
 
-        private Mock<IR2RestClient> MockClientReturning(params R2PackagePart[] parts)
+        private Mock<IR2RestClient> MockClientReturning(params PartsByPkgHash1[] parts)
         {
             var moq = new Mock<IR2RestClient>();
 
-            moq.Setup(x => x.List<PartsByPkgHash1>(Any.Obj))
-               .ReturnsAsync(parts.Select(x => x as PartsByPkgHash1).ToList());
+            moq.Setup(x => x.List<PartsByPkgHash1>(Any.Text, Any.Text))
+               .ReturnsAsync(parts.ToList());
+
+            var dict = new Dictionary<string, object>();
+            dict.Add("nid", Json.Serialize(D8HALJson.ValueField(123)));
 
             moq.Setup(x => x.PostNode(Any.Node))
-                .ReturnsAsync(new NodeReply(new Dictionary<string, object>()));
+                .ReturnsAsync(new NodeReply(dict));
 
             return moq;
         }
 
 
-        private R2PackagePart SamplePkgPart()
-            => new R2PackagePart
+        private PartsByPkgHash1 SamplePkgPart()
+            => new PartsByPkgHash1
             {
                 PackageFilename = "sample.pkg",
                 PackageHash = "abc123",

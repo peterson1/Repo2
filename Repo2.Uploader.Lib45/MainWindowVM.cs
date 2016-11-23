@@ -10,6 +10,7 @@ using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.PackageRegistration;
 using Repo2.Core.ns11.PackageUploaders;
 using Repo2.Core.ns11.RestClients;
+using Repo2.SDK.WPF45.Exceptions;
 using Repo2.SDK.WPF45.InputCommands;
 using Repo2.Uploader.Lib45.Configuration;
 using Repo2.Uploader.Lib45.PackageFinders;
@@ -102,8 +103,12 @@ namespace Repo2.Uploader.Lib45
         private async Task UploadPackage()
         {
             _pkgUploadr.MaxPartSizeMB = this.MaxPartSizeMB;
-            await _pkgUploadr.Upload(_pkg);
-            CheckUploadabilityCmd.ExecuteIfItCan();
+            var reply = await _pkgUploadr.Upload(_pkg);
+
+            Alerter.Show(reply, "Package Upload");
+
+            if (reply.IsSuccessful)
+                CheckUploadabilityCmd.ExecuteIfItCan();
         }
 
 

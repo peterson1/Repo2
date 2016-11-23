@@ -28,7 +28,7 @@ namespace Repo2.Core.ns11.Exceptions
 
         public static InvalidCastException BadCast<T>(object obj)
             => new InvalidCastException(
-                $"Failed to cast ‹{obj?.GetType().Name}› to ‹{typeof(T).Name}›");
+                $"Failed to cast ‹{obj?.GetType().Name}› “{obj.ToString()}” to ‹{typeof(T).Name}›");
 
 
         public static NullReferenceException NullRef<T>(string memberName)

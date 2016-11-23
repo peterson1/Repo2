@@ -110,7 +110,8 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
                 PartHash        = "cdf456",
                 PackageHash     = $"abc123_{tix}",
                 PartNumber      = 1,
-                TotalParts      = 2
+                TotalParts      = 2,
+                Base64Content   = "abc"
             };
         }
     }

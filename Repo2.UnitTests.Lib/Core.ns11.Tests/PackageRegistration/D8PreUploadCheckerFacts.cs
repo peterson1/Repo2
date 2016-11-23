@@ -20,7 +20,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.PackageRegistration
             var moq = MockMgrReturning(R2Pkg("Test.pkg", "v1"));
             var sut = new D8PreUploadChecker1(moq.Object);
             var pkg = R2Pkg("Test.pkg", "v2");
-            (await sut.IsUploadable(pkg)).Should().BeTrue();
+            (await sut.IsUploadable(pkg)).Should().BeTrue(sut.ReasonWhyNot);
         }
 
 
@@ -58,6 +58,10 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.PackageRegistration
 
 
         private R2Package R2Pkg(string filename, string hash = null)
-            => new R2Package(filename) { Hash = hash };
+            => new R2Package(filename)
+            {
+                Hash = hash,
+                FileFound = true
+            };
     }
 }

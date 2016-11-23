@@ -47,19 +47,19 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
         public double  MaxPartSizeMB  { get; set; }
 
 
-        public async Task Upload(R2Package localPkg)
-        {
-            try
-            {
-                Alerter.Show(await ExecuteUpload(localPkg), "Upload");
-            }
-            catch (Exception ex)
-            {
-                Alerter.ShowError("Upload Error", ex.Info(false, true));
-            }
-        }
+        //public async Task<NodeReply> Upload(R2Package localPkg)
+        //{
+        //    try
+        //    {
+        //        Alerter.Show(await ExecuteUpload(localPkg), "Upload");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Alerter.ShowError("Upload Error", ex.Info(false, true));
+        //    }
+        //}
 
-        private async Task<Reply> ExecuteUpload(R2Package localPkg)
+        public async Task<NodeReply> Upload(R2Package localPkg)
         {
             StatusChanged.Raise("Isolating local package file...");
             var pkgPath = await _fileIO.IsolateFile(localPkg);
