@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 
 namespace Repo2.Core.ns11.DataStructures
@@ -13,6 +15,8 @@ namespace Repo2.Core.ns11.DataStructures
         public bool    Failed        => !IsSuccessful;
         public string  ErrorsText    => Errors.Join(L.f);
         public string  WarningsText  => Warnings.Join(L.f);
+
+        public static Reply Success => new Reply();
     }
 
 

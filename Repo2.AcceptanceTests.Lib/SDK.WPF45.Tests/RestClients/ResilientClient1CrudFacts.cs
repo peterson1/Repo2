@@ -1,10 +1,14 @@
 ﻿using System;
+using Autofac;
 using FluentAssertions;
 using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.DomainModels;
+using Repo2.Core.ns11.NodeManagers;
+using Repo2.Core.ns11.Randomizers;
 using Repo2.Core.ns11.RestClients;
 using Repo2.Core.ns11.RestExportViews;
 using Repo2.SDK.WPF45.RestClients;
+using Repo2.Uploader.Lib45.Components;
 using Repo2.Uploader.Lib45.Configuration;
 using Xunit;
 
@@ -13,13 +17,23 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
     [Trait("Local:453", "Write")]
     public class ResilientClient1CrudFacts
     {
-        private IR2RestClient _sut;
-        private R2Credentials _creds;
+        private IR2RestClient       _sut;
+        private R2Credentials       _creds;
+        private FakeFactory         _fke;
+        private IPackageManager     _pkgs;
+        private IPackagePartManager _parts;
 
         public ResilientClient1CrudFacts()
         {
+            _fke   = new FakeFactory();
             _creds = LocalConfigFile.Parse(UploaderCfg.KEY);
-            _sut   = new ResilientClient1();
+            //_sut   = new ResilientClient1();
+            using (var scope = Registry.Build().BeginLifetimeScope())
+            {
+                _pkgs  = scope.Resolve<IPackageManager>();
+                _parts = scope.Resolve<IPackagePartManager>();
+                _sut   = scope.Resolve<IR2RestClient>();
+            }
         }
 
 
@@ -29,7 +43,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
             (await _sut.EnableWriteAccess(_creds)).Should().BeTrue();
             var sampl = SamplePkgPart();
 
-            var list = await _sut.List<PartsByPkgHash1>(sampl);
+            var list = await _parts.ListByPkgHash(sampl);
             list.Should().HaveCount(0);
 
             var reply = await _sut.PostNode(sampl);
@@ -37,13 +51,13 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
             reply.IsSuccessful.Should().BeTrue();
             reply.Nid.Should().BeGreaterThan(1);
 
-            list = await _sut.List<PartsByPkgHash1>(sampl);
+            list = await _parts.ListByPkgHash(sampl);
             list.Should().HaveCount(1);
 
             var delRep = await _sut.DeleteNode(reply.Nid);
             delRep.IsSuccessful.Should().BeTrue();
 
-            list = await _sut.List<PartsByPkgHash1>(sampl);
+            list = await _parts.ListByPkgHash(sampl);
             list.Should().HaveCount(0);
         }
 
@@ -52,20 +66,40 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
         public async void CanPatchPackage()
         {
             (await _sut.EnableWriteAccess(_creds)).Should().BeTrue();
-            //var sampl = SamplePkgPart();
+            var pkg = UpdatedTestPackage2();
 
-            //var nid = (await _sut.PostNode(sampl)).Nid;
+            var list = await _pkgs.ListByFilename(pkg);
+            list.Should().HaveCount(1);
+            list[0].Hash.Should().NotBe(pkg.Hash);
 
-            //list = await _sut.List<PartsByPkgHash1>(sampl);
-            //list.Should().HaveCount(1);
+            var reply = await _sut.PatchNode(pkg);
+            reply.IsSuccessful.Should().BeTrue();
 
-            //var delRep = await _sut.DeleteNode(post.Nid);
-            //delRep.IsSuccessful.Should().BeTrue();
-
-            //list = await _sut.List<PartsByPkgHash1>(sampl);
-            //list.Should().HaveCount(0);
+            list = await _pkgs.ListByFilename(pkg);
+            list.Should().HaveCount(1);
+            list[0].Filename.Should().Be(pkg.Filename);
+            list[0].Hash.Should().Be(pkg.Hash);
         }
 
+
+        [Fact(DisplayName = "PATCH Package requires hash")]
+        public async void PatchPackageRequiresHash()
+        {
+            (await _sut.EnableWriteAccess(_creds)).Should().BeTrue();
+            var pkg  = UpdatedTestPackage2();
+            pkg.Hash = null;
+
+            var reply = await _sut.PatchNode(pkg);
+            reply.IsSuccessful.Should().BeFalse();
+        }
+
+
+        private R2Package UpdatedTestPackage2() => new R2Package
+        {
+            nid      = 2,
+            Filename = "Test_Package_2.pkg",
+            Hash     = _fke.Word
+        };
 
         private R2PackagePart SamplePkgPart()
         {

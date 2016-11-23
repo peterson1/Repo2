@@ -22,7 +22,10 @@ namespace Repo2.SDK.WPF45.Exceptions
             var webEx = ex as WebException;
             if (webEx != null)
             {
-                msg = $"“{webEx.Message}”{L.f}[{webEx.Status}] {url}";
+                //msg = $"“{webEx.Message}”{L.f}[{webEx.Status}] {url}";
+                var rs = webEx.Response as HttpWebResponse;
+                msg = $"‹{webEx.Status}› {rs.StatusDescription}{L.f}“{webEx.Message}”{L.f}[{rs.Method}] {url}";
+
                 ret = new WebException(msg, ex, webEx.Status, null);
             }
             else

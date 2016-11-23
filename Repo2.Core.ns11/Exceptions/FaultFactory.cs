@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 
 namespace Repo2.Core.ns11.Exceptions
@@ -12,6 +11,16 @@ namespace Repo2.Core.ns11.Exceptions
                 $"Missing member: “{memberName}”");
 
 
+        public static MissingMemberException NoItems(string listDescription)
+            => new MissingMemberException(
+                $"No items found in list of “{listDescription}”");
+
+
+        public static OverflowException NonSolo(string listDescription, int actualItemCount)
+            => new OverflowException(
+                $"Expected list of “{listDescription}” to contain a [single] item, but found [{actualItemCount}].");
+
+
         public static FileNotFoundException Missing(string fileDescription, string filePath)
             => new FileNotFoundException(
                 $"“{fileDescription}” not found in:{L.f}{filePath}");
@@ -20,6 +29,7 @@ namespace Repo2.Core.ns11.Exceptions
         public static InvalidCastException BadCast<T>(object obj)
             => new InvalidCastException(
                 $"Failed to cast ‹{obj?.GetType().Name}› to ‹{typeof(T).Name}›");
+
 
         public static NullReferenceException NullRef<T>(string memberName)
             => new NullReferenceException(
@@ -33,7 +43,7 @@ namespace Repo2.Core.ns11.Exceptions
 
         public static InvalidDataException BlankText(string textDescription)
             => new InvalidDataException(
-                $"Wasn't expecting “{textDescription}” to be BLANK.");
+                $"“{textDescription}” should not be BLANK.");
 
 
         public static DataMisalignedException HashMismatch(string hashSrc1, string hashSrc2)

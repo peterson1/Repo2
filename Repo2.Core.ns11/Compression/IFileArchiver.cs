@@ -7,5 +7,8 @@ namespace Repo2.Core.ns11.Compression
     {
         Task<IEnumerable<string>>  CompressAndSplit 
             (string filePath, double maxPartSizeMB);
+
+        Task<string> MergeAndDecompress
+            (IEnumerable<string> orderedPartsPaths, string outputDir);
     }
 }

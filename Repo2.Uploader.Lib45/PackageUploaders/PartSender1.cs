@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.DomainModels;
+using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.PackageUploaders;
 using Repo2.SDK.WPF45.Extensions.FileInfoExtensions;
@@ -15,26 +16,28 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
         public event EventHandler<StatusText> StatusChanged;
 
         private IPackagePartManager _partMgr;
+        private IFileSystemAccesor  _fileIO;
 
-        public PartSender1(IPackagePartManager partManager)
+        public PartSender1(IPackagePartManager partManager, IFileSystemAccesor fileSystemAccesor)
         {
             _partMgr = partManager;
+            _fileIO  = fileSystemAccesor;
         }
 
 
         public async Task SendParts(IEnumerable<string> partPaths, R2Package localPkg)
         {
-
             for (int i = 0; i < partPaths.Count(); i++)
             {
                 var path     = partPaths.ElementAt(i);
                 var partNode = new R2PackagePart
                 {
                     PackageFilename = localPkg.Filename,
-                    PackageHash     = localPkg.LocalHash,
+                    PackageHash     = localPkg.Hash,
                     PartHash        = path.SHA1ForFile(),
                     PartNumber      = i + 1,
-                    TotalParts      = partPaths.Count()
+                    TotalParts      = partPaths.Count(),
+                    Base64Content   = _fileIO.ReadBase64(path)
                 };
                 StatusChanged.Raise($"Sending {partNode.Description} ...");
                 var reply = await _partMgr.AddNode(partNode);

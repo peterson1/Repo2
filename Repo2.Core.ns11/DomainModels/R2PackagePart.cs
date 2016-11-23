@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.Drupal8;
 using Repo2.Core.ns11.Drupal8.Attributes;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 
 namespace Repo2.Core.ns11.DomainModels
 {
-    public class R2PackagePart : D8NodeBase
+    public class R2PackagePart : D8NodeBase, IBase64Content
     {
         public override string D8TypeName => "package_part";
 
@@ -14,6 +15,7 @@ namespace Repo2.Core.ns11.DomainModels
         [_("part_hash")]        public string   PartHash         { get; set; }
         [_("part_number")]      public int      PartNumber       { get; set; }
         [_("total_parts")]      public int      TotalParts       { get; set; }
+        [_("base64_content")]   public string   Base64Content    { get; set; }
         [ContentTitle]          public string   Description      => GetDescription();
 
 

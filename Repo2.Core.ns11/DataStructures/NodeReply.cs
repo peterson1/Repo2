@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 
@@ -8,11 +9,20 @@ namespace Repo2.Core.ns11.DataStructures
     {
         public NodeReply(Dictionary<string, object> result) : base(result)
         {
-            Nid = GetNodeID(result);
+            if (result != null)
+                Nid = GetNodeID(result);
         }
 
 
         public int Nid { get; }
+
+
+        public static NodeReply Fail(Exception ex)
+        {
+            var rep = new NodeReply(null);
+            rep.Errors.Add(ex.Info(true, true));
+            return rep;
+        }
 
 
         private int GetNodeID(Dictionary<string, object> dict)

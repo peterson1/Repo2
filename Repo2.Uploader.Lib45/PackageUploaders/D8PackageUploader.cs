@@ -10,6 +10,7 @@ using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.PackageDownloaders;
 using Repo2.Core.ns11.PackageUploaders;
+using Repo2.SDK.WPF45.Exceptions;
 
 namespace Repo2.Uploader.Lib45.PackageUploaders
 {
@@ -47,8 +48,22 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
 
         public async Task<bool> Upload(R2Package localPkg)
         {
+            try
+            {
+                await ExecuteUpload(localPkg);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Alerter.ShowError("Upload Error", ex.Info(false, true));
+                return false;
+            }
+        }
+
+        private async Task ExecuteUpload(R2Package localPkg)
+        {
             StatusChanged.Raise("Isolating local package file...");
-            var pkgPath   = await _fileIO.IsolateFile(localPkg);
+            var pkgPath = await _fileIO.IsolateFile(localPkg);
 
             StatusChanged.Raise("Compressing and splitting into parts...");
             var partPaths = await _archivr.CompressAndSplit(pkgPath, MaxPartSizeMB);
@@ -57,19 +72,22 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
             await _sendr.SendParts(partPaths, localPkg);
             await _fileIO.Delete(partPaths);
 
+            var newHash = await TryDownloadAndGetHash(localPkg);
+            if (newHash != localPkg.Hash)
+                throw Fault.HashMismatch("Original Package File", "Downloaded Package File");
+
             StatusChanged.Raise("Updating package node ...");
             await _pkgMgr.UpdateNode(localPkg);
+        }
 
+        private async Task<string> TryDownloadAndGetHash(R2Package localPkg)
+        {
             var downloadedPkgPath = await _downloadr
                 .DownloadAndUnpack(localPkg, _fileIO.TempDir);
 
             var newHash = _fileIO.GetSHA1(downloadedPkgPath);
             await _fileIO.Delete(downloadedPkgPath);
-
-            if (newHash != localPkg.LocalHash)
-                throw Fault.HashMismatch("Original Package File", "Downloaded Package File");
-
-            return true;
+            return newHash;
         }
     }
 }

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.DomainModels;
+using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.RestClients;
 using Repo2.Core.ns11.RestExportViews;
 
@@ -10,11 +12,13 @@ namespace Repo2.Core.ns11.NodeManagers
 {
     public class D8PkgPartManager1 : IPackagePartManager
     {
-        private IR2RestClient _client;
+        private IR2RestClient      _client;
+        private IFileSystemAccesor _fileIO;
 
-        public D8PkgPartManager1(IR2RestClient r2RestClient)
+        public D8PkgPartManager1(IR2RestClient r2RestClient, IFileSystemAccesor fileSystemAccesor)
         {
             _client = r2RestClient;
+            _fileIO = fileSystemAccesor;
         }
 
 
@@ -45,12 +49,46 @@ namespace Repo2.Core.ns11.NodeManagers
         }
 
 
+        public Task<List<R2PackagePart>> ListByPkgHash(R2PackagePart pkgPart)
+            => ListByPkgHash(pkgPart.PackageFilename, pkgPart.PackageHash);
+
+        public Task<List<R2PackagePart>> ListByPkgHash(R2Package package)
+            => ListByPkgHash(package.Filename, package.Hash);
+
+        private async Task<List<R2PackagePart>> ListByPkgHash(string packageFilename, string packageHash)
+        {
+            var list = await _client.List<PartsByPkgHash1>(packageFilename, packageHash);
+            return list.Select(x => x as R2PackagePart).ToList();
+        }
+
         private async Task<bool> AlreadyInServer(R2PackagePart part)
         {
-            var list = await _client.List<PartsByPkgHash1>(part);
+            var list = await ListByPkgHash(part);
             return list.Any(x => x.PartHash == part.PartHash
                             && x.PartNumber == part.PartNumber
                             && x.TotalParts == part.TotalParts);
+        }
+
+
+
+        public async Task<Reply> DeleteByPkgHash(R2Package package)
+        {
+            var list = await ListByPkgHash(package);
+
+            foreach (var item in list)
+            {
+                var reply = await _client.DeleteNode(item.nid);
+                if (reply.Failed) return reply;
+            }
+
+            return Reply.Success;
+        }
+
+
+        public async Task<string> DownloadToTemp(R2PackagePart part)
+        {
+            var byts = await _client.GetBytes<PartContentsByHash1>(part.PartHash);
+            return _fileIO.WriteTempFile(byts);
         }
     }
 }

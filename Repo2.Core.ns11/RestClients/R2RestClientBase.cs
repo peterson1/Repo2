@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.Authentication;
@@ -17,6 +18,7 @@ namespace Repo2.Core.ns11.RestClients
 
 
         protected abstract Task<T> BasicAuthPOST<T>(string url, object postBody);
+        protected abstract Task<T> BasicAuthPATCH<T>(string url, object patchBody);
         protected abstract Task<T> BasicAuthDELETE<T>(string url);
         protected abstract Task<T> CookieAuthGET<T>(D8Cookie cookie, string url);
         protected abstract Task<T> NoAuthPOST<T>(string url, object postBody);
@@ -29,6 +31,19 @@ namespace Repo2.Core.ns11.RestClients
             where T : IRestExportView, new()
                 => GetList<T>(new T().DisplayPath,
                               new T().CastArguments(args));
+
+
+        public async Task<byte[]> GetBytes<T>(params object[] args) 
+            where T : IRestExportView, IBase64Content, new()
+        {
+            var list = await GetList<T>(new T().DisplayPath,
+                                        new T().CastArguments(args));
+            return Convert.FromBase64String(list[0].Base64Content);
+        }
+
+
+        private Task<List<T>> GetList<T>(string url, IEnumerable<string> args)
+            => BasicAuthGET<List<T>>(ToURL(url, args));
 
 
         public void SetCredentials(R2Credentials credentials)
@@ -64,14 +79,11 @@ namespace Repo2.Core.ns11.RestClients
 
 
 
-        private Task<List<T>> GetList<T>(string url, IEnumerable<string> args)
-        {
-            if (args?.Count() > 0)
-                url = url.Slash(args.Join("/"));
 
-            return BasicAuthGET<List<T>>(url);
-        }
 
+        private string ToURL(string resourceUrl, IEnumerable<string> args)
+            => args?.Count() > 0 
+                ? resourceUrl.Slash(args.Join("/")) : resourceUrl;
 
 
         protected string ToAbsolute(string resourceURL)
@@ -94,6 +106,36 @@ namespace Repo2.Core.ns11.RestClients
         }
 
 
+        public async Task<NodeReply> PatchNode<T>(T node, string revisionLog) where T : D8NodeBase
+        {
+            var url  = string.Format(D8.NODE_X_FORMAT_HAL, node.nid);
+            //var url  = string.Format(D8.NODE_X_REV_Y_FMT_HAL, node.nid, node.vid);
+            var mapd = D8NodeMapper.Cast(node, _creds.BaseURL);
+
+            //if (!revisionLog.IsBlank())
+            //{
+            //    mapd.Add("vid", D8HALJson.ValueField(node.vid));
+            //    mapd.Add("revision", D8HALJson.ValueField(1));
+            //    mapd.Add("log", D8HALJson.ValueField(revisionLog));
+            //}
+
+            Dictionary<string, object> dict;
+
+            try
+            {
+                dict = await BasicAuthPATCH
+                    <Dictionary<string, object>>(url, mapd);
+
+                return new NodeReply(dict);
+            }
+            catch (Exception ex)
+            {
+                return NodeReply.Fail(ex);
+            }
+
+        }
+
+
         public async Task<RestReply> DeleteNode(int nodeID)
         {
             var url = string.Format(D8.NODE_X_FORMAT_HAL, nodeID);
@@ -101,5 +143,6 @@ namespace Repo2.Core.ns11.RestClients
                         <Dictionary<string, object>>(url);
             return new RestReply(dict);
         }
+
     }
 }

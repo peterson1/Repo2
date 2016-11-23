@@ -87,6 +87,7 @@
     <Compile Include="SDK.WPF45.Tests\RestClients\ResilientClient1CrudFacts.cs" />
     <Compile Include="ShouldIBuyMilk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Uploader.Lib45.Tests\PackageUploaders\D8PackageUploaderFacts.cs" />
     <Compile Include="UploaderRestrictionsSuite\GetValidUploaderCredentials.cs" />
   </ItemGroup>
   <ItemGroup>

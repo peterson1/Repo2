@@ -23,7 +23,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
         {
             var part = SamplePkgPart();
             var moq  = MockClientReturning(part);
-            var sut  = new D8PkgPartManager1(moq.Object);
+            var sut  = new D8PkgPartManager1(moq.Object, null);
 
             var rply = await sut.AddNode(part);
 
@@ -40,7 +40,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
         {
             var moq  = MockClientReturning();
             var part = SamplePkgPart();
-            var sut  = new D8PkgPartManager1(moq.Object);
+            var sut  = new D8PkgPartManager1(moq.Object, null);
 
             var rply = await sut.AddNode(part);
 

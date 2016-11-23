@@ -51,6 +51,19 @@ namespace Repo2.SDK.WPF45.FileSystems
             => filePath.SHA1ForFile();
 
 
+        public string WriteTempFile(byte[] byts)
+        {
+            var path = Path.GetTempFileName();
+            File.WriteAllBytes(path, byts);
+            return path;
+        }
+
+
+        public string ReadBase64(string filePath)
+            => Convert.ToBase64String(
+                  File.ReadAllBytes(filePath));
+
+
         public string TempDir 
             => Chain(Path.GetTempPath(), GetType().Name);
     }

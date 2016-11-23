@@ -14,7 +14,7 @@ namespace Repo2.Uploader.Lib45.PackageFinders
             pkg.FileFound = inf.Exists;
 
             if (pkg.FileFound)
-                pkg.LocalHash = inf.SHA1ForFile();
+                pkg.Hash = inf.SHA1ForFile();
 
             return pkg;
         }

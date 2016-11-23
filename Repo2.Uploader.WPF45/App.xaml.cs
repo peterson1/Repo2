@@ -1,13 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using Autofac;
 using Autofac.Core;
-using Repo2.Core.ns11.Exceptions;
 using Repo2.SDK.WPF45.Exceptions;
 using Repo2.SDK.WPF45.Extensions.IOCExtensions;
 using Repo2.Uploader.Lib45;
-using Repo2.Uploader.WPF45.Components;
+using Repo2.Uploader.Lib45.Components;
 
 namespace Repo2.Uploader.WPF45
 {

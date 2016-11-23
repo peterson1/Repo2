@@ -1,18 +1,16 @@
 ﻿using System.Threading.Tasks;
 using Repo2.Core.ns11.DomainModels;
-using Repo2.Core.ns11.Drupal8;
-using Repo2.Core.ns11.RestClients;
-using Repo2.Core.ns11.RestExportViews;
+using Repo2.Core.ns11.NodeManagers;
 
 namespace Repo2.Core.ns11.PackageRegistration
 {
     public class D8PreUploadChecker1 : IR2PreUploadChecker
     {
-        private IR2RestClient _client;
+        private IPackageManager _pkgs;
 
-        public D8PreUploadChecker1(IR2RestClient r2RestClient)
+        public D8PreUploadChecker1(IPackageManager packageManager)
         {
-            _client = r2RestClient;
+            _pkgs   = packageManager;
         }
 
         public string ReasonWhyNot { get; private set; }
@@ -32,7 +30,7 @@ namespace Repo2.Core.ns11.PackageRegistration
                 return false;
             }
 
-            var list = await _client.List<PackagesByTitle1>(localPkg);
+            var list = await _pkgs.ListByFilename(localPkg);
             if (list == null)
             {
                 ReasonWhyNot = "List from server is NULL.";
@@ -45,7 +43,7 @@ namespace Repo2.Core.ns11.PackageRegistration
             }
             var remotePkg = list[0];
 
-            if (remotePkg.RemoteHash == localPkg.LocalHash)
+            if (remotePkg.Hash == localPkg.Hash)
             {
                 ReasonWhyNot = "Local hash matches remote hash.";
                 return false;

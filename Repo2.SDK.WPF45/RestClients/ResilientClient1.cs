@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.Drupal8;
 using Repo2.Core.ns11.RestClients;
@@ -29,6 +28,12 @@ namespace Repo2.SDK.WPF45.RestClients
         protected override Task<T> BasicAuthPOST<T>(string resourceUrl, object postBody)
             => _retry.Forever<T>(resourceUrl, url =>
                  url.PostStringToUrlAsync(Json.Serialize(postBody),
+                    D8.CONTENT_TYPE_HAL, D8.CONTENT_TYPE_HAL, SetBasicAuthRequest));
+
+
+        protected override Task<T> BasicAuthPATCH<T>(string resourceUrl, object patchBody)
+            => _retry.Forever<T>(resourceUrl, url =>
+                 url.PatchStringToUrlAsync(Json.Serialize(patchBody),
                     D8.CONTENT_TYPE_HAL, D8.CONTENT_TYPE_HAL, SetBasicAuthRequest));
 
 

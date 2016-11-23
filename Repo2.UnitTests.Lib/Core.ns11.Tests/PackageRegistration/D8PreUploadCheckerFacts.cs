@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Moq;
 using Repo2.Core.ns11.DomainModels;
+using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.PackageRegistration;
 using Repo2.Core.ns11.RestClients;
 using Repo2.Core.ns11.RestExportViews;
@@ -16,7 +17,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.PackageRegistration
         [Fact(DisplayName = "Uploadable if registered")]
         public async void Registered()
         {
-            var moq = MockClientReturning(R2Pkg("Test.pkg", "v1"));
+            var moq = MockMgrReturning(R2Pkg("Test.pkg", "v1"));
             var sut = new D8PreUploadChecker1(moq.Object);
             var pkg = R2Pkg("Test.pkg", "v2");
             (await sut.IsUploadable(pkg)).Should().BeTrue();
@@ -26,7 +27,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.PackageRegistration
         [Fact(DisplayName = "Not registered: NO Upload")]
         public async void NotRegistered()
         {
-            var moq = MockClientReturning();
+            var moq = MockMgrReturning();
             var sut = new D8PreUploadChecker1(moq.Object);
             var pkg = new R2Package("non-registered.pkg");
             (await sut.IsUploadable(pkg)).Should().BeFalse();
@@ -36,27 +37,27 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.PackageRegistration
         [Fact(DisplayName = "Same hash: NO Upload")]
         public async void SameHash()
         {
-            var moq = MockClientReturning(R2Pkg("Pkg.name", "Pkg.hash"));
+            var moq = MockMgrReturning(R2Pkg("Pkg.name", "Pkg.hash"));
 
             var sut = new D8PreUploadChecker1(moq.Object);
             var pkg = R2Pkg("Pkg.name");
-            pkg.LocalHash = "Pkg.hash";
+            pkg.Hash = "Pkg.hash";
             (await sut.IsUploadable(pkg)).Should().BeFalse();
         }
 
 
-        private Mock<IR2RestClient> MockClientReturning(params R2Package[] r2Packages)
+        private Mock<IPackageManager> MockMgrReturning(params R2Package[] r2Packages)
         {
-            var moq = new Mock<IR2RestClient>();
+            var moq = new Mock<IPackageManager>();
 
-            moq.Setup(c => c.List<PackagesByTitle1>(Any.Obj))
-                .ReturnsAsync(r2Packages.Select(x => x as PackagesByTitle1).ToList());
+            moq.Setup(m => m.ListByFilename(Any.Pkg))
+                .ReturnsAsync(r2Packages.ToList());
 
             return moq;
         }
 
 
-        private R2Package R2Pkg(string filename, string remoteHash = null)
-            => new R2Package(filename) { RemoteHash = remoteHash };
+        private R2Package R2Pkg(string filename, string hash = null)
+            => new R2Package(filename) { Hash = hash };
     }
 }

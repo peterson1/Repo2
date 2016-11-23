@@ -17,7 +17,7 @@ namespace Repo2.Core.ns11.Exceptions
                 inr = inr.InnerException;
                 bullet += ".";
 
-                msg += L.f + bullet + " " + inr.Message;
+                msg += L.F + bullet + " " + inr.Message;
                 typ += L.f + bullet + " " + inr.GetType().Name;
             }
 

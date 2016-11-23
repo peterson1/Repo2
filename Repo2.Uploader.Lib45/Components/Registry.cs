@@ -11,14 +11,13 @@ using Repo2.SDK.WPF45.Extensions.IOCExtensions;
 using Repo2.SDK.WPF45.FileSystems;
 using Repo2.SDK.WPF45.RestClients;
 using Repo2.SDK.WPF45.TaskResilience;
-using Repo2.Uploader.Lib45;
 using Repo2.Uploader.Lib45.PackageUploaders;
 
-namespace Repo2.Uploader.WPF45.Components
+namespace Repo2.Uploader.Lib45.Components
 {
-    internal class Registry
+    public class Registry
     {
-        internal static IContainer Build()
+        public static IContainer Build()
         {
             var b = new ContainerBuilder();
 
