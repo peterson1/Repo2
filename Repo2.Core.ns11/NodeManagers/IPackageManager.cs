@@ -9,6 +9,7 @@ namespace Repo2.Core.ns11.NodeManagers
     {
         Task<List<R2Package>> ListByFilename(R2Package package);
 
-        Task<NodeReply> UpdateNode (R2Package updatedPackage);
+        Task<NodeReply>  UpdateNode  (R2Package updatedPackage);
+        Task<bool>       IsOutdated  (R2Package localPackage);
     }
 }

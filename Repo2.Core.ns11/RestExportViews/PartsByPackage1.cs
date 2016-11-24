@@ -5,7 +5,7 @@ using Repo2.Core.ns11.Extensions.StringExtensions;
 
 namespace Repo2.Core.ns11.RestExportViews
 {
-    public class PartsByPkgHash1 : R2PackagePart, IRestExportView
+    public class PartsByPackage1 : R2PackagePart, IRestExportView
     {
         public string DisplayPath => "parts-by-pkg-hash1";
 

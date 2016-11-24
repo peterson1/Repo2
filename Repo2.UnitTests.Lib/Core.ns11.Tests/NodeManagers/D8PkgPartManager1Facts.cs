@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Moq;
 using Repo2.Core.ns11.DataStructures;
-using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Drupal8;
 using Repo2.Core.ns11.NodeManagers;
-using Repo2.Core.ns11.PackageRegistration;
 using Repo2.Core.ns11.RestClients;
 using Repo2.Core.ns11.RestExportViews;
 using Repo2.SDK.WPF45.Serialization;
@@ -54,11 +50,11 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
         }
 
 
-        private Mock<IR2RestClient> MockClientReturning(params PartsByPkgHash1[] parts)
+        private Mock<IR2RestClient> MockClientReturning(params PartsByPackage1[] parts)
         {
             var moq = new Mock<IR2RestClient>();
 
-            moq.Setup(x => x.List<PartsByPkgHash1>(Any.Text, Any.Text))
+            moq.Setup(x => x.List<PartsByPackage1>(Any.Text, Any.Text))
                .ReturnsAsync(parts.ToList());
 
             var dict = new Dictionary<string, object>();
@@ -71,8 +67,8 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
         }
 
 
-        private PartsByPkgHash1 SamplePkgPart()
-            => new PartsByPkgHash1
+        private PartsByPackage1 SamplePkgPart()
+            => new PartsByPackage1
             {
                 PackageFilename = "sample.pkg",
                 PackageHash = "abc123",

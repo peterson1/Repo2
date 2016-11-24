@@ -39,8 +39,10 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
         {
             (await _sut.EnableWriteAccess(_creds)).Should().BeTrue();
             var sampl = SamplePkgPart();
+            var fNme = sampl.PackageFilename;
+            var hash = sampl.PackageHash;
 
-            var list = await _parts.ListByPkgHash(sampl);
+            var list = await _parts.ListByPackage(fNme, hash);
             list.Should().HaveCount(0);
 
             var reply = await _sut.PostNode(sampl);
@@ -48,13 +50,13 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
             reply.IsSuccessful.Should().BeTrue();
             reply.Nid.Should().BeGreaterThan(1);
 
-            list = await _parts.ListByPkgHash(sampl);
+            list = await _parts.ListByPackage(fNme, hash);
             list.Should().HaveCount(1);
 
             var delRep = await _sut.DeleteNode(reply.Nid);
             delRep.IsSuccessful.Should().BeTrue();
 
-            list = await _parts.ListByPkgHash(sampl);
+            list = await _parts.ListByPackage(fNme, hash);
             list.Should().HaveCount(0);
         }
 

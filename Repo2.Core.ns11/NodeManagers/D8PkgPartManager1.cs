@@ -49,21 +49,21 @@ namespace Repo2.Core.ns11.NodeManagers
         }
 
 
-        public Task<List<R2PackagePart>> ListByPkgHash(R2PackagePart pkgPart)
-            => ListByPkgHash(pkgPart.PackageFilename, pkgPart.PackageHash);
+        //public Task<List<R2PackagePart>> ListByPkgHash(R2PackagePart pkgPart)
+        //    => ListByPkgHash(pkgPart.PackageFilename, pkgPart.PackageHash);
 
-        public Task<List<R2PackagePart>> ListByPkgHash(R2Package package)
-            => ListByPkgHash(package.Filename, package.Hash);
+        public Task<List<R2PackagePart>> ListByPackage(R2Package package)
+            => ListByPackage(package.Filename, package.Hash);
 
-        private async Task<List<R2PackagePart>> ListByPkgHash(string packageFilename, string packageHash)
+        public async Task<List<R2PackagePart>> ListByPackage(string packageFilename, string packageHash)
         {
-            var list = await _client.List<PartsByPkgHash1>(packageFilename, packageHash);
+            var list = await _client.List<PartsByPackage1>(packageFilename, packageHash);
             return list.Select(x => x as R2PackagePart).ToList();
         }
 
         private async Task<bool> AlreadyInServer(R2PackagePart part)
         {
-            var list = await ListByPkgHash(part);
+            var list = await ListByPackage(part.PackageFilename, part.PackageHash);
             return list.Any(x => x.PartHash == part.PartHash
                             && x.PartNumber == part.PartNumber
                             && x.TotalParts == part.TotalParts);
@@ -71,16 +71,14 @@ namespace Repo2.Core.ns11.NodeManagers
 
 
 
-        public async Task<Reply> DeleteByPkgHash(R2Package package)
+        public async Task<Reply> DeleteByPackage(R2Package package)
         {
-            var list = await ListByPkgHash(package);
-
+            var list = await ListByPackage(package);
             foreach (var item in list)
             {
                 var reply = await _client.DeleteNode(item.nid);
                 if (reply.Failed) return reply;
             }
-
             return Reply.Success;
         }
 

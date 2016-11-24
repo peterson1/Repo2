@@ -7,11 +7,11 @@ namespace Repo2.Core.ns11.NodeManagers
 {
     public interface IPackagePartManager
     {
-        Task<List<R2PackagePart>>  ListByPkgHash  (R2Package package);
-        Task<List<R2PackagePart>>  ListByPkgHash  (R2PackagePart pkgPart);
+        Task<List<R2PackagePart>>  ListByPackage  (R2Package package);
+        Task<List<R2PackagePart>>  ListByPackage  (string packageFilename, string packageHash);
 
         Task<Reply>  AddNode         (R2PackagePart pkgPart);
-        Task<Reply>  DeleteByPkgHash (R2Package package);
+        Task<Reply>  DeleteByPackage (R2Package package);
         Task<string> DownloadToTemp  (R2PackagePart part);
     }
 }

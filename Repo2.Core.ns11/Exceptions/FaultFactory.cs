@@ -21,9 +21,9 @@ namespace Repo2.Core.ns11.Exceptions
                 $"No ‹{typeof(T).Name}› found where [{key}] {operatr} “{value}”.");
 
 
-        public static OverflowException NonSolo(string listDescription, int actualItemCount)
-            => new OverflowException(
-                $"Expected list of “{listDescription}” to contain a [single] item, but found [{actualItemCount}].");
+        public static InvalidOperationException NonSolo(string listDescription, int actualItemCount)
+            => new InvalidOperationException(
+                $"Expected list of {listDescription} to contain a SINGLE item, but found [{actualItemCount}].");
 
 
         public static FileNotFoundException Missing(string fileDescription, string filePath)
