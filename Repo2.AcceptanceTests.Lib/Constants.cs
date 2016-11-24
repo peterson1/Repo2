@@ -4,4 +4,9 @@
     {
         internal const string KEY = "fitTestRunner";
     }
+
+    internal struct Downloader1Cfg
+    {
+        internal const string KEY = "testDownloader1";
+    }
 }

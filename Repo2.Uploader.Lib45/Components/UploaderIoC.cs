@@ -15,9 +15,9 @@ using Repo2.Uploader.Lib45.PackageUploaders;
 
 namespace Repo2.Uploader.Lib45.Components
 {
-    public class Registry
+    public class UploaderIoC
     {
-        public static IContainer Build()
+        public static ILifetimeScope BeginScope()
         {
             var b = new ContainerBuilder();
 
@@ -34,7 +34,7 @@ namespace Repo2.Uploader.Lib45.Components
             b.Multi<IPackageUploader, D8PackageUploader>();
             b.Multi<IPackageDownloader, D8PackageDownloader1>();
 
-            return b.Build();
+            return b.Build().BeginLifetimeScope();
         }
     }
 }

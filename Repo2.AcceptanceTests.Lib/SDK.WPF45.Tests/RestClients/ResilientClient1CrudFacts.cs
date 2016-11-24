@@ -6,8 +6,6 @@ using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.Randomizers;
 using Repo2.Core.ns11.RestClients;
-using Repo2.Core.ns11.RestExportViews;
-using Repo2.SDK.WPF45.RestClients;
 using Repo2.Uploader.Lib45.Components;
 using Repo2.Uploader.Lib45.Configuration;
 using Xunit;
@@ -26,9 +24,8 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
         public ResilientClient1CrudFacts()
         {
             _fke   = new FakeFactory();
-            _creds = LocalConfigFile.Parse(UploaderCfg.KEY);
-            //_sut   = new ResilientClient1();
-            using (var scope = Registry.Build().BeginLifetimeScope())
+            _creds = UploaderConfigFile.Parse(UploaderCfg.KEY);
+            using (var scope = UploaderIoC.BeginScope())
             {
                 _pkgs  = scope.Resolve<IPackageManager>();
                 _parts = scope.Resolve<IPackagePartManager>();

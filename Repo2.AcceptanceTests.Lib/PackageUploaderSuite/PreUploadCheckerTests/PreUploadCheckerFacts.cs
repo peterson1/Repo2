@@ -18,12 +18,12 @@ namespace Repo2.AcceptanceTests.Lib.PackageUploaderSuite.PreUploadCheckerTests
 
         public PreUploadCheckerFacts()
         {
-            using (var scope = Registry.Build().BeginLifetimeScope())
+            using (var scope = UploaderIoC.BeginScope())
             {
                 _client = scope.Resolve<IR2RestClient>();
                 _sut    = scope.Resolve<IR2PreUploadChecker>();
             }
-            var cfg = LocalConfigFile.Parse(UploaderCfg.KEY);
+            var cfg = UploaderConfigFile.Parse(UploaderCfg.KEY);
             _client.SetCredentials(cfg);
         }
 

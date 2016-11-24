@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using PropertyChanged;
-using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Extensions.StringExtensions;
@@ -10,6 +8,7 @@ using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.PackageRegistration;
 using Repo2.Core.ns11.PackageUploaders;
 using Repo2.Core.ns11.RestClients;
+using Repo2.SDK.WPF45.Configuration;
 using Repo2.SDK.WPF45.Exceptions;
 using Repo2.SDK.WPF45.InputCommands;
 using Repo2.Uploader.Lib45.Configuration;
@@ -66,7 +65,7 @@ namespace Repo2.Uploader.Lib45
         {
             ConfigKey = null;
 
-            ConfigKeys.Swap(LocalConfigFile.GetKeys());
+            ConfigKeys.Swap(UploaderConfigFile.GetKeys());
 
             if (ConfigKeys.Any())
                 ConfigKey = ConfigKeys[0];
@@ -78,7 +77,7 @@ namespace Repo2.Uploader.Lib45
         private async Task CheckCredentials()
         {
             Config = null;
-            Config = LocalConfigFile.Parse(ConfigKey);
+            Config = UploaderConfigFile.Parse(ConfigKey);
             if (Config == null) return;
 
             CanWrite = await _client.EnableWriteAccess(Config);

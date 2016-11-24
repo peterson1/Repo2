@@ -32,7 +32,7 @@ namespace Repo2.Uploader.WPF45
         private MainWindowVM GetMainWindowVM(StartupEventArgs e)
         {
             MainWindowVM vm;
-            using (var scope = Registry.Build().BeginLifetimeScope())
+            using (var scope = UploaderIoC.BeginScope())
             {
                 vm = scope.Resolve<MainWindowVM>();
                 vm.PackagePath = e.Args.FirstOrDefault();

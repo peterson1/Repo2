@@ -20,7 +20,7 @@ namespace Repo2.AcceptanceTests.Lib
 
         public AutofacSlimCreateOperator()
         {
-            var cfg = LocalConfigFile.Parse(UploaderCfg.KEY);
+            var cfg = UploaderConfigFile.Parse(UploaderCfg.KEY);
 
             Certificator.AllowFrom(cfg.CertificateThumb);
 

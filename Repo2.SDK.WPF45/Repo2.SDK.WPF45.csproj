@@ -87,9 +87,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication\Certificator.cs" />
+    <Compile Include="ComponentRegistry\DownloaderIoC.cs" />
     <Compile Include="Compression\FileArchiver1.cs" />
     <Compile Include="Compression\FileChunker1.cs" />
     <Compile Include="Compression\SevenZipper2.cs" />
+    <Compile Include="Configuration\DownloaderConfigFile.cs" />
+    <Compile Include="Configuration\LocalConfigFile.cs" />
     <Compile Include="EmbeddedResources\EmbeddedResrc.cs" />
     <Compile Include="Exceptions\Alerter.cs" />
     <Compile Include="Exceptions\ThreadedAlerter.cs" />

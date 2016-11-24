@@ -28,8 +28,8 @@ namespace Repo2.AcceptanceTests.Lib.Uploader.Lib45.Tests.PackageUploaders
 
         public D8PackageUploaderFacts()
         {
-            _creds = LocalConfigFile.Parse(UploaderCfg.KEY);
-            using (var scope = Registry.Build().BeginLifetimeScope())
+            _creds = UploaderConfigFile.Parse(UploaderCfg.KEY);
+            using (var scope = UploaderIoC.BeginScope())
             {
                 _client = scope.Resolve<IR2RestClient>();
                 _sut    = scope.Resolve<IPackageUploader>();

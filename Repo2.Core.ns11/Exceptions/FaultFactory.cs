@@ -16,6 +16,11 @@ namespace Repo2.Core.ns11.Exceptions
                 $"No items found in list of “{listDescription}”");
 
 
+        public static ArgumentException NoMatch<T>(string key, object value, string operatr = "==")
+            => new ArgumentException(
+                $"No ‹{typeof(T).Name}› found where [{key}] {operatr} “{value}”.");
+
+
         public static OverflowException NonSolo(string listDescription, int actualItemCount)
             => new OverflowException(
                 $"Expected list of “{listDescription}” to contain a [single] item, but found [{actualItemCount}].");

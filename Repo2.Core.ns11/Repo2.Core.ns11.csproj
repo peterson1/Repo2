@@ -51,6 +51,7 @@
     <Compile Include="DataStructures\RestReply.cs" />
     <Compile Include="DomainModels\R2Package.cs" />
     <Compile Include="DomainModels\R2PackagePart.cs" />
+    <Compile Include="DomainModels\R2Ping.cs" />
     <Compile Include="Drupal8\Attributes\ContentTitleAttribute.cs" />
     <Compile Include="Drupal8\Attributes\_Attribute.cs" />
     <Compile Include="Drupal8\D8Constants.cs" />
@@ -75,9 +76,11 @@
     <Compile Include="HashLib\IHashInfo.cs" />
     <Compile Include="InputCommands\IR2Command.cs" />
     <Compile Include="NodeManagers\D8PackageManager1.cs" />
+    <Compile Include="NodeManagers\D8PingManager1.cs" />
     <Compile Include="NodeManagers\IPackageManager.cs" />
     <Compile Include="NodeManagers\IPackagePartManager.cs" />
     <Compile Include="NodeManagers\D8PkgPartManager1.cs" />
+    <Compile Include="NodeManagers\IPingManager.cs" />
     <Compile Include="PackageDownloaders\IPackageDownloader.cs" />
     <Compile Include="PackageDownloaders\D8PackageDownloader1.cs" />
     <Compile Include="PackageRegistration\IR2PreUploadChecker.cs" />
@@ -94,6 +97,7 @@
     <Compile Include="RestExportViews\PackagesByFilename1.cs" />
     <Compile Include="RestExportViews\PartContentsByHash1.cs" />
     <Compile Include="RestExportViews\PartsByPkgHash1.cs" />
+    <Compile Include="RestExportViews\PingsForCurrentUser1.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
