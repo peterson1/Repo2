@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.DomainModels;
+using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.SDK.WPF45.Extensions.FileInfoExtensions;
 
@@ -62,6 +63,15 @@ namespace Repo2.SDK.WPF45.FileSystems
         public string ReadBase64(string filePath)
             => Convert.ToBase64String(
                   File.ReadAllBytes(filePath));
+
+
+        public string GetTempFilePath(string filename = null)
+            => filename.IsBlank() ? Path.GetTempFileName()
+                                  : Chain(TempDir, filename);
+
+
+        public bool Found(string filePath)
+            => File.Exists(filePath);
 
 
         public string TempDir 

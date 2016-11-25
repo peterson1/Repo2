@@ -13,6 +13,10 @@ namespace Repo2.Core.ns11.FileSystems
         Task<bool>   Delete        (IEnumerable<string> filePaths);
         string       GetSHA1       (string filePath);
         string       WriteTempFile (byte[] byts);
+
+        string       GetTempFilePath (string filename = null);
+
         string       ReadBase64    (string filePath);
+        bool         Found         (string filePath);
     }
 }

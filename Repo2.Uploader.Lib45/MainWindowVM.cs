@@ -11,8 +11,8 @@ using Repo2.Core.ns11.RestClients;
 using Repo2.SDK.WPF45.Configuration;
 using Repo2.SDK.WPF45.Exceptions;
 using Repo2.SDK.WPF45.InputCommands;
+using Repo2.SDK.WPF45.PackageFinders;
 using Repo2.Uploader.Lib45.Configuration;
-using Repo2.Uploader.Lib45.PackageFinders;
 
 namespace Repo2.Uploader.Lib45
 {

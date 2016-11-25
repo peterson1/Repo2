@@ -12,6 +12,7 @@ using Xunit;
 
 namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
 {
+    /*
     [Trait("Core", "Unit")]
     public class D8PackageManager1Facts
     {
@@ -20,7 +21,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
         {
             var pkg1  = Sample.Package();
             var moq   = MoqClientReturning(pkg1);
-            var sut   = new D8PackageManager1(moq.Object);
+            var sut   = new D8RemotePackageMgr1(moq.Object);
 
             var pkg2  = new R2Package(pkg1.Filename);
             pkg2.Hash = "different from " + pkg1.Hash;
@@ -35,7 +36,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
         {
             var pkg1  = Sample.Package();
             var moq   = MoqClientReturning(pkg1);
-            var sut   = new D8PackageManager1(moq.Object);
+            var sut   = new D8RemotePackageMgr1(moq.Object);
 
             var pkg2  = new R2Package(pkg1.Filename);
             pkg2.Hash = pkg1.Hash; // same hash
@@ -49,7 +50,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
         public async void HasUpdatesNo_IfNotInServer()
         {
             var moq   = MoqClientReturning();
-            var sut   = new D8PackageManager1(moq.Object);
+            var sut   = new D8RemotePackageMgr1(moq.Object);
 
             var upd8d = await sut.IsOutdated(Sample.Package());
             upd8d.Should().BeFalse();
@@ -61,7 +62,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
         {
             var pkg = Sample.Package();
             var moq = MoqClientReturning(pkg, pkg);
-            var sut = new D8PackageManager1(moq.Object);
+            var sut = new D8RemotePackageMgr1(moq.Object);
 
             await Assert.ThrowsAsync<InvalidOperationException>(async () =>
             {
@@ -80,4 +81,5 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
             return moq;
         }
     }
+    */
 }

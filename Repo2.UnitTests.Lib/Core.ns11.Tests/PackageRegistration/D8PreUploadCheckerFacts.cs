@@ -46,9 +46,9 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.PackageRegistration
         }
 
 
-        private Mock<IPackageManager> MockMgrReturning(params R2Package[] r2Packages)
+        private Mock<IRemotePackageManager> MockMgrReturning(params R2Package[] r2Packages)
         {
-            var moq = new Mock<IPackageManager>();
+            var moq = new Mock<IRemotePackageManager>();
 
             moq.Setup(m => m.ListByFilename(Any.Pkg))
                 .ReturnsAsync(r2Packages.ToList());

@@ -32,8 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.2.0\lib\net45\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=4.2.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.2.1\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationFramework" />
@@ -54,7 +54,6 @@
     <Compile Include="Components\UploaderIoC.cs" />
     <Compile Include="Configuration\UploaderConfigFile.cs" />
     <Compile Include="MainWindowVM.cs" />
-    <Compile Include="PackageFinders\LocalR2Package.cs" />
     <Compile Include="PackageUploaders\PartSender1.cs" />
     <Compile Include="PackageUploaders\D8PackageUploader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

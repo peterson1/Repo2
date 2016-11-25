@@ -102,6 +102,18 @@
             </remarks>
             <param name="componentRegistry">An existing registry to make the registrations in.</param>
         </member>
+        <member name="M:Autofac.ContainerBuilder.UpdateRegistry(Autofac.Core.IComponentRegistry)">
+            <summary>
+            Configure an existing registry with the component registrations
+            that have been made. Primarily useful in dynamically adding registrations
+            to a child lifetime scope.
+            </summary>
+            <remarks>
+            Update can only be called once per <see cref="T:Autofac.ContainerBuilder"/>
+            - this prevents ownership issues for provided instances.
+            </remarks>
+            <param name="componentRegistry">An existing registry to make the registrations in.</param>
+        </member>
         <member name="T:Autofac.ContainerBuilderResources">
             <summary>
               A strongly-typed resource class, for looking up localized strings, etc.

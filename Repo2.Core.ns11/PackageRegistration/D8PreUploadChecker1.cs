@@ -6,9 +6,9 @@ namespace Repo2.Core.ns11.PackageRegistration
 {
     public class D8PreUploadChecker1 : IR2PreUploadChecker
     {
-        private IPackageManager _pkgs;
+        private IRemotePackageManager _pkgs;
 
-        public D8PreUploadChecker1(IPackageManager packageManager)
+        public D8PreUploadChecker1(IRemotePackageManager packageManager)
         {
             _pkgs   = packageManager;
         }

@@ -46,8 +46,8 @@ namespace Repo2.Core.ns11.Exceptions
                 $"‹{typeof(T).Name}› contains invalid data.{L.f}{validationError}");
 
 
-        public static InvalidDataException BlankText(string textDescription)
-            => new InvalidDataException(
+        public static ArgumentException BlankText(string textDescription)
+            => new ArgumentException(
                 $"“{textDescription}” should not be BLANK.");
 
 

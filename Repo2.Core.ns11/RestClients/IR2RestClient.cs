@@ -12,8 +12,15 @@ namespace Repo2.Core.ns11.RestClients
         void        SetCredentials     (R2Credentials credentials);
         Task<bool>  EnableWriteAccess  (R2Credentials credentials);
 
-        Task<List<T>>    List       <T>(params object[] args) where T : IRestExportView, new();
+        Task<List<T>>  List  <T>(params object[] args)
+            where T : IRestExportView, new();
+
+        Task<List<TModel>>  List  <TModel, TDto>(params object[] args)
+            where TModel : class
+            where TDto   : TModel, IRestExportView, new();
+
         Task<byte[]>     GetBytes   <T>(params object[] args) where T : IRestExportView, IBase64Content, new();
+
         Task<NodeReply>  PostNode   <T>(T node) where T : D8NodeBase;
         Task<NodeReply>  PatchNode  <T>(T node, string revisionLog = null) where T : D8NodeBase;
         Task<RestReply>  DeleteNode (int nodeID);

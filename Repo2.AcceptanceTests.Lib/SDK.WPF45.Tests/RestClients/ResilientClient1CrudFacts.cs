@@ -18,7 +18,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
         private IR2RestClient       _sut;
         private R2Credentials       _creds;
         private FakeFactory         _fke;
-        private IPackageManager     _pkgs;
+        private IRemotePackageManager     _pkgs;
         private IPackagePartManager _parts;
 
         public ResilientClient1CrudFacts()
@@ -27,7 +27,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
             _creds = UploaderConfigFile.Parse(UploaderCfg.KEY);
             using (var scope = UploaderIoC.BeginScope())
             {
-                _pkgs  = scope.Resolve<IPackageManager>();
+                _pkgs  = scope.Resolve<IRemotePackageManager>();
                 _parts = scope.Resolve<IPackagePartManager>();
                 _sut   = scope.Resolve<IR2RestClient>();
             }

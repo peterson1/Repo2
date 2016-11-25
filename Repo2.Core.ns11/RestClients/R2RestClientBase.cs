@@ -33,6 +33,15 @@ namespace Repo2.Core.ns11.RestClients
                               new T().CastArguments(args));
 
 
+        public async Task<List<TModel>> List<TModel, TDto>(params object[] args) 
+            where TDto   : IRestExportView, TModel, new()
+            where TModel : class
+        {
+            var list = await List<TDto>(args);
+            return list.Select(x => x as TModel).ToList();
+        }
+
+
         public async Task<byte[]> GetBytes<T>(params object[] args) 
             where T : IRestExportView, IBase64Content, new()
         {
@@ -143,6 +152,5 @@ namespace Repo2.Core.ns11.RestClients
                         <Dictionary<string, object>>(url);
             return new RestReply(dict);
         }
-
     }
 }

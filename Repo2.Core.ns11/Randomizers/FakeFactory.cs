@@ -135,6 +135,9 @@ namespace Repo2.Core.ns11.Randomizers
         public string Namespace => ProperNoun + NamespaceSuffix();
 
 
+        public string FilePath 
+            => FolderPath.Bslash(FolderPath, FileName);
+
         public string FolderPath
         {
             get

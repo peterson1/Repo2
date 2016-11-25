@@ -180,15 +180,11 @@ namespace Repo2.Core.ns11.Extensions.StringExtensions
         /// <returns></returns>
         public static string Slash
             (this string str1, object str2, string between = "/")
-        {
-            return StringSandwich(str1, between, str2);
-        }
+                => StringSandwich(str1, between, str2);
 
         public static string Bslash
             (this string str1, object str2, string between = @"\")
-        {
-            return StringSandwich(str1, between, str2);
-        }
+                =>  StringSandwich(str1, between, str2);
 
         private static string StringSandwich
             (string leftLoaf, string filling, object rightLoaf)

@@ -23,7 +23,7 @@ namespace Repo2.Uploader.Lib45.Components
 
             b.Solo<MainWindowVM>();
             b.Solo<IR2RestClient, ResilientClient1>();
-            b.Solo<IPackageManager, D8PackageManager1>();
+            b.Solo<IRemotePackageManager, D8RemotePackageMgr1>();
             b.Solo<IPackagePartManager, D8PkgPartManager1>();
 
             b.Multi<IFileSystemAccesor, FileSystemAccesor1>();

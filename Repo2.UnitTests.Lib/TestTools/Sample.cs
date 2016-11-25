@@ -4,17 +4,25 @@ using Repo2.Core.ns11.RestExportViews;
 
 namespace Repo2.UnitTests.Lib.TestTools
 {
-    internal class Sample
+    public class Sample
     {
-        private static FakeFactory _fke = new FakeFactory();
+        //private static FakeFactory _fke = new FakeFactory();
 
 
-        internal static PackagesByFilename1 Package()
+        //public static PackagesByFilename1 LocalTestPkg1()
+        //    => new PackagesByFilename1
+        //    {
+        //        Filename  = "Test_Package_1.pkg",
+        //        FileFound = true,
+        //        Hash      = _fke.Text,
+        //    };
+
+        public static PackagesByFilename1 Package()
             => new PackagesByFilename1
             {
-                Filename  = _fke.FileName,
+                Filename  = F.ke.FileName,
                 FileFound = true,
-                Hash      = _fke.Text,
+                Hash      = F.ke.Text,
             };
     }
 }

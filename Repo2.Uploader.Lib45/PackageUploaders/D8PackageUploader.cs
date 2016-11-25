@@ -23,14 +23,14 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
         private IFileSystemAccesor _fileIO;
         private IFileArchiver      _archivr;
         private IPartSender        _sendr;
-        private IPackageManager    _pkgMgr;
+        private IRemotePackageManager    _pkgMgr;
         private IPackageDownloader _downloadr;
 
 
         public D8PackageUploader(IFileSystemAccesor fileSystemAccesor,
                                  IFileArchiver fileArchiver,
                                  IPartSender partSender,
-                                 IPackageManager packageManager,
+                                 IRemotePackageManager packageManager,
                                  IPackageDownloader packageDownloader)
         {
             _fileIO    = fileSystemAccesor;
@@ -76,7 +76,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
                 throw Fault.HashMismatch("Original Package File", "Downloaded Package File");
 
             StatusChanged.Raise("Updating package node ...");
-            return await _pkgMgr.UpdateNode(localPkg);
+            return await _pkgMgr.UpdateRemoteNode(localPkg);
         }
 
         private async Task<string> TryDownloadAndGetHash(R2Package localPkg)

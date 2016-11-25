@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.2.0\lib\net45\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=4.2.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.2.1\lib\net45\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="fit, Version=2.4.5819.38080, Culture=neutral, processorArchitecture=MSIL">
@@ -88,6 +88,7 @@
     <Compile Include="SDK.WPF45.Tests\RestClients\ResilientClient1CrudFacts.cs" />
     <Compile Include="ShouldIBuyMilk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestTools\CreateFile.cs" />
     <Compile Include="Uploader.Lib45.Tests\PackageUploaders\D8PackageUploaderFacts.cs" />
     <Compile Include="UploaderRestrictionsSuite\GetValidUploaderCredentials.cs" />
   </ItemGroup>
@@ -136,6 +137,10 @@
     <ProjectReference Include="..\Repo2.SDK.WPF45\Repo2.SDK.WPF45.csproj">
       <Project>{5BF836B0-618A-4C82-8318-0C1E8E3702B0}</Project>
       <Name>Repo2.SDK.WPF45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Repo2.UnitTests.Lib\Repo2.UnitTests.Lib.csproj">
+      <Project>{E6ADC37E-4D5D-4633-AAE5-1437572FC0BE}</Project>
+      <Name>Repo2.UnitTests.Lib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Repo2.Uploader.Lib45\Repo2.Uploader.Lib45.csproj">
       <Project>{3F8B37E9-CCA1-45F6-81CF-7BD29ED0BB1F}</Project>
