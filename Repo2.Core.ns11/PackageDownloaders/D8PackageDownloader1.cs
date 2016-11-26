@@ -23,11 +23,11 @@ namespace Repo2.Core.ns11.PackageDownloaders
         }
 
 
-        public async Task<string> DownloadAndUnpack(R2Package package, string targetDir)
+        public async Task<string> DownloadAndUnpack(R2Package remotePackage, string targetDir)
         {
-            var list = await _parts.ListByPackage(package);
+            var list = await _parts.ListByPackage(remotePackage);
             if (list.Count == 0) throw new ArgumentException
-                ($"No parts found for package hash “{package.Hash}”.");
+                ($"No parts found for package hash “{remotePackage.Hash}”.");
 
             var orderedList = list.OrderBy(x => x.PartNumber).ToList();
 

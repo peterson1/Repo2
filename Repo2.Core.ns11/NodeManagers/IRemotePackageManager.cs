@@ -7,7 +7,7 @@ namespace Repo2.Core.ns11.NodeManagers
 {
     public interface IRemotePackageManager
     {
-        Task<List<R2Package>> ListByFilename(R2Package package);
+        Task<List<R2Package>> ListByFilename(string pkgFilename);
 
         Task<NodeReply>  UpdateRemoteNode  (R2Package updatedPackage);
         //Task<bool>       IsOutdated        (R2Package localPackage);

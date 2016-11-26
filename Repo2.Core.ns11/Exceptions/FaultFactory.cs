@@ -26,6 +26,11 @@ namespace Repo2.Core.ns11.Exceptions
                 $"Expected list of {listDescription} to contain a SINGLE item, but found [{actualItemCount}].");
 
 
+        public static InvalidOperationException BadCall(string requiredMethod, string attemptedMethod)
+            => new InvalidOperationException(
+                $"Please call [{requiredMethod}()] before calling [{attemptedMethod}()].");
+
+
         public static FileNotFoundException Missing(string fileDescription, string filePath)
             => new FileNotFoundException(
                 $"“{fileDescription}” not found in:{L.f}{filePath}");
@@ -54,5 +59,10 @@ namespace Repo2.Core.ns11.Exceptions
         public static DataMisalignedException HashMismatch(string hashSrc1, string hashSrc2)
             => new DataMisalignedException(
                 $"Hash of {hashSrc1} did not match hash of {hashSrc2}.");
+
+
+        public static UnauthorizedAccessException CantMove(string originalPath, string targetPath)
+            => new UnauthorizedAccessException(
+                $"Failed to move file to target location.{L.f}source :  {originalPath}{L.f}target :  {targetPath}");
     }
 }

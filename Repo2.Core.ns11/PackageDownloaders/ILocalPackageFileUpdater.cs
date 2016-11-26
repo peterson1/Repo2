@@ -12,6 +12,6 @@ namespace Repo2.Core.ns11.PackageDownloaders
         void        StartCheckingForUpdates  (TimeSpan checkInterval);
         void        StopCheckingForUpdates   ();
         Task<bool>  TargetIsOutdated         ();
-        Task<bool>  UpdateTarget             ();
+        Task        UpdateTarget             ();
     }
 }

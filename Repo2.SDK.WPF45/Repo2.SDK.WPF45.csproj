@@ -102,7 +102,6 @@
     <Compile Include="FileSystems\FileSystemAccesor1.cs" />
     <Compile Include="InputCommands\R2AsyncCommandWPF.cs" />
     <Compile Include="InputCommands\R2CommandFactoryWPF.cs" />
-    <Compile Include="PackageDownloaders\LocalPackageFileUpdater1.cs" />
     <Compile Include="PackageFinders\LocalR2Package.cs" />
     <Compile Include="RestClients\ResilientClient1.cs" />
     <Compile Include="Serialization\Json.cs" />

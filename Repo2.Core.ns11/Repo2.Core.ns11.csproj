@@ -84,7 +84,7 @@
     <Compile Include="PackageDownloaders\ILocalPackageFileUpdater.cs" />
     <Compile Include="PackageDownloaders\IPackageDownloader.cs" />
     <Compile Include="PackageDownloaders\D8PackageDownloader1.cs" />
-    <Compile Include="PackageDownloaders\LocalPackageFileUpdaterBase.cs" />
+    <Compile Include="PackageDownloaders\LocalPackageFileUpdater1.cs" />
     <Compile Include="PackageRegistration\IR2PreUploadChecker.cs" />
     <Compile Include="PackageRegistration\D8PreUploadChecker1.cs" />
     <Compile Include="PackageUploaders\IPartSender.cs" />

@@ -82,7 +82,6 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Core.ns11.Tests\DomainModels\R2PackagePartValidations.cs" />
     <Compile Include="Core.ns11.Tests\Drupal8\D8NodeMapperFacts.cs" />
-    <Compile Include="Core.ns11.Tests\NodeManagers\D8PackageManager1Facts.cs" />
     <Compile Include="Core.ns11.Tests\NodeManagers\D8PkgPartManager1Facts.cs" />
     <Compile Include="Core.ns11.Tests\PackageRegistration\D8PreUploadCheckerFacts.cs" />
     <Compile Include="Core.ns11.Tests\ReflectionTools\AssemblyReflectorFacts.cs" />

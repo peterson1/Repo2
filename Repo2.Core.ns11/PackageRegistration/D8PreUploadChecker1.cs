@@ -32,7 +32,7 @@ namespace Repo2.Core.ns11.PackageRegistration
                 return false;
             }
 
-            var list = await _pkgs.ListByFilename(localPkg);
+            var list = await _pkgs.ListByFilename(localPkg.Filename);
             if (list == null)
             {
                 ReasonWhyNot = "List from server is NULL.";

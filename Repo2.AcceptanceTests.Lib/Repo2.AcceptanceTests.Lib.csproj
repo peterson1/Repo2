@@ -82,6 +82,7 @@
     <Compile Include="AutofacSlimCreateOperator.cs" />
     <Compile Include="ComponentRegistry\ContainerFactory.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="IntegrationTests\PackageUpdaterFacts.cs" />
     <Compile Include="PackageRegistrationSuite\CheckPackageRegistration.cs" />
     <Compile Include="PackageUploaderSuite\PreUploadCheckerTests\PreUploadCheckerFacts.cs" />
     <Compile Include="SDK.WPF45.Tests\RestClients\R2ClientPatchPingFacts.cs" />

@@ -7,6 +7,7 @@ using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.SDK.WPF45.Extensions.FileInfoExtensions;
+using Repo2.SDK.WPF45.PackageFinders;
 
 namespace Repo2.SDK.WPF45.FileSystems
 {
@@ -20,6 +21,7 @@ namespace Repo2.SDK.WPF45.FileSystems
         {
             foreach (var file in filePaths)
             {
+                if (!File.Exists(file)) continue;
                 await Task.Run(() =>
                 {
                     try   { File.Delete(file); }
@@ -28,6 +30,20 @@ namespace Repo2.SDK.WPF45.FileSystems
                 if (File.Exists(file)) return false;
             }
             return true;
+        }
+
+
+        public async Task<bool> Move(string originalPath, string targetPath)
+        {
+            var deletd = await Delete(targetPath);
+            if (!deletd) return false;
+
+            await Task.Run(() =>
+            {
+                try   { File.Move(originalPath, targetPath); }
+                catch { }
+            });
+            return File.Exists(targetPath);
         }
 
 
@@ -72,6 +88,11 @@ namespace Repo2.SDK.WPF45.FileSystems
 
         public bool Found(string filePath)
             => File.Exists(filePath);
+
+
+
+        public R2Package ToR2Package(string filePath)
+            => LocalR2Package.From(filePath);
 
 
         public string TempDir 

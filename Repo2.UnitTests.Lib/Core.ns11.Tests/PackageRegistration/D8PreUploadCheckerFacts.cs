@@ -50,7 +50,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.PackageRegistration
         {
             var moq = new Mock<IRemotePackageManager>();
 
-            moq.Setup(m => m.ListByFilename(Any.Pkg))
+            moq.Setup(m => m.ListByFilename(Any.Text))
                 .ReturnsAsync(r2Packages.ToList());
 
             return moq;

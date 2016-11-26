@@ -136,7 +136,7 @@ namespace Repo2.Core.ns11.Randomizers
 
 
         public string FilePath 
-            => FolderPath.Bslash(FolderPath, FileName);
+            => FolderPath.Bslash(FileName);
 
         public string FolderPath
         {

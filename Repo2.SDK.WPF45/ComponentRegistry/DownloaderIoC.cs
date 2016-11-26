@@ -7,7 +7,6 @@ using Repo2.Core.ns11.RestClients;
 using Repo2.SDK.WPF45.Compression;
 using Repo2.SDK.WPF45.Extensions.IOCExtensions;
 using Repo2.SDK.WPF45.FileSystems;
-using Repo2.SDK.WPF45.PackageDownloaders;
 using Repo2.SDK.WPF45.RestClients;
 using Repo2.SDK.WPF45.TaskResilience;
 

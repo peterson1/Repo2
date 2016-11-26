@@ -52,7 +52,7 @@ namespace Repo2.AcceptanceTests.Lib.Uploader.Lib45.Tests.PackageUploaders
             var list1 = await _parts.ListByPackage(pkg);
             list1.Should().HaveCount(parts);
 
-            var pkgs = await _pkgs.ListByFilename(pkg);
+            var pkgs = await _pkgs.ListByFilename(pkg.Filename);
             pkgs.Should().HaveCount(1);
             pkgs[0].Hash.Should().Be(pkg.Hash);
         }

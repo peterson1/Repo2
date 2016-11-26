@@ -67,14 +67,14 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
             (await _sut.EnableWriteAccess(_creds)).Should().BeTrue();
             var pkg = UpdatedTestPackage2();
 
-            var list = await _pkgs.ListByFilename(pkg);
+            var list = await _pkgs.ListByFilename(pkg.Filename);
             list.Should().HaveCount(1);
             list[0].Hash.Should().NotBe(pkg.Hash);
 
             var reply = await _sut.PatchNode(pkg);
             reply.IsSuccessful.Should().BeTrue();
 
-            list = await _pkgs.ListByFilename(pkg);
+            list = await _pkgs.ListByFilename(pkg.Filename);
             list.Should().HaveCount(1);
             list[0].Filename.Should().Be(pkg.Filename);
             list[0].Hash.Should().Be(pkg.Hash);
