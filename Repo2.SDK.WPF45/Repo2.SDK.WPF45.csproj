@@ -101,6 +101,7 @@
     <Compile Include="Compression\SevenZipper2.cs" />
     <Compile Include="Configuration\DownloaderConfigFile.cs" />
     <Compile Include="Configuration\LocalConfigFile.cs" />
+    <Compile Include="ControlBehaviors\TextBoxBehaviors\ScrollOnChangeBehavior.cs" />
     <Compile Include="ControlBehaviors\WindowBehaviors\DraggableBehavior.cs" />
     <Compile Include="EmbeddedResources\EmbeddedResrc.cs" />
     <Compile Include="Exceptions\Alerter.cs" />

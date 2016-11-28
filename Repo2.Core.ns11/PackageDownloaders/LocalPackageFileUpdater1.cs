@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.NodeManagers;
+using Repo2.Core.ns11.RestClients;
+
 
 namespace Repo2.Core.ns11.PackageDownloaders
 {
@@ -30,37 +33,65 @@ namespace Repo2.Core.ns11.PackageDownloaders
         private IRemotePackageManager _remote;
         private IFileSystemAccesor    _file;
         private IPackageDownloader    _downloadr;
-        private bool                  _keepChecking;
+        private IR2RestClient         _client;
         private R2Package             _remotePkg;
 
 
         public LocalPackageFileUpdater1(IRemotePackageManager remotePackageManager, 
                                         IFileSystemAccesor fileSystemAccesor,
-                                        IPackageDownloader packageDownloader)
+                                        IPackageDownloader packageDownloader,
+                                        IR2RestClient r2RestClient)
         {
             _remote    = remotePackageManager;
             _file      = fileSystemAccesor;
+            _client    = r2RestClient;
             _downloadr = packageDownloader;
             _downloadr . StatusChanged += (s, e) => SetStatus(e.Text);
         }
 
 
-        public string    TargetPath     { get; private set; }
+        public string    TargetPath   { get; private set; }
+        public bool      IsChecking   { get; private set; }
 
 
-        public void StartCheckingForUpdates(TimeSpan checkInterval)
+        public async void StartCheckingForUpdates(TimeSpan checkInterval)
         {
-            _keepChecking = true;
-            while (_keepChecking)
-            {
+            if (!ValidateTargetFile()) return;
 
+            SetStatus("Started checking for updates.");
+            IsChecking = true;
+            while (IsChecking)
+            {
+                SetStatus($"Delaying for {checkInterval.Seconds:n0} seconds ...");
+                await Task.Delay(checkInterval);
+                if (IsChecking) await CheckForUpdateOnce();
             }
+        }
+
+
+        private async Task CheckForUpdateOnce()
+        {
+            var hasUpd8 = false;
+            try
+            {
+                hasUpd8 = await TargetIsOutdated();
+            }
+            catch (Exception ex)
+            {
+                SetStatus(ex.Info());
+                IsChecking = false;
+                return;
+            }
+            if (!hasUpd8) return;
+
+            SetStatus("Update found. Downloading ...");
+            await UpdateTarget();
         }
 
 
         public async Task<bool> TargetIsOutdated()
         {
-            ValidateTargetFile();
+            if (!ValidateTargetFile()) return false;
             _remotePkg = null;
 
             var localPkg = _file.ToR2Package(TargetPath);
@@ -83,9 +114,15 @@ namespace Repo2.Core.ns11.PackageDownloaders
             if (_remotePkg == null) throw Fault
                 .BadCall(nameof(TargetIsOutdated), nameof(UpdateTarget));
 
-            var unpackd = await _downloadr.DownloadAndUnpack
-                                (_remotePkg, _file.TempDir);
+            var unpackd = string.Empty;
+            try
+            {
+                unpackd = await _downloadr.DownloadAndUnpack
+                            (_remotePkg, _file.TempDir);
+            }
+            catch (Exception ex) { SetStatus(ex.Info(false, true)); }
 
+            if (unpackd.IsBlank()) return;
             CheckHash(unpackd, "downloaded-unpacked package");
 
             await RetireCurrentPackage();
@@ -94,6 +131,7 @@ namespace Repo2.Core.ns11.PackageDownloaders
 
             CheckHash(TargetPath, "downloaded-unpacked-placed package");
 
+            IsChecking = false;
             RaiseTargetUpdated();
         }
 
@@ -117,13 +155,22 @@ namespace Repo2.Core.ns11.PackageDownloaders
                 .HashMismatch(fileDescription, "remote package");
         }
 
-        private void ValidateTargetFile()
-        {
-            if (TargetPath.IsBlank()) throw Fault
-                .BlankText("Target File Path");
 
-            if (!_file.Found(TargetPath)) throw Fault
-                .Missing("Target Local Package File", TargetPath);
+        private bool ValidateTargetFile()
+        {
+            if (TargetPath.IsBlank())
+            {
+                SetStatus(Fault.BlankText("Target File Path").Message);
+                return false;
+            }
+
+            if (!_file.Found(TargetPath))
+            {
+                SetStatus(Fault.Missing("Target Local Package File", TargetPath).Message);
+                return false;
+            }
+
+            return true;
         }
 
 
@@ -140,6 +187,16 @@ namespace Repo2.Core.ns11.PackageDownloaders
 
 
         public void StopCheckingForUpdates()
-            => _keepChecking = false;
+        {
+            IsChecking = false;
+            SetStatus("Stopped checking for updates.");
+        }
+
+
+        public void SetCredentials(R2Credentials credentials)
+        {
+            SetStatus($"Using credentials for “{credentials.Username}”");
+            _client.SetCredentials(credentials);
+        }
     }
 }

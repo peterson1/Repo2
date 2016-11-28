@@ -25,7 +25,7 @@ namespace Repo2.UnitTests.Lib.SDK.WPF45.Tests.PackageDownloaders
         {
             _fileIO = new Mock<IFileSystemAccesor>();
             _pkgs   = new Mock<IRemotePackageManager>();
-            _sut    = new LocalPackageFileUpdater1(_pkgs.Object, _fileIO.Object, null);
+            _sut    = new LocalPackageFileUpdater1(_pkgs.Object, _fileIO.Object, null, null);
         }
 
 

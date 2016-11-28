@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using PropertyChanged;
-using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.Exceptions;
-using Repo2.SDK.WPF45.Exceptions;
 using Repo2.Core.ns11.Extensions.StringExtensions;
+using Repo2.Core.ns11.InputCommands;
+using Repo2.SDK.WPF45.Exceptions;
 
 namespace Repo2.SDK.WPF45.InputCommands
 {
     [ImplementPropertyChanged]
     public class R2AsyncCommandWPF : IR2Command
     {
-        private   string            _origLabel;
-        protected Func<Task>        _task;
-        protected Predicate<object> _canExecute;
+        private   string              _origLabel;
+        protected Func<object, Task>  _task;
+        protected Predicate<object>   _canExecute;
 
 
-        internal R2AsyncCommandWPF(Func<Task> task, Predicate<object> canExecute, string buttonLabel)
+        internal R2AsyncCommandWPF(Func<object, Task> task, Predicate<object> canExecute, string buttonLabel)
         {
             _task        = task;
             _canExecute  = canExecute;
@@ -53,7 +52,7 @@ namespace Repo2.SDK.WPF45.InputCommands
 
             try
             {
-                await _task.Invoke();
+                await _task.Invoke(parameter);
                 LastExecutedOK = true;
             }
             catch (Exception ex)

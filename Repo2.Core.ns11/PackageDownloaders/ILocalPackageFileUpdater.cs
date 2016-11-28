@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.ChangeNotification;
 
 namespace Repo2.Core.ns11.PackageDownloaders
@@ -10,6 +11,9 @@ namespace Repo2.Core.ns11.PackageDownloaders
 
         void        SetTargetFile            (string targetFilePath);
         string      TargetPath               { get; }
+        bool        IsChecking               { get; }
+
+        void        SetCredentials           (R2Credentials credentials);
         void        StartCheckingForUpdates  (TimeSpan checkInterval);
         void        StopCheckingForUpdates   ();
         Task<bool>  TargetIsOutdated         ();

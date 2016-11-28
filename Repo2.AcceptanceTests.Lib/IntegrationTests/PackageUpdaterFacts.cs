@@ -32,7 +32,7 @@ namespace Repo2.AcceptanceTests.Lib.IntegrationTests
         }
 
 
-        [Fact(DisplayName = "Test IsOutdated() & UpdateTarget()")]
+        [Fact(DisplayName = "Can Update Running Exe")]
         public async void UpdateRunningExe()
         {
             var proc     = TestClient.Run();

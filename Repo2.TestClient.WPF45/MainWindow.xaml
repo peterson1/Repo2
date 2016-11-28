@@ -4,9 +4,42 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Repo2.TestClient.WPF45"
+        xmlns:int="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:xtk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:sdk="clr-namespace:Repo2.SDK.WPF45.UserControls;assembly=Repo2.SDK.WPF45"
+        xmlns:wbhv="clr-namespace:Repo2.SDK.WPF45.ControlBehaviors.WindowBehaviors;assembly=Repo2.SDK.WPF45"
+        xmlns:tbhv="clr-namespace:Repo2.SDK.WPF45.ControlBehaviors.TextBoxBehaviors;assembly=Repo2.SDK.WPF45"
         mc:Ignorable="d"
+        x:Name="_win"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+    <int:Interaction.Behaviors>
+        <wbhv:DraggableBehavior />
+    </int:Interaction.Behaviors>
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBox Text="{Binding ConfigKey}"
+                     />
+            <Button Command="{Binding LoadConfigCmd}"
+                    Content="{Binding LoadConfigCmd.CurrentLabel}"
+                    />
+            <xtk:IntegerUpDown Value="{Binding SecondsInterval}"
+                               />
+        </StackPanel>
+        <Button Command="{Binding StartCheckingCmd}"
+                Content="{Binding StartCheckingCmd.CurrentLabel}"
+                />
+        <Button Command="{Binding StopCheckingCmd}"
+                Content="{Binding StopCheckingCmd.CurrentLabel}"
+                />
+        <TextBox Text="{Binding Status}"
+                 MaxHeight="200">
+            <int:Interaction.Behaviors>
+                <tbhv:ScrollOnChangeBehavior />
+            </int:Interaction.Behaviors>
+        </TextBox>
+        <Button Command="{Binding RelaunchCmd}"
+                Content="{Binding RelaunchCmd.CurrentLabel}"
+                CommandParameter="{Binding ElementName=_win}"
+                />
+    </StackPanel>
 </Window>
