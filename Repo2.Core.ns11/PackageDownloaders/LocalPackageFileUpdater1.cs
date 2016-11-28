@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.NodeManagers;
-using Repo2.Core.ns11.RestClients;
 
 namespace Repo2.Core.ns11.PackageDownloaders
 {
@@ -18,6 +18,14 @@ namespace Repo2.Core.ns11.PackageDownloaders
             add    { _targetUpdated -= value; _targetUpdated += value; }
             remove { _targetUpdated -= value; }
         }
+
+        private      EventHandler<StatusText> _statusChanged;
+        public event EventHandler<StatusText>  StatusChanged
+        {
+            add    { _statusChanged -= value; _statusChanged += value; }
+            remove { _statusChanged -= value; }
+        }
+
 
         private IRemotePackageManager _remote;
         private IFileSystemAccesor    _file;
@@ -33,6 +41,7 @@ namespace Repo2.Core.ns11.PackageDownloaders
             _remote    = remotePackageManager;
             _file      = fileSystemAccesor;
             _downloadr = packageDownloader;
+            _downloadr . StatusChanged += (s, e) => SetStatus(e.Text);
         }
 
 
@@ -57,6 +66,7 @@ namespace Repo2.Core.ns11.PackageDownloaders
             var localPkg = _file.ToR2Package(TargetPath);
             var fName = localPkg.Filename;
 
+            SetStatus($"Getting packages named “{fName}” ...");
             var list = await _remote.ListByFilename(fName);
             if (list.Count == 0) return false;
 
@@ -119,6 +129,10 @@ namespace Repo2.Core.ns11.PackageDownloaders
 
         private void RaiseTargetUpdated()
             => _targetUpdated?.Invoke(this, TargetPath);
+
+
+        private void SetStatus(string text)
+            => _statusChanged.Raise(text);
 
 
         public void SetTargetFile(string targetFilePath)

@@ -5,9 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Repo2.Uploader.WPF45"
         xmlns:sdk="clr-namespace:Repo2.SDK.WPF45.UserControls;assembly=Repo2.SDK.WPF45"
+        xmlns:int="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:bhv="clr-namespace:Repo2.SDK.WPF45.ControlBehaviors.WindowBehaviors;assembly=Repo2.SDK.WPF45"
         xmlns:xtk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+    <int:Interaction.Behaviors>
+        <bhv:DraggableBehavior />
+    </int:Interaction.Behaviors>
     <Grid>
         <StackPanel>
         

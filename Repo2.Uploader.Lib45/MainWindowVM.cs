@@ -92,7 +92,8 @@ namespace Repo2.Uploader.Lib45
             _pkg         = LocalR2Package.From(PackagePath);
             IsUploadable = await _preCheckr.IsUploadable(_pkg);
 
-            _pkg.nid = _preCheckr.LastPackage.nid;
+            if (IsUploadable)
+                _pkg.nid = _preCheckr.LastPackage.nid;
 
             UploadPackageCmd.CurrentLabel = IsUploadable 
                 ? "Upload Package" : _preCheckr.ReasonWhyNot;

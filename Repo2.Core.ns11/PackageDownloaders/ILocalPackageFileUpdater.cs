@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Repo2.Core.ns11.ChangeNotification;
 
 namespace Repo2.Core.ns11.PackageDownloaders
 {
-    public interface ILocalPackageFileUpdater
+    public interface ILocalPackageFileUpdater : IStatusChanger
     {
         event EventHandler<string> TargetUpdated;
 

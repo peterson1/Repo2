@@ -26,13 +26,14 @@ namespace Repo2.Core.ns11.PackageRegistration
                 return false;
             }
 
+            var nme = localPkg.Filename;
             if (!localPkg.FileFound)
             {
-                ReasonWhyNot = $"“{localPkg.Filename}” not found in {localPkg.LocalDir}.";
+                ReasonWhyNot = $"“{nme}” not found in {localPkg.LocalDir}.";
                 return false;
             }
 
-            var list = await _pkgs.ListByFilename(localPkg.Filename);
+            var list = await _pkgs.ListByFilename(nme);
             if (list == null)
             {
                 ReasonWhyNot = "List from server is NULL.";
@@ -40,7 +41,12 @@ namespace Repo2.Core.ns11.PackageRegistration
             }
             if (list.Count < 1)
             {
-                ReasonWhyNot = "List from server is EMPTY.";
+                ReasonWhyNot = $"Package is not registered: “{nme}”.";
+                return false;
+            }
+            if (list.Count > 1)
+            {
+                ReasonWhyNot = $"Package is registered {list.Count} times : “{nme}”.";
                 return false;
             }
             LastPackage = list[0];

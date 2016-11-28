@@ -44,7 +44,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
         }
 
 
-        public double  MaxPartSizeMB  { get; set; }
+        public double MaxPartSizeMB { get; set; } = 0.5;
 
 
         //public async Task<NodeReply> Upload(R2Package localPkg)
@@ -61,6 +61,9 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
 
         public async Task<NodeReply> Upload(R2Package localPkg)
         {
+            if (localPkg.nid == 0) throw Fault
+                .BadData(localPkg, "nid should NOT be zero");
+
             StatusChanged.Raise("Isolating local package file...");
             var pkgPath = await _fileIO.IsolateFile(localPkg);
 

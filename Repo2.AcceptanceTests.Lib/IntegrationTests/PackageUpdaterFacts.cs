@@ -1,8 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using Autofac;
+using FluentAssertions;
+using Repo2.AcceptanceTests.Lib.TestTools;
+using Repo2.Core.ns11.PackageDownloaders;
+using Repo2.Core.ns11.PackageUploaders;
+using Repo2.Core.ns11.RestClients;
+using Repo2.SDK.WPF45.ComponentRegistry;
+using Repo2.SDK.WPF45.PackageFinders;
+using Repo2.Uploader.Lib45.Components;
+using Repo2.Uploader.Lib45.Configuration;
 using Xunit;
 
 namespace Repo2.AcceptanceTests.Lib.IntegrationTests
@@ -10,17 +17,49 @@ namespace Repo2.AcceptanceTests.Lib.IntegrationTests
     [Trait("Local:453", "Write")]
     public class PackageUpdaterFacts
     {
-        [Fact(DisplayName = "Update Running Exe")]
-        public void UpdateRunningExe()
-        {
-            // run test exe
-            // isOutdated should be false
-            // upload newer exe
-            // isOutdated should be true
-            // update running exe
-            // isOutdated should be false
+        private ILocalPackageFileUpdater _downldr;
 
-            // cleanup: kill running exe
+        public PackageUpdaterFacts()
+        {
+            IR2RestClient client;
+            var cfg = UploaderConfigFile.Parse(UploaderCfg.KEY);
+            using (var scope = DownloaderIoC.BeginScope())
+            {
+                client   = scope.Resolve<IR2RestClient>();
+                _downldr = scope.Resolve<ILocalPackageFileUpdater>();
+            }
+            client.SetCredentials(cfg);
         }
+
+
+        [Fact(DisplayName = "Test IsOutdated() & UpdateTarget()")]
+        public async void UpdateRunningExe()
+        {
+            var proc     = TestClient.Run();
+            var exePath  = proc.StartInfo.FileName;
+            var localPkg = LocalR2Package.From(exePath);
+            var evtRaisd = false;
+            localPkg.nid = 29;
+
+            Assert.Throws<UnauthorizedAccessException>(() 
+                => File.Delete(exePath));
+
+            _downldr.SetTargetFile(exePath);
+            var isOld = await _downldr.TargetIsOutdated();
+            isOld.Should().BeTrue("test should start with outdated target");
+
+            _downldr.TargetUpdated += (s, e) => evtRaisd = true;
+            await _downldr.UpdateTarget();
+
+            isOld = await _downldr.TargetIsOutdated();
+            isOld.Should().BeFalse("target should now be up-to-date");
+
+            evtRaisd.Should().BeTrue();
+
+            proc.Kill();
+        }
+
+
+
     }
 }
