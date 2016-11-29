@@ -113,6 +113,14 @@ namespace Repo2.SDK.WPF45.FileSystems
             => LocalR2Package.From(filePath);
 
 
+        //public void AppendTo(string filePath, string text)
+        //    => File.AppendAllText(filePath, text);
+
+
+        //public void CreateDir(string foldrPath)
+        //    => Directory.CreateDirectory(foldrPath);
+
+
         public string TempDir 
             => Chain(Path.GetTempPath(), GetType().Name);
     }
