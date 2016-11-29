@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.DomainModels;
@@ -19,9 +20,9 @@ namespace Repo2.Core.ns11.NodeManagers
         }
 
 
-        public async Task<R2Ping> GetCurrentUserPing(string pkgFilename)
+        public async Task<R2Ping> GetCurrentUserPing(string pkgFilename, CancellationToken cancelTkn)
         {
-            var list = await _client.List<PingsForCurrentUser1>();
+            var list = await _client.List<PingsForCurrentUser1>(cancelTkn);
             if (list.Count == 0) throw Fault.NoItems("Pings for current user");
 
             var named = list.Where(x 
@@ -37,9 +38,9 @@ namespace Repo2.Core.ns11.NodeManagers
         }
 
 
-        public async Task<NodeReply> UpdateNode(R2Ping ping)
+        public async Task<NodeReply> UpdateNode(R2Ping ping, CancellationToken cancelTkn)
         {
-            var reply = await _client.PatchNode(ping);
+            var reply = await _client.PatchNode(ping, cancelTkn);
 
             return reply;
         }

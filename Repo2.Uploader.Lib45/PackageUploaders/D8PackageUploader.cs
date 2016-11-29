@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
 using PropertyChanged;
 using Repo2.Core.ns11.ChangeNotification;
@@ -59,7 +60,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
         //    }
         //}
 
-        public async Task<NodeReply> Upload(R2Package localPkg)
+        public async Task<NodeReply> Upload(R2Package localPkg, CancellationToken cancelTkn)
         {
             if (localPkg.nid == 0) throw Fault
                 .BadData(localPkg, "nid should NOT be zero");
@@ -71,21 +72,21 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
             var partPaths = await _archivr.CompressAndSplit(pkgPath, MaxPartSizeMB);
             await _fileIO.Delete(pkgPath);
 
-            await _sendr.SendParts(partPaths, localPkg);
+            await _sendr.SendParts(partPaths, localPkg, cancelTkn);
             await _fileIO.Delete(partPaths);
 
-            var newHash = await TryDownloadAndGetHash(localPkg);
+            var newHash = await TryDownloadAndGetHash(localPkg, cancelTkn);
             if (newHash != localPkg.Hash)
                 throw Fault.HashMismatch("Original Package File", "Downloaded Package File");
 
             StatusChanged.Raise("Updating package node ...");
-            return await _pkgMgr.UpdateRemoteNode(localPkg);
+            return await _pkgMgr.UpdateRemoteNode(localPkg, cancelTkn);
         }
 
-        private async Task<string> TryDownloadAndGetHash(R2Package localPkg)
+        private async Task<string> TryDownloadAndGetHash(R2Package localPkg, CancellationToken cancelTkn)
         {
             var downloadedPkgPath = await _downloadr
-                .DownloadAndUnpack(localPkg, _fileIO.TempDir);
+                .DownloadAndUnpack(localPkg, _fileIO.TempDir, cancelTkn);
 
             var newHash = _fileIO.GetSHA1(downloadedPkgPath);
             await _fileIO.Delete(downloadedPkgPath);

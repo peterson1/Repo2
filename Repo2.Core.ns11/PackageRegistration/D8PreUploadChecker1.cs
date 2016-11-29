@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.NodeManagers;
 
@@ -18,7 +19,7 @@ namespace Repo2.Core.ns11.PackageRegistration
         public R2Package  LastPackage   { get; private set; }
 
 
-        public async Task<bool> IsUploadable(R2Package localPkg)
+        public async Task<bool> IsUploadable(R2Package localPkg, CancellationToken cancelTkn)
         {
             if (localPkg == null)
             {
@@ -33,7 +34,7 @@ namespace Repo2.Core.ns11.PackageRegistration
                 return false;
             }
 
-            var list = await _pkgs.ListByFilename(nme);
+            var list = await _pkgs.ListByFilename(nme, cancelTkn);
             if (list == null)
             {
                 ReasonWhyNot = "List from server is NULL.";

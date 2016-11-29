@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using PropertyChanged;
 using Repo2.Core.ns11.DataStructures;
@@ -80,7 +81,7 @@ namespace Repo2.Uploader.Lib45
             Config = UploaderConfigFile.Parse(ConfigKey);
             if (Config == null) return;
 
-            CanWrite = await _client.EnableWriteAccess(Config);
+            CanWrite = await _client.EnableWriteAccess(Config, new CancellationToken());
 
             CheckUploadabilityCmd.ExecuteIfItCan();
         }
@@ -90,7 +91,7 @@ namespace Repo2.Uploader.Lib45
         {
             IsUploadable = false;
             _pkg         = LocalR2Package.From(PackagePath);
-            IsUploadable = await _preCheckr.IsUploadable(_pkg);
+            IsUploadable = await _preCheckr.IsUploadable(_pkg, new CancellationToken());
 
             if (IsUploadable)
                 _pkg.nid = _preCheckr.LastPackage.nid;
@@ -103,7 +104,7 @@ namespace Repo2.Uploader.Lib45
         private async Task UploadPackage()
         {
             _pkgUploadr.MaxPartSizeMB = this.MaxPartSizeMB;
-            var reply = await _pkgUploadr.Upload(_pkg);
+            var reply = await _pkgUploadr.Upload(_pkg, new CancellationToken());
 
             Alerter.Show(reply, "Package Upload");
 

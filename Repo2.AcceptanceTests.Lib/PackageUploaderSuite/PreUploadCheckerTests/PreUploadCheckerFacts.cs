@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Autofac;
 using FluentAssertions;
 using Repo2.Core.ns11.DomainModels;
@@ -34,7 +35,7 @@ namespace Repo2.AcceptanceTests.Lib.PackageUploaderSuite.PreUploadCheckerTests
             var pkg       = new R2Package("Test_Package_1.pkg");
             pkg.FileFound = true;
             pkg.Hash      = DateTime.Now.Ticks.ToString();
-            var actual    = await _sut.IsUploadable(pkg);
+            var actual    = await _sut.IsUploadable(pkg, new CancellationToken());
             actual.Should().BeTrue(_sut.ReasonWhyNot);
         }
 
@@ -43,7 +44,7 @@ namespace Repo2.AcceptanceTests.Lib.PackageUploaderSuite.PreUploadCheckerTests
         public async void NotRegistered()
         {
             var pkg    = new R2Package("non-registered.pkg");
-            var actual = await _sut.IsUploadable(pkg);
+            var actual = await _sut.IsUploadable(pkg, new CancellationToken());
             actual.Should().BeFalse();
         }
 
@@ -52,7 +53,7 @@ namespace Repo2.AcceptanceTests.Lib.PackageUploaderSuite.PreUploadCheckerTests
         public async void SameHash()
         {
             var pkg    = new R2Package("non-registered.pkg");
-            var actual = await _sut.IsUploadable(pkg);
+            var actual = await _sut.IsUploadable(pkg, new CancellationToken());
             actual.Should().BeFalse();
         }
     }

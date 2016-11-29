@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.DomainModels;
@@ -25,7 +26,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
         }
 
 
-        public async Task SendParts(IEnumerable<string> partPaths, R2Package localPkg)
+        public async Task SendParts(IEnumerable<string> partPaths, R2Package localPkg, CancellationToken cancelTkn)
         {
             for (int i = 0; i < partPaths.Count(); i++)
             {
@@ -40,7 +41,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
                     Base64Content   = _fileIO.ReadBase64(path)
                 };
                 StatusChanged.Raise($"Sending {partNode.Description} ...");
-                var reply = await _partMgr.AddNode(partNode);
+                var reply = await _partMgr.AddNode(partNode, cancelTkn);
 
                 if (reply.Failed)
                     throw new Exception(reply.ErrorsText);

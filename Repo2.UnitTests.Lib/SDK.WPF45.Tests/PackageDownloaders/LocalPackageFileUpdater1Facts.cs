@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using FluentAssertions;
 using Moq;
 using Repo2.Core.ns11.DomainModels;
@@ -34,7 +35,7 @@ namespace Repo2.UnitTests.Lib.SDK.WPF45.Tests.PackageDownloaders
         {
             await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
-                await _sut.TargetIsOutdated();
+                await _sut.TargetIsOutdated(new CancellationToken());
             });
         }
 
@@ -46,7 +47,7 @@ namespace Repo2.UnitTests.Lib.SDK.WPF45.Tests.PackageDownloaders
 
             await Assert.ThrowsAsync<FileNotFoundException>(async () =>
             {
-                await _sut.TargetIsOutdated();
+                await _sut.TargetIsOutdated(new CancellationToken());
             });
         }
 
@@ -59,7 +60,7 @@ namespace Repo2.UnitTests.Lib.SDK.WPF45.Tests.PackageDownloaders
             SetFileToR2PackageToReturn(Sample.Package());
 
             _sut.SetTargetFile(F.ke.FilePath);
-            var outd8d = await _sut.TargetIsOutdated();
+            var outd8d = await _sut.TargetIsOutdated(new CancellationToken());
             outd8d.Should().BeFalse();
         }
 
@@ -75,7 +76,7 @@ namespace Repo2.UnitTests.Lib.SDK.WPF45.Tests.PackageDownloaders
 
             await Assert.ThrowsAsync<InvalidOperationException>(async () =>
             {
-                await _sut.TargetIsOutdated();
+                await _sut.TargetIsOutdated(new CancellationToken());
             });
         }
 
@@ -89,7 +90,7 @@ namespace Repo2.UnitTests.Lib.SDK.WPF45.Tests.PackageDownloaders
             SetFileToR2PackageToReturn(pkg);
             _sut.SetTargetFile(F.ke.FilePath);
 
-            var outd8d = await _sut.TargetIsOutdated();
+            var outd8d = await _sut.TargetIsOutdated(new CancellationToken());
             outd8d.Should().BeFalse();
         }
 
@@ -107,7 +108,7 @@ namespace Repo2.UnitTests.Lib.SDK.WPF45.Tests.PackageDownloaders
 
             _sut.SetTargetFile(F.ke.FilePath);
 
-            var outd8d = await _sut.TargetIsOutdated();
+            var outd8d = await _sut.TargetIsOutdated(new CancellationToken());
             outd8d.Should().BeTrue();
         }
 
@@ -120,7 +121,7 @@ namespace Repo2.UnitTests.Lib.SDK.WPF45.Tests.PackageDownloaders
 
 
         private void SetPkgsListToReturn(params R2Package[] pkgs)
-            => _pkgs.Setup(x => x.ListByFilename(Any.Text))
+            => _pkgs.Setup(x => x.ListByFilename(Any.Text, Any.Tkn))
                 .ReturnsAsync(pkgs.Length == 0 
                     ? new List<R2Package>() : pkgs.ToList());
     }

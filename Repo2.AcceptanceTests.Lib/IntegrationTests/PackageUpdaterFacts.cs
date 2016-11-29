@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using Autofac;
 using FluentAssertions;
 using Repo2.AcceptanceTests.Lib.TestTools;
@@ -45,13 +46,13 @@ namespace Repo2.AcceptanceTests.Lib.IntegrationTests
                 => File.Delete(exePath));
 
             _downldr.SetTargetFile(exePath);
-            var isOld = await _downldr.TargetIsOutdated();
+            var isOld = await _downldr.TargetIsOutdated(new CancellationToken());
             isOld.Should().BeTrue("test should start with outdated target");
 
             _downldr.TargetUpdated += (s, e) => evtRaisd = true;
-            await _downldr.UpdateTarget();
+            await _downldr.UpdateTarget(new CancellationToken());
 
-            isOld = await _downldr.TargetIsOutdated();
+            isOld = await _downldr.TargetIsOutdated(new CancellationToken());
             isOld.Should().BeFalse("target should now be up-to-date");
 
             evtRaisd.Should().BeTrue();

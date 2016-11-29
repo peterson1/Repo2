@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.ChangeNotification;
@@ -45,16 +46,17 @@ namespace Repo2.Core.ns11.PackageDownloaders
             _remote    = remotePackageManager;
             _file      = fileSystemAccesor;
             _client    = r2RestClient;
+            _client    . OnRetry += (s, e) => SetStatus(e);
             _downloadr = packageDownloader;
             _downloadr . StatusChanged += (s, e) => SetStatus(e.Text);
         }
 
 
-        public string    TargetPath   { get; private set; }
-        public bool      IsChecking   { get; private set; }
+        public string   TargetPath   { get; private set; }
+        public bool     IsChecking   { get; private set; }
 
 
-        public async void StartCheckingForUpdates(TimeSpan checkInterval)
+        public async void StartCheckingForUpdates(TimeSpan checkInterval, CancellationToken cancelTkn)
         {
             if (!ValidateTargetFile()) return;
 
@@ -63,18 +65,18 @@ namespace Repo2.Core.ns11.PackageDownloaders
             while (IsChecking)
             {
                 SetStatus($"Delaying for {checkInterval.Seconds:n0} seconds ...");
-                await Task.Delay(checkInterval);
-                if (IsChecking) await CheckForUpdateOnce();
+                await Task.Delay(checkInterval, cancelTkn);
+                if (IsChecking) await CheckForUpdateOnce(cancelTkn);
             }
         }
 
 
-        private async Task CheckForUpdateOnce()
+        private async Task CheckForUpdateOnce(CancellationToken cancelTkn)
         {
             var hasUpd8 = false;
             try
             {
-                hasUpd8 = await TargetIsOutdated();
+                hasUpd8 = await TargetIsOutdated(cancelTkn);
             }
             catch (Exception ex)
             {
@@ -85,11 +87,11 @@ namespace Repo2.Core.ns11.PackageDownloaders
             if (!hasUpd8) return;
 
             SetStatus("Update found. Downloading ...");
-            await UpdateTarget();
+            await UpdateTarget(cancelTkn);
         }
 
 
-        public async Task<bool> TargetIsOutdated()
+        public async Task<bool> TargetIsOutdated(CancellationToken cancelTkn)
         {
             if (!ValidateTargetFile()) return false;
             _remotePkg = null;
@@ -98,7 +100,7 @@ namespace Repo2.Core.ns11.PackageDownloaders
             var fName = localPkg.Filename;
 
             SetStatus($"Getting packages named “{fName}” ...");
-            var list = await _remote.ListByFilename(fName);
+            var list = await _remote.ListByFilename(fName, cancelTkn);
             if (list.Count == 0) return false;
 
             if (list.Count > 1) throw Fault
@@ -109,7 +111,7 @@ namespace Repo2.Core.ns11.PackageDownloaders
         }
 
 
-        public async Task UpdateTarget()
+        public async Task UpdateTarget(CancellationToken cancelTkn)
         {
             if (_remotePkg == null) throw Fault
                 .BadCall(nameof(TargetIsOutdated), nameof(UpdateTarget));
@@ -118,7 +120,7 @@ namespace Repo2.Core.ns11.PackageDownloaders
             try
             {
                 unpackd = await _downloadr.DownloadAndUnpack
-                            (_remotePkg, _file.TempDir);
+                            (_remotePkg, _file.TempDir, cancelTkn);
             }
             catch (Exception ex) { SetStatus(ex.Info(false, true)); }
 
@@ -197,6 +199,7 @@ namespace Repo2.Core.ns11.PackageDownloaders
         {
             SetStatus($"Using credentials for “{credentials.Username}”");
             _client.SetCredentials(credentials);
+            //_client.OnRetry 
         }
     }
 }

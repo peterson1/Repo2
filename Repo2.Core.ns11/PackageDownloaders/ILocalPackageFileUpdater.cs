@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.ChangeNotification;
@@ -14,9 +15,9 @@ namespace Repo2.Core.ns11.PackageDownloaders
         bool        IsChecking               { get; }
 
         void        SetCredentials           (R2Credentials credentials);
-        void        StartCheckingForUpdates  (TimeSpan checkInterval);
+        void        StartCheckingForUpdates  (TimeSpan checkInterval, CancellationToken cancelTkn);
         void        StopCheckingForUpdates   ();
-        Task<bool>  TargetIsOutdated         ();
-        Task        UpdateTarget             ();
+        Task<bool>  TargetIsOutdated         (CancellationToken cancelTkn);
+        Task        UpdateTarget             (CancellationToken cancelTkn);
     }
 }

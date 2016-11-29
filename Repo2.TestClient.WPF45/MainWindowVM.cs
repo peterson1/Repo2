@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading;
 using System.Windows;
 using Autofac;
 using PropertyChanged;
@@ -16,6 +17,7 @@ namespace Repo2.TestClient.WPF45
     class MainWindowVM
     {
         private ILocalPackageFileUpdater _upd8r;
+        private CancellationTokenSource  _cancelr;
 
         public MainWindowVM(ILifetimeScope scope)
         {
@@ -63,7 +65,7 @@ namespace Repo2.TestClient.WPF45
             StartCheckingCmd = R2Command.Relay(StartChecking,
                            x => !IsChecking, "Start Checking");
 
-            StopCheckingCmd = R2Command.Relay(_upd8r.StopCheckingForUpdates,
+            StopCheckingCmd = R2Command.Relay(StopChecking,
                           x => IsChecking, "Stop Checking");
         }
 
@@ -78,8 +80,20 @@ namespace Repo2.TestClient.WPF45
 
 
         private void StartChecking()
-            => _upd8r.StartCheckingForUpdates
-                (TimeSpan.FromSeconds(SecondsInterval));
+        {
+            _cancelr = new CancellationTokenSource();
+
+            _upd8r.StartCheckingForUpdates
+                (TimeSpan.FromSeconds(SecondsInterval), 
+                    _cancelr.Token);
+        }
+
+
+        private void StopChecking()
+        {
+            _cancelr.Cancel(false);
+            _upd8r.StopCheckingForUpdates();
+        }
 
 
         private void RelaunchApp(object cmdParam)
@@ -87,7 +101,6 @@ namespace Repo2.TestClient.WPF45
             Process.Start(_upd8r.TargetPath);
             var win = cmdParam as Window;
             win?.Close();
-            //App.Current.MainWindow.Close();
         }
     }
 }

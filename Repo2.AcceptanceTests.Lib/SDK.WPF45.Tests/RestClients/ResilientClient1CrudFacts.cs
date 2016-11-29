@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Autofac;
 using FluentAssertions;
 using Repo2.Core.ns11.Authentication;
@@ -37,26 +38,26 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
         [Fact(DisplayName = "Can POST & DELETE PkgPart")]
         public async void CanPostDeletePackagePart()
         {
-            (await _sut.EnableWriteAccess(_creds)).Should().BeTrue();
+            (await _sut.EnableWriteAccess(_creds, new CancellationToken())).Should().BeTrue();
             var sampl = SamplePkgPart();
             var fNme = sampl.PackageFilename;
             var hash = sampl.PackageHash;
 
-            var list = await _parts.ListByPackage(fNme, hash);
+            var list = await _parts.ListByPackage(fNme, hash, new CancellationToken());
             list.Should().HaveCount(0);
 
-            var reply = await _sut.PostNode(sampl);
+            var reply = await _sut.PostNode(sampl, new CancellationToken());
             reply.Should().NotBeNull();
             reply.IsSuccessful.Should().BeTrue();
             reply.Nid.Should().BeGreaterThan(1);
 
-            list = await _parts.ListByPackage(fNme, hash);
+            list = await _parts.ListByPackage(fNme, hash, new CancellationToken());
             list.Should().HaveCount(1);
 
-            var delRep = await _sut.DeleteNode(reply.Nid);
+            var delRep = await _sut.DeleteNode(reply.Nid, new CancellationToken());
             delRep.IsSuccessful.Should().BeTrue();
 
-            list = await _parts.ListByPackage(fNme, hash);
+            list = await _parts.ListByPackage(fNme, hash, new CancellationToken());
             list.Should().HaveCount(0);
         }
 
@@ -64,17 +65,17 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
         [Fact(DisplayName = "Can PATCH Package")]
         public async void CanPatchPackage()
         {
-            (await _sut.EnableWriteAccess(_creds)).Should().BeTrue();
+            (await _sut.EnableWriteAccess(_creds, new CancellationToken())).Should().BeTrue();
             var pkg = UpdatedTestPackage2();
 
-            var list = await _pkgs.ListByFilename(pkg.Filename);
+            var list = await _pkgs.ListByFilename(pkg.Filename, new CancellationToken());
             list.Should().HaveCount(1);
             list[0].Hash.Should().NotBe(pkg.Hash);
 
-            var reply = await _sut.PatchNode(pkg);
+            var reply = await _sut.PatchNode(pkg, new CancellationToken());
             reply.IsSuccessful.Should().BeTrue();
 
-            list = await _pkgs.ListByFilename(pkg.Filename);
+            list = await _pkgs.ListByFilename(pkg.Filename, new CancellationToken());
             list.Should().HaveCount(1);
             list[0].Filename.Should().Be(pkg.Filename);
             list[0].Hash.Should().Be(pkg.Hash);
@@ -84,11 +85,11 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
         [Fact(DisplayName = "PATCH Package requires hash")]
         public async void PatchPackageRequiresHash()
         {
-            (await _sut.EnableWriteAccess(_creds)).Should().BeTrue();
+            (await _sut.EnableWriteAccess(_creds, new CancellationToken())).Should().BeTrue();
             var pkg  = UpdatedTestPackage2();
             pkg.Hash = null;
 
-            var reply = await _sut.PatchNode(pkg);
+            var reply = await _sut.PatchNode(pkg, new CancellationToken());
             reply.IsSuccessful.Should().BeFalse();
         }
 

@@ -24,7 +24,10 @@ namespace Repo2.SDK.WPF45.Exceptions
             {
                 //msg = $"“{webEx.Message}”{L.f}[{webEx.Status}] {url}";
                 var rs = webEx.Response as HttpWebResponse;
-                msg = $"‹{webEx.Status}› {rs.StatusDescription}{L.f}“{webEx.Message}”{L.f}[{rs.Method}] {url}";
+                if (rs != null)
+                    msg = $"‹{webEx.Status}› {rs.StatusDescription}{L.f}“{webEx.Message}”{L.f}[{rs.Method}] {url}";
+                else
+                    msg = $"‹{webEx.Status}› {webEx.Message}  [{url}]{L.f}“{webEx.InnerException?.Message}”";
 
                 ret = new WebException(msg, ex, webEx.Status, null);
             }

@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Repo2.AcceptanceTests.Lib.PackageRegistrationSuite;
 using Repo2.AcceptanceTests.Lib.UploaderRestrictionsSuite;
 using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.PackageRegistration;
@@ -19,7 +18,6 @@ namespace Repo2.AcceptanceTests.Lib.ComponentRegistry
             b.RegisterInstance(r2Credentials);
 
             b.Multi<GetValidUploaderCredentials>();
-            b.Multi<CheckPackageRegistration>();
 
             b.Multi<CrappyConnectionRetryer>();
             b.Multi<IR2RestClient, ResilientClient1>();

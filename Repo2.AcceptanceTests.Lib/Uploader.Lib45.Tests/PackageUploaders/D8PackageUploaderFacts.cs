@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Autofac;
 using FluentAssertions;
 using Repo2.AcceptanceTests.Lib.TestTools;
@@ -44,22 +45,22 @@ namespace Repo2.AcceptanceTests.Lib.Uploader.Lib45.Tests.PackageUploaders
         {
             var pkg = CreateFileWithSizeMB(srcMB);
             await EnableWriteAccess();
-            await _parts.DeleteByPackage(pkg);
+            await _parts.DeleteByPackage(pkg, new CancellationToken());
 
             _sut.MaxPartSizeMB = maxMB;
-            await _sut.Upload(pkg);
+            await _sut.Upload(pkg, new CancellationToken());
 
-            var list1 = await _parts.ListByPackage(pkg);
+            var list1 = await _parts.ListByPackage(pkg, new CancellationToken());
             list1.Should().HaveCount(parts);
 
-            var pkgs = await _pkgs.ListByFilename(pkg.Filename);
+            var pkgs = await _pkgs.ListByFilename(pkg.Filename, new CancellationToken());
             pkgs.Should().HaveCount(1);
             pkgs[0].Hash.Should().Be(pkg.Hash);
         }
 
         private async Task EnableWriteAccess()
         {
-            var ok = await _client.EnableWriteAccess(_creds);
+            var ok = await _client.EnableWriteAccess(_creds, new CancellationToken());
             ok.Should().BeTrue();
         }
 

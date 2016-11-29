@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using FluentAssertions;
 using Moq;
 using Repo2.Core.ns11.DataStructures;
@@ -23,13 +24,13 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
             var moq  = MockClientReturning(part);
             var sut  = new D8PkgPartManager1(moq.Object, null);
 
-            var rply = await sut.AddNode(part);
+            var rply = await sut.AddNode(part, new CancellationToken());
 
             rply.IsSuccessful.Should().BeTrue();
             rply.Errors  .Should().HaveCount(0);
             rply.Warnings.Should().HaveCount(1);
 
-            moq.Verify(c => c.PostNode(Any.Node), Times.Never);
+            moq.Verify(c => c.PostNode(Any.Node, Any.Tkn), Times.Never);
         }
 
 
@@ -40,13 +41,13 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
             var part = SamplePkgPart();
             var sut  = new D8PkgPartManager1(moq.Object, null);
 
-            var rply = await sut.AddNode(part);
+            var rply = await sut.AddNode(part, new CancellationToken());
 
             rply.IsSuccessful.Should().BeTrue();
             rply.Errors  .Should().HaveCount(0);
             rply.Warnings.Should().HaveCount(0);
 
-            moq.Verify(c => c.PostNode(Any.Node), Times.Once);
+            moq.Verify(c => c.PostNode(Any.Node, Any.Tkn), Times.Once);
         }
 
 
@@ -54,13 +55,13 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
         {
             var moq = new Mock<IR2RestClient>();
 
-            moq.Setup(x => x.List<PartsByPackage1>(Any.Text, Any.Text))
+            moq.Setup(x => x.List<PartsByPackage1>(Any.Tkn, Any.Text, Any.Text))
                .ReturnsAsync(parts.ToList());
 
             var dict = new Dictionary<string, object>();
             dict.Add("nid", Json.Serialize(D8HALJson.ValueField(123)));
 
-            moq.Setup(x => x.PostNode(Any.Node))
+            moq.Setup(x => x.PostNode(Any.Node, Any.Tkn))
                 .ReturnsAsync(new NodeReply(dict));
 
             return moq;

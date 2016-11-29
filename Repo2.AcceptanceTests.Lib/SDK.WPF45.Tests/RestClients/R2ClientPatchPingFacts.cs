@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using FluentAssertions;
@@ -38,17 +39,17 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
             await EnableWriteAccess();
             var pkg     = GetSampleTest1Pkg();
             var newName = _fke.FirstName();
-            var ping    = await _pings.GetCurrentUserPing(pkg.Filename);
+            var ping    = await _pings.GetCurrentUserPing(pkg.Filename, new CancellationToken());
             ping.Should().NotBeNull();
             ping.WindowsAccount.Should().NotBe(newName, "random collission");
 
             ping.WindowsAccount = newName;
             ping.PingerHash = _fke.Text;
 
-            var reply = await _pings.UpdateNode(ping);
+            var reply = await _pings.UpdateNode(ping, new CancellationToken());
             reply.IsSuccessful.Should().BeTrue(reply.ErrorsText);
 
-            var newPing = await _pings.GetCurrentUserPing(pkg.Filename);
+            var newPing = await _pings.GetCurrentUserPing(pkg.Filename, new CancellationToken());
             newPing.WindowsAccount.Should().Be(newName);
         }
 
@@ -61,6 +62,6 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
 
 
         private async Task EnableWriteAccess()
-            => (await _sut.EnableWriteAccess(_creds)).Should().BeTrue();
+            => (await _sut.EnableWriteAccess(_creds, new CancellationToken())).Should().BeTrue();
     }
 }
