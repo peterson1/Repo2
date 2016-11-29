@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
+using Repo2.SDK.WPF45.Encryption;
 using Repo2.SDK.WPF45.Extensions.FileInfoExtensions;
 using Repo2.SDK.WPF45.PackageFinders;
+using Repo2.SDK.WPF45.Serialization;
 
 namespace Repo2.SDK.WPF45.FileSystems
 {
@@ -73,6 +75,22 @@ namespace Repo2.SDK.WPF45.FileSystems
             var path = Path.GetTempFileName();
             File.WriteAllBytes(path, byts);
             return path;
+        }
+
+
+        public T DecryptJsonFile<T>(string filePath, string decryptKey)
+        {
+            var raw  = File.ReadAllText(filePath);
+            var json = AESThenHMAC.SimpleDecryptWithPassword(raw, decryptKey);
+            return Json.Deserialize<T>(json);
+        }
+
+
+        public void EncryptJsonToFile<T>(string filePath, T obj, string encryptKey)
+        {
+            var json = Json.Serialize(obj);
+            var raw  = AESThenHMAC.SimpleEncryptWithPassword(json, encryptKey);
+            File.WriteAllText(filePath, raw);
         }
 
 

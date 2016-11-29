@@ -9,6 +9,7 @@ using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.PackageDownloaders;
+using Repo2.Core.ns11.RestClients;
 using Repo2.UnitTests.Lib.TestTools;
 using Repo2.UnitTests.Lib.TestTools.MoqExtensions;
 using Xunit;
@@ -21,34 +22,34 @@ namespace Repo2.UnitTests.Lib.SDK.WPF45.Tests.PackageDownloaders
         private ILocalPackageFileUpdater    _sut;
         private Mock<IFileSystemAccesor>    _fileIO;
         private Mock<IRemotePackageManager> _pkgs;
+        private Mock<IPackageDownloader>    _downlr;
+        private Mock<IR2RestClient>         _client;
 
         public LocalPackageFileUpdater1Facts()
         {
             _fileIO = new Mock<IFileSystemAccesor>();
             _pkgs   = new Mock<IRemotePackageManager>();
-            _sut    = new LocalPackageFileUpdater1(_pkgs.Object, _fileIO.Object, null, null);
+            _downlr = new Mock<IPackageDownloader>();
+            _client = new Mock<IR2RestClient>();
+            _sut    = new LocalPackageFileUpdater1(_pkgs.Object, 
+                        _fileIO.Object, _downlr.Object, _client.Object);
         }
 
 
-        [Fact(DisplayName = "IsOutdated: Error if blank target")]
+        [Fact(DisplayName = "IsOutdated: False if blank target")]
         public async void IsOutdatedErrorifblanktarget()
         {
-            await Assert.ThrowsAsync<ArgumentException>(async () =>
-            {
-                await _sut.TargetIsOutdated(new CancellationToken());
-            });
+            var resp = await _sut.TargetIsOutdated(new CancellationToken());
+            resp.Should().BeFalse();
         }
 
 
-        [Fact(DisplayName = "IsOutdated: Error if missing file")]
+        [Fact(DisplayName = "IsOutdated: False if missing file")]
         public async void IsOutdatedErrorifmissingfile()
         {
             _sut.SetTargetFile(F.ke.FilePath);
-
-            await Assert.ThrowsAsync<FileNotFoundException>(async () =>
-            {
-                await _sut.TargetIsOutdated(new CancellationToken());
-            });
+            var resp = await _sut.TargetIsOutdated(new CancellationToken());
+            resp.Should().BeFalse();
         }
 
 

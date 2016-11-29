@@ -31,11 +31,12 @@ namespace Repo2.Core.ns11.PackageDownloaders
         }
 
 
-        private IRemotePackageManager _remote;
-        private IFileSystemAccesor    _file;
-        private IPackageDownloader    _downloadr;
-        private IR2RestClient         _client;
-        private R2Package             _remotePkg;
+        private IRemotePackageManager   _remote;
+        private IFileSystemAccesor      _file;
+        private IPackageDownloader      _downloadr;
+        private IR2RestClient           _client;
+        private R2Package               _remotePkg;
+        private CancellationTokenSource _cancelr;
 
 
         public LocalPackageFileUpdater1(IRemotePackageManager remotePackageManager, 
@@ -53,20 +54,27 @@ namespace Repo2.Core.ns11.PackageDownloaders
 
 
         public string   TargetPath   { get; private set; }
-        public bool     IsChecking   { get; private set; }
+        public bool     IsChecking   => !_cancelr?.IsCancellationRequested ?? false;
 
 
-        public async void StartCheckingForUpdates(TimeSpan checkInterval, CancellationToken cancelTkn)
+        public async void StartCheckingForUpdates(TimeSpan checkInterval)
         {
             if (!ValidateTargetFile()) return;
 
+            _cancelr = new CancellationTokenSource();
+            var tkn  = _cancelr.Token;
+
             SetStatus("Started checking for updates.");
-            IsChecking = true;
             while (IsChecking)
             {
                 SetStatus($"Delaying for {checkInterval.Seconds:n0} seconds ...");
-                await Task.Delay(checkInterval, cancelTkn);
-                if (IsChecking) await CheckForUpdateOnce(cancelTkn);
+                try
+                {
+                    await Task.Delay(checkInterval, tkn);
+                    if (IsChecking) await CheckForUpdateOnce(tkn);
+
+                }
+                catch (OperationCanceledException) { }
             }
         }
 
@@ -81,10 +89,14 @@ namespace Repo2.Core.ns11.PackageDownloaders
             catch (Exception ex)
             {
                 SetStatus(ex.Info());
-                IsChecking = false;
+                StopCheckingForUpdates();
                 return;
             }
-            if (!hasUpd8) return;
+            if (!hasUpd8)
+            {
+                SetStatus("Target is up-to-date. Will check again later.");
+                return;
+            }
 
             SetStatus("Update found. Downloading ...");
             await UpdateTarget(cancelTkn);
@@ -133,7 +145,7 @@ namespace Repo2.Core.ns11.PackageDownloaders
 
             CheckHash(TargetPath, "downloaded-unpacked-placed package");
 
-            IsChecking = false;
+            StopCheckingForUpdates();
             RaiseTargetUpdated();
         }
 
@@ -190,7 +202,8 @@ namespace Repo2.Core.ns11.PackageDownloaders
 
         public void StopCheckingForUpdates()
         {
-            IsChecking = false;
+            try   { _cancelr.Cancel(false); }
+            catch { }
             SetStatus("Stopped checking for updates.");
         }
 

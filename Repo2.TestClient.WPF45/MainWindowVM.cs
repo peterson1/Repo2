@@ -17,7 +17,6 @@ namespace Repo2.TestClient.WPF45
     class MainWindowVM
     {
         private ILocalPackageFileUpdater _upd8r;
-        private CancellationTokenSource  _cancelr;
 
         public MainWindowVM(ILifetimeScope scope)
         {
@@ -62,37 +61,25 @@ namespace Repo2.TestClient.WPF45
             LoadConfigCmd = R2Command.Relay(LoadConfig,
                         x => !IsChecking, "Load Config");
 
-            StartCheckingCmd = R2Command.Relay(StartChecking,
+            StartCheckingCmd = R2Command.Relay(
+                          () => _upd8r.StartCheckingForUpdates
+                                (TimeSpan.FromSeconds(SecondsInterval)),
                            x => !IsChecking, "Start Checking");
 
-            StopCheckingCmd = R2Command.Relay(StopChecking,
+            StopCheckingCmd = R2Command.Relay(_upd8r.StopCheckingForUpdates,
                           x => IsChecking, "Stop Checking");
         }
 
 
         private void LoadConfig()
         {
-            var cfg = DownloaderConfigFile.Parse(ConfigKey);
+            //var cfg = DownloaderConfigFile.Parse(ConfigKey);
+            var cfg = R2ConfigFile1.ParseOrDefault(ConfigKey,
+                "usr", "pwd", "url", "thumb", 4);
+
             _upd8r.SetCredentials(cfg);
             SecondsInterval = cfg.CheckIntervalSeconds;
             StartCheckingCmd.ExecuteIfItCan();
-        }
-
-
-        private void StartChecking()
-        {
-            _cancelr = new CancellationTokenSource();
-
-            _upd8r.StartCheckingForUpdates
-                (TimeSpan.FromSeconds(SecondsInterval), 
-                    _cancelr.Token);
-        }
-
-
-        private void StopChecking()
-        {
-            _cancelr.Cancel(false);
-            _upd8r.StopCheckingForUpdates();
         }
 
 

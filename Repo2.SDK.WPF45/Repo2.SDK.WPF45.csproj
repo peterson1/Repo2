@@ -101,9 +101,11 @@
     <Compile Include="Compression\SevenZipper2.cs" />
     <Compile Include="Configuration\DownloaderConfigFile.cs" />
     <Compile Include="Configuration\LocalConfigFile.cs" />
+    <Compile Include="Configuration\R2ConfigFile1.cs" />
     <Compile Include="ControlBehaviors\TextBoxBehaviors\ScrollOnChangeBehavior.cs" />
     <Compile Include="ControlBehaviors\WindowBehaviors\DraggableBehavior.cs" />
     <Compile Include="EmbeddedResources\EmbeddedResrc.cs" />
+    <Compile Include="Encryption\AESThenHMAC.cs" />
     <Compile Include="Exceptions\Alerter.cs" />
     <Compile Include="Exceptions\ThreadedAlerter.cs" />
     <Compile Include="Exceptions\WebExceptionCaster.cs" />

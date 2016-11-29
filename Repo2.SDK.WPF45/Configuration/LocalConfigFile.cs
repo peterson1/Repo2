@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Repo2.Core.ns11.Authentication;
@@ -33,7 +34,19 @@ namespace Repo2.SDK.WPF45.Configuration
             => Path.Combine(GetFolderPath(SPECIAL_DIR), SubFolder);
 
         protected string GetFileName(string cfgKey) 
-            => $"{Prefix}{cfgKey}.{EXTENSION}";
+            => $"{Prefix}{Sanitize(cfgKey)}.{EXTENSION}";
+
+
+        private string Sanitize(string cfgKey)
+        {
+            var safeName = cfgKey;
+
+            foreach (char c in Path.GetInvalidFileNameChars())
+                safeName = safeName.Replace(c, '_');
+
+            return safeName;
+        }
+
 
         protected string GetFilePath(string cfgKey)
             => Path.Combine(GetParentFolder(), GetFileName(cfgKey));

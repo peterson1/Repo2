@@ -20,5 +20,8 @@ namespace Repo2.Core.ns11.FileSystems
         bool         Found         (string filePath);
         R2Package    ToR2Package   (string filePath);
         Task<bool>   Move          (string originalPath, string targetPath);
+
+        T    DecryptJsonFile   <T>(string filePath, string decryptKey);
+        void EncryptJsonToFile <T>(string filePath, T obj, string encryptKey);
     }
 }

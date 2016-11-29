@@ -63,6 +63,7 @@
     <Compile Include="Extensions\BooleanExtensions\BasicBooleanExtensions.cs" />
     <Compile Include="Exceptions\ErrorMessageTrimmer.cs" />
     <Compile Include="Extensions\StringExtensions\BasicStringExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions\HashExtensions.cs" />
     <Compile Include="FileSystems\IFileSystemAccesor.cs" />
     <Compile Include="HashLib\Crypto\SHA0.cs" />
     <Compile Include="HashLib\Crypto\SHA1.cs" />

@@ -24,7 +24,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
 
         public R2ClientPatchPingFacts()
         {
-            _creds = DownloaderConfigFile.Parse(Downloader1Cfg.KEY);
+            _creds = R2ConfigFile1.Parse(Downloader1Cfg.KEY);
             using (var scope = DownloaderIoC.BeginScope())
             {
                 _sut   = scope.Resolve<IR2RestClient>();

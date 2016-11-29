@@ -84,6 +84,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="IntegrationTests\PackageUpdaterFacts.cs" />
     <Compile Include="PackageUploaderSuite\PreUploadCheckerTests\PreUploadCheckerFacts.cs" />
+    <Compile Include="SDK.WPF45.Tests\FileSystems\FileSystemAccesor1Facts.cs" />
     <Compile Include="SDK.WPF45.Tests\RestClients\R2ClientPatchPingFacts.cs" />
     <Compile Include="SDK.WPF45.Tests\RestClients\ResilientClient1CrudFacts.cs" />
     <Compile Include="ShouldIBuyMilk.cs" />
