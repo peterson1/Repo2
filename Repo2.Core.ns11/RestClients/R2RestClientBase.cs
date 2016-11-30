@@ -66,16 +66,18 @@ namespace Repo2.Core.ns11.RestClients
             => BasicAuthGET<List<T>>(ToURL(url, args), cancelTkn);
 
 
-        public void SetCredentials(R2Credentials credentials)
+        public void SetCredentials(R2Credentials credentials, bool addCertToWhiteList)
         {
             _creds = credentials;
-            AllowUntrustedCertificate(_creds.CertificateThumb);
+
+            if (addCertToWhiteList)
+                AllowUntrustedCertificate(_creds.CertificateThumb);
         }
 
 
-        public async Task<bool> EnableWriteAccess(R2Credentials credentials, CancellationToken cancelTkn)
+        public async Task<bool> EnableWriteAccess(R2Credentials credentials, CancellationToken cancelTkn, bool addCertToWhiteList)
         {
-            SetCredentials(credentials);
+            SetCredentials(credentials, addCertToWhiteList);
 
             var cookie = await GetCookie(credentials, cancelTkn);
             if (cookie == null) return false;

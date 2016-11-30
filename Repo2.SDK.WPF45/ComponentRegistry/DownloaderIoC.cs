@@ -18,6 +18,14 @@ namespace Repo2.SDK.WPF45.ComponentRegistry
         {
             var b = new ContainerBuilder();
 
+            RegisterComponentsTo(ref b);
+
+            return b.Build().BeginLifetimeScope();
+        }
+
+
+        public static void RegisterComponentsTo(ref ContainerBuilder b)
+        {
             b.Solo<IR2RestClient, ResilientClient1>();
             b.Solo<IRemotePackageManager, D8RemotePackageMgr1>();
             b.Solo<IPackagePartManager, D8PkgPartManager1>();
@@ -28,8 +36,6 @@ namespace Repo2.SDK.WPF45.ComponentRegistry
             b.Multi<IFileArchiver, FileArchiver1>();
             b.Multi<CrappyConnectionRetryer>();
             b.Multi<IPackageDownloader, D8PackageDownloader1>();
-
-            return b.Build().BeginLifetimeScope();
         }
     }
 }

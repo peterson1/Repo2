@@ -14,7 +14,7 @@ namespace Repo2.Core.ns11.PackageDownloaders
         string      TargetPath               { get; }
         bool        IsChecking               { get; }
 
-        void        SetCredentials           (R2Credentials credentials);
+        void        SetCredentials           (R2Credentials credentials, bool addCertToWhiteList = true);
         void        StartCheckingForUpdates  (TimeSpan checkInterval);
         void        StopCheckingForUpdates   ();
         Task<bool>  TargetIsOutdated         (CancellationToken cancelTkn);

@@ -13,8 +13,8 @@ namespace Repo2.Core.ns11.RestClients
     {
         event EventHandler<string> OnRetry;
 
-        void        SetCredentials     (R2Credentials credentials);
-        Task<bool>  EnableWriteAccess  (R2Credentials credentials, CancellationToken cancelTkn);
+        void        SetCredentials     (R2Credentials credentials, bool addCertToWhiteList = true);
+        Task<bool>  EnableWriteAccess  (R2Credentials credentials, CancellationToken cancelTkn, bool addCertToWhiteList = true);
 
         Task<List<T>>  List  <T>(CancellationToken cancelTkn, params object[] args)
             where T : IRestExportView, new();
