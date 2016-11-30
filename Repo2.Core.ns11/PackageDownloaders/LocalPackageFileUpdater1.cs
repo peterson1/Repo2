@@ -113,7 +113,8 @@ namespace Repo2.Core.ns11.PackageDownloaders
 
             SetStatus($"Getting packages named “{fName}” ...");
             var list = await _remote.ListByFilename(fName, cancelTkn);
-            if (list.Count == 0) return false;
+            if (list.Count == 0) throw Fault
+                .NoItems($"Server packages named “{fName}”");
 
             if (list.Count > 1) throw Fault
                 .NonSolo($"Server packages named “{fName}”", list.Count);
