@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using FluentAssertions;
+using Repo2.AcceptanceTests.Lib;
 using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.NodeManagers;
@@ -25,7 +26,8 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
 
         public R2ClientPatchPingFacts()
         {
-            _creds = UploaderConfigFile.Parse(UploaderCfg.KEY);
+            //_creds = UploaderConfigFile.Parse(UploaderCfg.KEY);
+            _creds = DownloaderConfigFile.Parse(Downloader1Cfg.KEY);
             using (var scope = DownloaderIoC.BeginScope())
             {
                 _sut   = scope.Resolve<IR2RestClient>();

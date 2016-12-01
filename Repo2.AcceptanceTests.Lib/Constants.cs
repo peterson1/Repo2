@@ -7,6 +7,6 @@
 
     internal struct Downloader1Cfg
     {
-        internal const string KEY = "testDownloader1";
+        internal const string KEY = "testDownloader1_open";
     }
 }
