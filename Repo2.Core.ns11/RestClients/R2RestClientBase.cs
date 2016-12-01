@@ -48,6 +48,10 @@ namespace Repo2.Core.ns11.RestClients
             where TModel : class
         {
             var list = await List<TDto>(cancelTkn, args);
+
+            if ((list == null) || (list.Count == 0))
+                return new List<TModel>();
+
             return list.Select(x => x as TModel).ToList();
         }
 

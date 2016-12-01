@@ -56,11 +56,12 @@ namespace Repo2.Core.ns11.NodeManagers
         public Task<List<R2PackagePart>> ListByPackage(R2Package package, CancellationToken cancelTkn)
             => ListByPackage(package.Filename, package.Hash, cancelTkn);
 
-        public async Task<List<R2PackagePart>> ListByPackage(string packageFilename, string packageHash, CancellationToken cancelTkn)
-        {
-            var list = await _client.List<PartsByPackage1>(cancelTkn, packageFilename, packageHash);
-            return list.Select(x => x as R2PackagePart).ToList();
-        }
+        public Task<List<R2PackagePart>> ListByPackage(string packageFilename, string packageHash, CancellationToken cancelTkn)
+            => _client.List<R2PackagePart, PartsByPackage1>(cancelTkn, packageFilename, packageHash);
+        //{
+        //    var list = await _client.List<PartsByPackage1>(cancelTkn, packageFilename, packageHash);
+        //    return list.Select(x => x as R2PackagePart).ToList();
+        //}
 
         private async Task<bool> AlreadyInServer(R2PackagePart part, CancellationToken cancelTkn)
         {

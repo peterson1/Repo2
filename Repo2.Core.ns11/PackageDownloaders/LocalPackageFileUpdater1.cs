@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.Authentication;
-using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.Extensions.StringExtensions;
@@ -23,8 +22,8 @@ namespace Repo2.Core.ns11.PackageDownloaders
             remove { _targetUpdated -= value; }
         }
 
-        private      EventHandler<StatusText> _statusChanged;
-        public event EventHandler<StatusText>  StatusChanged
+        private      EventHandler<string> _statusChanged;
+        public event EventHandler<string>  StatusChanged
         {
             add    { _statusChanged -= value; _statusChanged += value; }
             remove { _statusChanged -= value; }
@@ -49,7 +48,7 @@ namespace Repo2.Core.ns11.PackageDownloaders
             _client    = r2RestClient;
             _client    . OnRetry += (s, e) => SetStatus(e);
             _downloadr = packageDownloader;
-            _downloadr . StatusChanged += (s, e) => SetStatus(e.Text);
+            _downloadr . StatusChanged += (s, e) => SetStatus(e);
         }
 
 
@@ -67,7 +66,7 @@ namespace Repo2.Core.ns11.PackageDownloaders
             SetStatus("Started checking for updates.");
             while (IsChecking)
             {
-                SetStatus($"Delaying for {checkInterval.Seconds:n0} seconds ...");
+                SetStatus($"Delaying for {checkInterval.TotalMinutes:n0} minutes ...");
                 try
                 {
                     await Task.Delay(checkInterval, tkn);
@@ -168,6 +167,8 @@ namespace Repo2.Core.ns11.PackageDownloaders
         {
             if (_file.GetSHA1(filePath) != _remotePkg.Hash) throw Fault
                 .HashMismatch(fileDescription, "remote package");
+
+            SetStatus($"Hash of {fileDescription} is valid.");
         }
 
 
@@ -194,7 +195,7 @@ namespace Repo2.Core.ns11.PackageDownloaders
 
 
         private void SetStatus(string text)
-            => _statusChanged.Raise(text);
+            => _statusChanged?.Invoke(this, text);
 
 
         public void SetTargetFile(string targetFilePath)

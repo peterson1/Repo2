@@ -26,6 +26,6 @@ namespace Repo2.Core.ns11.FileSystems
 
         //string       Chain           (params string[] foldersAndFilename);
         //void        AppendTo        (string filePath, string text);
-        //void        CreateDir       (string foldrPath);
+        void        CreateDir       (string foldrPath);
     }
 }

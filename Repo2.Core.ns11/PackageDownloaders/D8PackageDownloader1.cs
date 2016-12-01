@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.Compression;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.NodeManagers;
@@ -12,7 +11,12 @@ namespace Repo2.Core.ns11.PackageDownloaders
 {
     public class D8PackageDownloader1 : IPackageDownloader
     {
-        public event EventHandler<StatusText> StatusChanged;
+        private      EventHandler<string> _statusChanged;
+        public event EventHandler<string>  StatusChanged
+        {
+            add    { _statusChanged -= value; _statusChanged += value; }
+            remove { _statusChanged -= value; }
+        }
 
         private IPackagePartManager _parts;
         private IFileArchiver       _archivr;
@@ -42,10 +46,14 @@ namespace Repo2.Core.ns11.PackageDownloaders
             var paths = new List<string>();
             foreach (var part in partsList)
             {
-                StatusChanged.Raise($"Downloading {part.Description} ...");
+                SetStatus($"Downloading {part.Description} ...");
                 paths.Add(await _parts.DownloadToTemp(part, cancelTkn));
             }
             return paths;
         }
+
+
+        private void SetStatus(string text)
+            => _statusChanged?.Invoke(this, text);
     }
 }

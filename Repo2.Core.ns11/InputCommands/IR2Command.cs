@@ -15,6 +15,7 @@ namespace Repo2.Core.ns11.InputCommands
         DateTime  LastExecuteStart  { get; }
         DateTime  LastExecuteEnd    { get; }
 
-        void ExecuteIfItCan(object param = null);
+        void  ConcludeExecute ();
+        void  ExecuteIfItCan  (object param = null);
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using PropertyChanged;
 using Repo2.Core.ns11.Exceptions;
-using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.InputCommands;
 using Repo2.SDK.WPF45.Exceptions;
 
@@ -12,10 +12,10 @@ namespace Repo2.SDK.WPF45.InputCommands
     [ImplementPropertyChanged]
     public class R2AsyncCommandWPF : IR2Command
     {
-        private   string              _origLabel;
-        protected Func<object, Task>  _task;
-        protected Predicate<object>   _canExecute;
-
+        private   string                 _origLabel;
+        private   bool                   _origOverride;
+        protected Func<object, Task>     _task;
+        protected Predicate<object>      _canExecute;
 
         internal R2AsyncCommandWPF(Func<object, Task> task, Predicate<object> canExecute, string buttonLabel)
         {
@@ -43,30 +43,30 @@ namespace Repo2.SDK.WPF45.InputCommands
             if (!OverrideEnabled) return;
 
             IsBusy             = true;
-            var origOverride   = OverrideEnabled;
+            _origOverride      = OverrideEnabled;
             _origLabel         = CurrentLabel;
-            CurrentLabel       = $"Running «{_origLabel}» ...{L.f}Please wait.";
+            CurrentLabel       = $"Running “{_origLabel}”…";
             OverrideEnabled    = false;
-            LastExecutedOK     = false;
             LastExecuteStart   = DateTime.Now;
 
+            LastExecutedOK     = await SafeRun(parameter);
+
+            ConcludeExecute();
+            CommandManager.InvalidateRequerySuggested();
+        }
+
+
+        private async Task<bool> SafeRun(object parameter)
+        {
             try
             {
                 await _task.Invoke(parameter);
-                LastExecutedOK = true;
+                return true;
             }
             catch (Exception ex)
             {
-                //later: report error to server
                 OnError(ex);
-            }
-            finally
-            {
-                LastExecuteEnd  = DateTime.Now;
-                IsBusy          = false;
-                CurrentLabel    = _origLabel;
-                OverrideEnabled = DisableWhenDone ? false : origOverride;
-                CommandManager.InvalidateRequerySuggested();
+                return false;
             }
         }
 
@@ -99,5 +99,14 @@ namespace Repo2.SDK.WPF45.InputCommands
 
 
         public override string ToString() => CurrentLabel;
+
+
+        public void ConcludeExecute()
+        {
+            LastExecuteEnd  = DateTime.Now;
+            IsBusy          = false;
+            CurrentLabel    = _origLabel;
+            OverrideEnabled = DisableWhenDone ? false : _origOverride;
+        }
     }
 }

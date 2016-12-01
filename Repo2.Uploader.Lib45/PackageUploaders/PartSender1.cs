@@ -14,7 +14,12 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
 {
     public class PartSender1 : IPartSender
     {
-        public event EventHandler<StatusText> StatusChanged;
+        private      EventHandler<string> _statusChanged;
+        public event EventHandler<string>  StatusChanged
+        {
+            add    { _statusChanged -= value; _statusChanged += value; }
+            remove { _statusChanged -= value; }
+        }
 
         private IPackagePartManager _partMgr;
         private IFileSystemAccesor  _fileIO;
@@ -40,12 +45,16 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
                     TotalParts      = partPaths.Count(),
                     Base64Content   = _fileIO.ReadBase64(path)
                 };
-                StatusChanged.Raise($"Sending {partNode.Description} ...");
+                SetStatus($"Sending {partNode.Description} ...");
                 var reply = await _partMgr.AddNode(partNode, cancelTkn);
 
                 if (reply.Failed)
                     throw new Exception(reply.ErrorsText);
             }
         }
+
+
+        private void SetStatus(string text)
+            => _statusChanged?.Invoke(this, text);
     }
 }

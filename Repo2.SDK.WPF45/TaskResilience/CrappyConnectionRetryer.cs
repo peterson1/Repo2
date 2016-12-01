@@ -23,6 +23,10 @@ namespace Repo2.SDK.WPF45.TaskResilience
             {
                 json = await KeepTrying(ct => task(url, ct), cancelTkn);
             }
+            catch (OperationCanceledException)
+            {
+                return default(T);
+            }
             catch (Exception ex) { throw ex.FromUrl(url); }
 
             return Json.DeserializeOrDefault<T>(json);
@@ -32,6 +36,7 @@ namespace Repo2.SDK.WPF45.TaskResilience
         private Task<T> KeepTrying <T>(Func<CancellationToken, Task<T>> task, CancellationToken cancelTkn)
         {
             var policy = Policy.Handle<AggregateException>(ex => IsRetryable(ex))
+                               .Or    <WebException>      (ex => IsRetryable(ex))
                                .WaitAndRetryForeverAsync(attempts
                                     => Delay(attempts), (ex, span) => OnRetry(ex, span));
 
@@ -46,8 +51,12 @@ namespace Repo2.SDK.WPF45.TaskResilience
         private bool IsRetryable(AggregateException agEx)
         {
             var webEx = agEx.InnerException as WebException;
-            if (webEx == null) return false;
+            return webEx == null ? false : IsRetryable(webEx);
+        }
 
+
+        private bool IsRetryable(WebException webEx)
+        {
             switch (webEx.Status)
             {
                 case WebExceptionStatus.ConnectFailure:
@@ -57,6 +66,7 @@ namespace Repo2.SDK.WPF45.TaskResilience
                 case WebExceptionStatus.RequestCanceled:
                 case WebExceptionStatus.ConnectionClosed:
                 case WebExceptionStatus.KeepAliveFailure:
+                case WebExceptionStatus.NameResolutionFailure:
                 case WebExceptionStatus.Pending:
                 case WebExceptionStatus.Timeout:
                     return true;

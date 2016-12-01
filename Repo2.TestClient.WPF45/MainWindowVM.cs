@@ -40,9 +40,9 @@ namespace Repo2.TestClient.WPF45
         {
             _upd8r = scope.Resolve<ILocalPackageFileUpdater>();
             _upd8r.SetTargetFile(Assembly.GetEntryAssembly().Location);
-            _upd8r.StatusChanged += (s, e) =>
+            _upd8r.StatusChanged += (s, statusText) =>
             {
-                Status += $"{L.f}{e.Text}";
+                Status += $"{L.f}{statusText}";
                 IsChecking = _upd8r.IsChecking;
             };
 

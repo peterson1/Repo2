@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using PropertyChanged;
@@ -12,20 +11,25 @@ using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.PackageDownloaders;
 using Repo2.Core.ns11.PackageUploaders;
-using Repo2.SDK.WPF45.Exceptions;
 
 namespace Repo2.Uploader.Lib45.PackageUploaders
 {
     [ImplementPropertyChanged]
     public class D8PackageUploader : IPackageUploader
     {
-        public event EventHandler<StatusText> StatusChanged;
+        private      EventHandler<string> _statusChanged;
+        public event EventHandler<string>  StatusChanged
+        {
+            add    { _statusChanged -= value; _statusChanged += value; }
+            remove { _statusChanged -= value; }
+        }
 
-        private IFileSystemAccesor _fileIO;
-        private IFileArchiver      _archivr;
-        private IPartSender        _sendr;
+        private IFileSystemAccesor       _fileIO;
+        private IFileArchiver            _archivr;
+        private IPartSender              _sendr;
         private IRemotePackageManager    _pkgMgr;
-        private IPackageDownloader _downloadr;
+        private IPackageDownloader       _downloadr;
+        private CancellationTokenSource  _cancelr;
 
 
         public D8PackageUploader(IFileSystemAccesor fileSystemAccesor,
@@ -40,12 +44,14 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
             _pkgMgr    = packageManager;
             _downloadr = packageDownloader;
 
-            _sendr.StatusChanged += (s, e) 
-                => StatusChanged.Raise(e.Text);
+            _sendr.StatusChanged += (s, statusText) 
+                => SetStatus(statusText);
         }
 
 
         public double MaxPartSizeMB { get; set; } = 0.5;
+
+        public bool IsUploading => !_cancelr?.IsCancellationRequested ?? false;
 
 
         //public async Task<NodeReply> Upload(R2Package localPkg)
@@ -60,15 +66,29 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
         //    }
         //}
 
-        public async Task<NodeReply> Upload(R2Package localPkg, CancellationToken cancelTkn)
+        public async Task<NodeReply> StartUpload (R2Package localPkg)
         {
             if (localPkg.nid == 0) throw Fault
                 .BadData(localPkg, "nid should NOT be zero");
 
-            StatusChanged.Raise("Isolating local package file...");
+            _cancelr = new CancellationTokenSource();
+            try
+            {
+                return await ExecuteUpload(localPkg, _cancelr.Token);
+            }
+            catch (OperationCanceledException ex)
+            {
+                return NodeReply.Fail(ex);
+            }
+        }
+
+
+        private async Task<NodeReply> ExecuteUpload(R2Package localPkg, CancellationToken cancelTkn)
+        {
+            SetStatus("Isolating local package file...");
             var pkgPath = await _fileIO.IsolateFile(localPkg);
 
-            StatusChanged.Raise("Compressing and splitting into parts...");
+            SetStatus("Compressing and splitting into parts...");
             var partPaths = await _archivr.CompressAndSplit(pkgPath, MaxPartSizeMB);
             await _fileIO.Delete(pkgPath);
 
@@ -79,12 +99,15 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
             if (newHash != localPkg.Hash)
                 throw Fault.HashMismatch("Original Package File", "Downloaded Package File");
 
-            StatusChanged.Raise("Updating package node ...");
+            SetStatus("Updating package node ...");
             return await _pkgMgr.UpdateRemoteNode(localPkg, cancelTkn);
         }
 
+
         private async Task<string> TryDownloadAndGetHash(R2Package localPkg, CancellationToken cancelTkn)
         {
+            SetStatus("Verifying uploaded parts ...");
+
             var downloadedPkgPath = await _downloadr
                 .DownloadAndUnpack(localPkg, _fileIO.TempDir, cancelTkn);
 
@@ -92,5 +115,16 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
             await _fileIO.Delete(downloadedPkgPath);
             return newHash;
         }
+
+
+        public void StopUpload()
+        {
+            _cancelr.Cancel(true);
+            SetStatus("Uploading stopped.");
+        }
+
+
+        private void SetStatus(string text) 
+            => _statusChanged?.Invoke(this, text);
     }
 }

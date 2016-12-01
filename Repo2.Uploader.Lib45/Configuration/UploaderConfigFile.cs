@@ -8,6 +8,10 @@ namespace Repo2.Uploader.Lib45.Configuration
         protected override string  SubFolder => @"Repo2\Uploader";
         protected override string  Prefix    => "Uploader_";
 
+
+        public List<string>  LocalPackages  { get; set; }
+
+
         public static UploaderConfigFile Parse(string cfgKey)
             => new UploaderConfigFile()
                 .Parse<UploaderConfigFile>(cfgKey);

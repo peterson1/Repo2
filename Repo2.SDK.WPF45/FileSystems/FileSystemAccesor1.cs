@@ -90,6 +90,7 @@ namespace Repo2.SDK.WPF45.FileSystems
         {
             var json = Json.Serialize(obj);
             var raw  = AESThenHMAC.SimpleEncryptWithPassword(json, encryptKey);
+            CreateDir(Path.GetDirectoryName(filePath));
             File.WriteAllText(filePath, raw);
         }
 
@@ -117,8 +118,8 @@ namespace Repo2.SDK.WPF45.FileSystems
         //    => File.AppendAllText(filePath, text);
 
 
-        //public void CreateDir(string foldrPath)
-        //    => Directory.CreateDirectory(foldrPath);
+        public void CreateDir(string foldrPath)
+            => Directory.CreateDirectory(foldrPath);
 
 
         public string TempDir 
