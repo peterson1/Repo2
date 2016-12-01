@@ -53,16 +53,19 @@ namespace Repo2.UnitTests.Lib.SDK.WPF45.Tests.PackageDownloaders
         }
 
 
-        [Fact(DisplayName = "IsOutdated: False if not in server")]
-        public async void IsOutdatedFalseifnotinserver()
+        [Fact(DisplayName = "IsOutdated: Error if not in server")]
+        public async void IsOutdatedErrorifnotinserver()
         {
             SetPkgsListToReturn();
             SetFileFoundToReturn(true);
             SetFileToR2PackageToReturn(Sample.Package());
 
             _sut.SetTargetFile(F.ke.FilePath);
-            var outd8d = await _sut.TargetIsOutdated(new CancellationToken());
-            outd8d.Should().BeFalse();
+
+            await Assert.ThrowsAsync<MissingMemberException>(async () =>
+            {
+                await _sut.TargetIsOutdated(new CancellationToken());
+            });
         }
 
         [Fact(DisplayName = "IsOutdated: Error if has duplicates")]

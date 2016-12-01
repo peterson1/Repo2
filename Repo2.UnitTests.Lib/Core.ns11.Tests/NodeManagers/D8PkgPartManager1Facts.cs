@@ -4,6 +4,7 @@ using System.Threading;
 using FluentAssertions;
 using Moq;
 using Repo2.Core.ns11.DataStructures;
+using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Drupal8;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.RestClients;
@@ -51,11 +52,11 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
         }
 
 
-        private Mock<IR2RestClient> MockClientReturning(params PartsByPackage1[] parts)
+        private Mock<IR2RestClient> MockClientReturning(params R2PackagePart[] parts)
         {
             var moq = new Mock<IR2RestClient>();
 
-            moq.Setup(x => x.List<PartsByPackage1>(Any.Tkn, Any.Text, Any.Text))
+            moq.Setup(x => x.List<R2PackagePart, PartsByPackage1>(Any.Tkn, Any.Text, Any.Text))
                .ReturnsAsync(parts.ToList());
 
             var dict = new Dictionary<string, object>();

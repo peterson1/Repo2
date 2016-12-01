@@ -10,6 +10,7 @@ using Repo2.Core.ns11.Randomizers;
 using Repo2.Core.ns11.RestClients;
 using Repo2.SDK.WPF45.ComponentRegistry;
 using Repo2.SDK.WPF45.Configuration;
+using Repo2.Uploader.Lib45.Configuration;
 using Xunit;
 
 namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
@@ -24,7 +25,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
 
         public R2ClientPatchPingFacts()
         {
-            _creds = R2ConfigFile1.Parse(Downloader1Cfg.KEY);
+            _creds = UploaderConfigFile.Parse(UploaderCfg.KEY);
             using (var scope = DownloaderIoC.BeginScope())
             {
                 _sut   = scope.Resolve<IR2RestClient>();
