@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
 using Autofac;
 using PropertyChanged;
+using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.PackageDownloaders;
@@ -17,13 +21,18 @@ namespace Repo2.TestClient.WPF45
     class MainWindowVM
     {
         private ILocalPackageFileUpdater _upd8r;
+        private SynchronizationContext _ui;
 
-        public MainWindowVM(ILifetimeScope scope)
+        public MainWindowVM(ILifetimeScope scope, IEnumerable<string> args)
         {
             InitializeUpdater(scope);
+            InitializeFileWatcher(args);
             CreateCommands();
             LoadConfigCmd.ExecuteIfItCan();
+
+            _ui = SynchronizationContext.Current;
         }
+
 
         public string  Status           { get; private set; }
         public bool    IsChecking       { get; private set; }
@@ -56,6 +65,26 @@ namespace Repo2.TestClient.WPF45
         }
 
 
+        private void InitializeFileWatcher(IEnumerable<string> args)
+        {
+            if (args.Count() == 0) return;
+            var file  = new FileInfo(args.ElementAt(0));
+            if (!file.Exists) throw Fault
+                .Missing("File to watch", file.FullName);
+
+            var wtchr = new FileSystemWatcher(file.DirectoryName, file.Name);
+
+            wtchr.Deleted += (s, e) =>
+                _ui.Send(_ =>
+                {
+                    throw new FileNotFoundException("Watched file deleted.");
+                }, 
+                null);
+
+            wtchr.EnableRaisingEvents = true;
+        }
+
+
         private void CreateCommands()
         {
             LoadConfigCmd = R2Command.Relay(LoadConfig,
@@ -75,7 +104,7 @@ namespace Repo2.TestClient.WPF45
         {
             //var cfg = DownloaderConfigFile.Parse(ConfigKey);
             var cfg = R2ConfigFile1.ParseOrDefault(ConfigKey,
-                "usr", "pwd", "url", "thumb", 4);
+                "usr", "pwd", "url", "thumb", 2 * 60);
 
             _upd8r.SetCredentials(cfg);
             SecondsInterval = cfg.CheckIntervalSeconds;

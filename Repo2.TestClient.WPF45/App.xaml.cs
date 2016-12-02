@@ -12,13 +12,11 @@ namespace Repo2.TestClient.WPF45
         {
             base.OnStartup(e);
 
-            Alerter.CatchErrors(this);
-
             var win = new MainWindow();
             try
             {
-                using (var scope = DownloaderIoC.BeginScope())
-                    win.DataContext = new MainWindowVM(scope);
+                using (var scope = Repo2IoC.BeginScope(this))
+                    win.DataContext = new MainWindowVM(scope, e.Args);
 
                 win.Show();
             }

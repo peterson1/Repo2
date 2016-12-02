@@ -24,7 +24,7 @@ namespace Repo2.AcceptanceTests.Lib.IntegrationTests
         {
             IR2RestClient client;
             var cfg = UploaderConfigFile.Parse(UploaderCfg.KEY);
-            using (var scope = DownloaderIoC.BeginScope())
+            using (var scope = Repo2IoC.BeginScope())
             {
                 client   = scope.Resolve<IR2RestClient>();
                 _downldr = scope.Resolve<ILocalPackageFileUpdater>();

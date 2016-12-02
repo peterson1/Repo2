@@ -18,11 +18,11 @@ namespace Repo2.AcceptanceTests.Lib.TestTools
         }
 
 
-        public static Process Run()
+        public static Process Run(string arguments = null)
         {
             var exePath = TestClient.GetPath();
             File.Exists(exePath).Should().BeTrue($"exe should be in {L.f}{exePath}");
-            return Process.Start(exePath);
+            return Process.Start(exePath, arguments);
         }
     }
 }

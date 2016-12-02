@@ -28,7 +28,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
         {
             //_creds = UploaderConfigFile.Parse(UploaderCfg.KEY);
             _creds = DownloaderConfigFile.Parse(Downloader1Cfg.KEY);
-            using (var scope = DownloaderIoC.BeginScope())
+            using (var scope = Repo2IoC.BeginScope())
             {
                 _sut   = scope.Resolve<IR2RestClient>();
                 _pings = scope.Resolve<IPingManager>();

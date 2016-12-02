@@ -49,6 +49,7 @@
     <Compile Include="DataStructures\Reply.cs" />
     <Compile Include="DataStructures\Observables.cs" />
     <Compile Include="DataStructures\RestReply.cs" />
+    <Compile Include="DomainModels\R2ErrorTicket.cs" />
     <Compile Include="DomainModels\R2Package.cs" />
     <Compile Include="DomainModels\R2PackagePart.cs" />
     <Compile Include="DomainModels\R2Ping.cs" />
@@ -76,8 +77,10 @@
     <Compile Include="HashLib\IHash.cs" />
     <Compile Include="HashLib\IHashInfo.cs" />
     <Compile Include="InputCommands\IR2Command.cs" />
+    <Compile Include="NodeManagers\D8ErrorTicketManager1.cs" />
     <Compile Include="NodeManagers\D8RemotePackageMgr1.cs" />
     <Compile Include="NodeManagers\D8PingManager1.cs" />
+    <Compile Include="NodeManagers\IErrorTicketManager.cs" />
     <Compile Include="NodeManagers\IRemotePackageManager.cs" />
     <Compile Include="NodeManagers\IPackagePartManager.cs" />
     <Compile Include="NodeManagers\D8PkgPartManager1.cs" />
@@ -96,6 +99,7 @@
     <Compile Include="ReflectionTools\AssemblyReflector.cs" />
     <Compile Include="RestClients\IR2RestClient.cs" />
     <Compile Include="RestClients\R2RestClientBase.cs" />
+    <Compile Include="RestExportViews\ErrorsByStatus1.cs" />
     <Compile Include="RestExportViews\IRestExportView.cs" />
     <Compile Include="RestExportViews\PackagesByFilename1.cs" />
     <Compile Include="RestExportViews\PartContentsByHash1.cs" />

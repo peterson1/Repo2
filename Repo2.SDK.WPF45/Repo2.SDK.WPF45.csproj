@@ -95,7 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication\Certificator.cs" />
-    <Compile Include="ComponentRegistry\DownloaderIoC.cs" />
+    <Compile Include="ComponentRegistry\Repo2IoC.cs" />
     <Compile Include="Compression\FileArchiver1.cs" />
     <Compile Include="Compression\FileChunker1.cs" />
     <Compile Include="Compression\SevenZipper2.cs" />
@@ -108,6 +108,7 @@
     <Compile Include="Encryption\AESThenHMAC.cs" />
     <Compile Include="Exceptions\Alerter.cs" />
     <Compile Include="Exceptions\ThreadedAlerter.cs" />
+    <Compile Include="Exceptions\UnhandledErrors.cs" />
     <Compile Include="Exceptions\WebExceptionCaster.cs" />
     <Compile Include="Extensions\FileInfoExtensions\CommonFileInfoExtensions.cs" />
     <Compile Include="Extensions\IOCExtensions\AutofacBuilderExtensions.cs" />
