@@ -81,6 +81,8 @@ namespace Repo2.Core.ns11.RestClients
 
         public async Task<bool> EnableWriteAccess(R2Credentials credentials, CancellationToken cancelTkn, bool addCertToWhiteList)
         {
+            if (!_csrfToken.IsBlank()) return true;
+
             SetCredentials(credentials, addCertToWhiteList);
 
             var cookie = await GetCookie(credentials, cancelTkn);

@@ -7,9 +7,11 @@ using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.SDK.WPF45.Encryption;
+using Repo2.SDK.WPF45.Exceptions;
 using Repo2.SDK.WPF45.Extensions.FileInfoExtensions;
 using Repo2.SDK.WPF45.PackageFinders;
 using Repo2.SDK.WPF45.Serialization;
+using static System.Environment;
 
 namespace Repo2.SDK.WPF45.FileSystems
 {
@@ -75,6 +77,26 @@ namespace Repo2.SDK.WPF45.FileSystems
             var path = Path.GetTempFileName();
             File.WriteAllBytes(path, byts);
             return path;
+        }
+
+
+        public bool WriteRepo2LogFile(string fileNameSuffix, string content, bool raiseError)
+        {
+            try
+            {
+                var date = $"{DateTime.Now:yyyy-MM-dd_hhmm}";
+                var fNme = $"{date}_{fileNameSuffix}.log";
+                var envF = GetFolderPath(SpecialFolder.LocalApplicationData);
+                var dir  = Chain(envF, "Repo2", "Logs");
+                CreateDir(dir);
+                File.WriteAllText(Chain(dir, fNme), content);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (raiseError) throw ex;
+                return false;
+            }
         }
 
 

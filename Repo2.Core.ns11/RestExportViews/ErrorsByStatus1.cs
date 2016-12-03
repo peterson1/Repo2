@@ -9,6 +9,7 @@ namespace Repo2.Core.ns11.RestExportViews
 
 
         public List<string> CastArguments(object[] args)
-            => new List<string> { args[0].ToString() };
+            //=> new List<string> { args[0].ToString() };
+            => new List<string>();
     }
 }

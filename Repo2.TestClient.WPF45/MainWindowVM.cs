@@ -77,7 +77,7 @@ namespace Repo2.TestClient.WPF45
             wtchr.Deleted += (s, e) =>
                 _ui.Send(_ =>
                 {
-                    throw new FileNotFoundException("Watched file deleted.");
+                    throw new FileNotFoundException($"Watched file deleted.{L.f}{file.FullName}");
                 }, 
                 null);
 

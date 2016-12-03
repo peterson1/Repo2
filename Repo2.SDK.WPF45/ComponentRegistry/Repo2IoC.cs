@@ -2,6 +2,7 @@
 using Autofac;
 using Repo2.Core.ns11.Compression;
 using Repo2.Core.ns11.FileSystems;
+using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.PackageDownloaders;
 using Repo2.Core.ns11.RestClients;
@@ -16,18 +17,22 @@ namespace Repo2.SDK.WPF45.ComponentRegistry
 {
     public class Repo2IoC
     {
-        public static ILifetimeScope BeginScope(Application appToBeErrorHandled = null)
+        public static ILifetimeScope BeginScope()
         {
             var b = new ContainerBuilder();
 
             RegisterComponentsTo(ref b);
 
-            var scope = b.Build().BeginLifetimeScope();
+            return b.Build().BeginLifetimeScope();
+        }
 
-            if (appToBeErrorHandled != null)
-                UnhandledErrors.CatchFor(appToBeErrorHandled, scope);
 
-            return scope;
+        public static ILifetimeScope BeginScope(Application appToBeErrorHandled = null, string configKey = null)
+        {
+            if (appToBeErrorHandled != null && !configKey.IsBlank())
+                UnhandledErrors.CatchFor(appToBeErrorHandled, configKey);
+
+            return BeginScope();
         }
 
 

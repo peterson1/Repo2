@@ -1,58 +1,63 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
+using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Exceptions;
+using Repo2.Core.ns11.NodeManagers;
+using Repo2.Core.ns11.RestClients;
+using Repo2.SDK.WPF45.ComponentRegistry;
+using Repo2.SDK.WPF45.Configuration;
 
 namespace Repo2.SDK.WPF45.Exceptions
 {
     class UnhandledErrors
     {
-        internal static void CatchFor(Application app, ILifetimeScope scope)
+        internal static void CatchFor(Application app, string configKey)
         {
-            app.DispatcherUnhandledException += (s, e) =>
+            app.DispatcherUnhandledException += async (s, e) =>
             {
-                Alerter.ShowError("Dispatcher Error", ToMsg(e.Exception));
                 e.Handled = true;
+                await HandleError("Dispatcher", e.Exception, configKey);
             };
 
 
-            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
-            {
-                Alerter.ShowError("CurrentDomain Error", ToMsg(e.ExceptionObject));
-            };
+            AppDomain.CurrentDomain.UnhandledException += async (s, e)
+                => await HandleError("CurrentDomain", e.ExceptionObject, configKey);
 
 
-            TaskScheduler.UnobservedTaskException += (s, e) =>
+            TaskScheduler.UnobservedTaskException += async (s, e) =>
             {
-                Alerter.ShowError("TaskScheduler Error", ToMsg(e.Exception));
+                e.SetObserved();
+                await HandleError("TaskScheduler", e.Exception, configKey);
             };
         }
 
 
-        private static string ToMsg(object exceptionObj)
+        private static async Task HandleError<T>(string caughtBy, T exceptionObj, string configKey)
         {
-            var shortMsg = ""; var longMsg = "";
-
-            if (exceptionObj == null)
+            try
             {
-                shortMsg = longMsg = $"NULL exception object received by global handler.";
-                goto PreExit;
-            }
+                var cfg = R2ConfigFile1.Parse(configKey);
 
-            var ex = exceptionObj as Exception;
-            if (ex == null)
+                using (var scope = Repo2IoC.BeginScope())
+                {
+                    var cli = scope.Resolve<IR2RestClient>();
+                    var svr = scope.Resolve<IErrorTicketManager>();
+                    var tkt = R2ErrorTicket.From(exceptionObj);
+
+                    var ok = await cli.EnableWriteAccess(cfg, new CancellationToken());
+                    if (!ok) throw new Exception("Failed to enable write access.");
+
+                    if (!(await svr.Post(tkt)))
+                        Alerter.ShowError(caughtBy, tkt.Description);
+                }
+            }
+            catch (Exception ex)
             {
-                shortMsg = longMsg = $"Non-exception object thrown: ‹{exceptionObj.GetType().Name}›";
-                goto PreExit;
+                Alerter.Show(ex, "Failed to Handle Error");
             }
-
-            shortMsg = ex.Info(false, false);
-            longMsg = ex.Info(true, true);// + L.f + $"Final thrower :  ‹{thrower}›";
-
-            PreExit:
-            //Show($"Error from ‹{thrower}›", shortMsg);
-            return longMsg;
         }
     }
 }

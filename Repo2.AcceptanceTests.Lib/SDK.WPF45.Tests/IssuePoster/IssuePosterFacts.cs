@@ -13,6 +13,7 @@ using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.RestClients;
 using Repo2.SDK.WPF45.ComponentRegistry;
 using Repo2.SDK.WPF45.Configuration;
+using Repo2.Uploader.Lib45.Configuration;
 using Xunit;
 
 namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.IssuePoster
@@ -25,7 +26,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.IssuePoster
 
         public IssuePosterFacts()
         {
-            var cfg = DownloaderConfigFile.Parse(Downloader1Cfg.KEY);
+            var cfg = UploaderConfigFile.Parse(UploaderCfg.KEY);
             using (var scope = Repo2IoC.BeginScope())
             {
                 _fs     = scope.Resolve<IFileSystemAccesor>();

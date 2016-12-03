@@ -15,7 +15,7 @@ namespace Repo2.TestClient.WPF45
             var win = new MainWindow();
             try
             {
-                using (var scope = Repo2IoC.BeginScope(this))
+                using (var scope = Repo2IoC.BeginScope(this, "testDownloader1"))
                     win.DataContext = new MainWindowVM(scope, e.Args);
 
                 win.Show();
