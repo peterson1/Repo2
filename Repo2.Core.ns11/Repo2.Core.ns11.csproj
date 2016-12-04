@@ -97,6 +97,8 @@
     <Compile Include="Randomizers\FakeFactory.cs" />
     <Compile Include="Randomizers\RandomAmerican.cs" />
     <Compile Include="ReflectionTools\AssemblyReflector.cs" />
+    <Compile Include="ReflectionTools\NestedPropertyFinder.cs" />
+    <Compile Include="ReflectionTools\PropertyValueCopier.cs" />
     <Compile Include="RestClients\IR2RestClient.cs" />
     <Compile Include="RestClients\R2RestClientBase.cs" />
     <Compile Include="RestExportViews\ErrorsByStatus1.cs" />

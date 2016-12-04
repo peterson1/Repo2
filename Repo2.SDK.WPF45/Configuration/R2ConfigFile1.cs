@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.SDK.WPF45.FileSystems;
 
@@ -45,5 +46,9 @@ namespace Repo2.SDK.WPF45.Configuration
             var salt2   = keyHash.Substring(12);
             return $"{salt1}{configKey}{salt2}".SHA1ForUTF8();
         }
+
+
+        public static bool Found(string cfgKey)
+            => File.Exists(new R2ConfigFile1().GetFilePath(cfgKey));
     }
 }

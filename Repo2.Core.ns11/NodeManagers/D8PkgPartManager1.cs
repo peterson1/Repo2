@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.DomainModels;
+using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.RestClients;
 using Repo2.Core.ns11.RestExportViews;
@@ -88,6 +89,10 @@ namespace Repo2.Core.ns11.NodeManagers
         public async Task<string> DownloadToTemp(R2PackagePart part, CancellationToken cancelTkn)
         {
             var byts = await _client.GetBytes<PartContentsByHash1>(cancelTkn, part.PartHash);
+
+            if (byts == null) throw Fault.NullRef<byte[]>("_client.GetBytes<PartContentsByHash1>");
+            if (byts.Length == 0) throw Fault.NoItems("byte[] from _client.GetBytes<PartContentsByHash1>()");
+
             return _fileIO.WriteTempFile(byts);
         }
     }

@@ -47,13 +47,19 @@ namespace Repo2.SDK.WPF45.Exceptions
         {
             try
             {
-                var cfg = R2ConfigFile1.Parse(_cfgKey);
-
                 using (var scope = Repo2IoC.BeginScope())
                 {
+                    var tkt = R2ErrorTicket.From(exceptionObj);
+
+                    if (!R2ConfigFile1.Found(_cfgKey))
+                    {
+                        Alerter.ShowError($"{caughtBy} Error", tkt.Description);
+                        return;
+                    }
+
+                    var cfg = R2ConfigFile1.Parse(_cfgKey);
                     var cli = scope.Resolve<IR2RestClient>();
                     var svr = scope.Resolve<IErrorTicketManager>();
-                    var tkt = R2ErrorTicket.From(exceptionObj);
 
                     var ok = await cli.EnableWriteAccess(cfg, new CancellationToken(), _addToWhiteList);
                     if (!ok) throw new Exception("Failed to enable write access.");

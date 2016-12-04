@@ -52,6 +52,10 @@ namespace Repo2.SDK.WPF45.Configuration
             => Path.Combine(GetParentFolder(), GetFileName(cfgKey));
 
 
+        //protected bool Found(string cfgKey)
+        //    => File.Exists(GetFilePath(cfgKey));
+
+
         protected IEnumerable<string> GetLocalKeys()
         {
             var dir   = GetParentFolder();
