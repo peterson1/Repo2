@@ -8,6 +8,6 @@ namespace Repo2.Core.ns11.NodeManagers
     public interface IErrorTicketManager
     {
         Task<List<R2ErrorTicket>> List(ErrorState ticketStatus, CancellationToken cancelTkn);
-        Task<bool> Post(R2ErrorTicket r2ErrorTicket);
+        void Post(R2ErrorTicket r2ErrorTicket);
     }
 }

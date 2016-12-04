@@ -28,7 +28,7 @@ namespace Repo2.Core.ns11.NodeManagers
             => _client.List<R2ErrorTicket, ErrorsByStatus1>(cancelTkn, (int)ticketStatus);
 
 
-        public async Task<bool> Post(R2ErrorTicket r2ErrorTicket)
+        public async void Post(R2ErrorTicket r2ErrorTicket)
         {
             NodeReply rep = null;
             try
@@ -38,20 +38,14 @@ namespace Repo2.Core.ns11.NodeManagers
             catch (Exception ex)
             {
                 LogErrorInPosting(r2ErrorTicket, ex);
-                return false;
+                return;
             }
 
             if (rep == null)
-            {
                 LogFailedReply(null, r2ErrorTicket);
-                return false;
-            }
-            if (rep.Failed)
-            {
+
+            else if (rep.Failed)
                 LogFailedReply(rep , r2ErrorTicket);
-                return false;
-            }
-            return true;
         }
 
 

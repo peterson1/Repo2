@@ -54,7 +54,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.IssuePoster
             await _fs.Delete(tmpFile);
 
             // wait a while for issue to be posted
-            await Task.Delay(1000 * 5);
+            await Task.Delay(1000 * 8);
 
             // # of error issues should be plus one
             list = await _errors.List(ErrorState.NeedsReview, new CancellationToken());
