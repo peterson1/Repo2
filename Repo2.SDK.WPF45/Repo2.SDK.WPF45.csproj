@@ -58,6 +58,7 @@
       <HintPath>..\packages\PropertyChanged.Fody.1.52.1\lib\netstandard10\PropertyChanged.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ReachFramework" />
     <Reference Include="ServiceStack.Client, Version=4.5.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Client.4.5.4\lib\net45\ServiceStack.Client.dll</HintPath>
       <Private>True</Private>
@@ -76,6 +77,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Printing" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -116,6 +118,11 @@
     <Compile Include="InputCommands\R2AsyncCommandWPF.cs" />
     <Compile Include="InputCommands\R2CommandFactoryWPF.cs" />
     <Compile Include="PackageFinders\LocalR2Package.cs" />
+    <Compile Include="PrintTools\PrintPreviewer.cs" />
+    <Compile Include="PrintTools\PrintPreviewWindow1.xaml.cs">
+      <DependentUpon>PrintPreviewWindow1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrintTools\ScaledElementPrinter.cs" />
     <Compile Include="RestClients\ResilientClient1.cs" />
     <Compile Include="Serialization\Json.cs" />
     <Compile Include="TaskResilience\CrappyConnectionRetryer.cs" />
@@ -161,6 +168,10 @@
     <EmbeddedResource Include="Compression\7zxa.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="PrintTools\PrintPreviewWindow1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\DualText.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
