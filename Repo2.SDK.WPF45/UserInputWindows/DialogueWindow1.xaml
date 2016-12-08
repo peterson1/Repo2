@@ -1,0 +1,115 @@
+﻿<Window x:Class="Repo2.SDK.WPF45.UserInputWindows.DialogueWindow1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Repo2.SDK.WPF45.UserInputWindows"
+        xmlns:xtk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:int="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:wbhv="clr-namespace:Repo2.SDK.WPF45.ControlBehaviors.WindowBehaviors"
+        mc:Ignorable="d"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterOwner"
+        >
+    <Window.Resources>
+        
+        <DataTemplate x:Key="tplWatermark">
+            <TextBlock Text="{Binding}" Foreground="Gray" 
+                       FontStyle="Italic" Padding="3,1,0,0"
+                       TextWrapping="Wrap" />
+        </DataTemplate>
+
+        <Style TargetType="Label">
+            <Setter Property="FontStyle" Value="Italic" />
+            <!--<Setter Property="Width" Value="80" />-->
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Padding" Value="5,7,5,5" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style>
+
+        <Style TargetType="xtk:DateTimePicker">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+            <Setter Property="Padding" Value="3,1,3,1" />
+            <Setter Property="Margin" Value="3,4,0,4" />
+            <Setter Property="Height" Value="22" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Format" Value="Custom" />
+            <Setter Property="FormatString" Value="MMMM d, yyyy" />
+            <Setter Property="WatermarkTemplate" Value="{StaticResource tplWatermark}" />
+            <Setter Property="ShowButtonSpinner" Value="False" />
+            <Setter Property="AutoCloseCalendar" Value="True" />
+            <Setter Property="AllowSpin" Value="True" />
+            <Setter Property="TimePickerVisibility" Value="Collapsed" />
+        </Style>
+        
+    </Window.Resources>
+
+    <int:Interaction.Behaviors>
+        <wbhv:DraggableBehavior />
+    </int:Interaction.Behaviors>
+
+    <StackPanel Orientation="Horizontal"
+                Margin="40,0,40,0"
+                >
+
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top"
+                        Margin="0,40,0,0"
+                        >
+                <TextBlock x:Name="_title"
+                            FontSize="15" FontWeight="Medium"
+                            Foreground="DarkBlue" FontStyle="Italic"
+                            />
+                <TextBlock x:Name="_subtitle"
+                            FontSize="13" FontWeight="Medium"
+                            Foreground="Gray"
+                            />
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Bottom"
+                        Orientation="Horizontal"
+                        Margin="40,0,0,40"
+                        >
+                <Button x:Name="_cancel"
+                        Content="cancel"
+                        IsCancel="True"
+                        Height="25"
+                        Width="60"
+                        VerticalAlignment="Bottom"
+                        />
+                <Button x:Name="_okay"
+                        Content="Okay"
+                        IsDefault="True"
+                        Click="Button_Click"
+                        Height="50"
+                        Width="150"
+                        Margin="10,0,0,0"
+                        />
+            </StackPanel>
+
+            <TextBlock x:Name="_validationError"
+                        MinHeight="100"
+                        />
+        </DockPanel>
+        
+        <StackPanel VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Margin="20,0,0,0"
+                    >
+            <StackPanel>
+                <Label Content="start date" />
+                <Label Content="end date" />
+            </StackPanel>
+            
+            <StackPanel Width="180">
+                <xtk:DateTimePicker x:Name="_startDate" />
+                <xtk:DateTimePicker x:Name="_endDate" />
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+    
+</Window>

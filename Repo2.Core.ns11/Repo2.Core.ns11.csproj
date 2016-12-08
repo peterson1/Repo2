@@ -45,10 +45,15 @@
     <Compile Include="ChangeNotification\StatusText.cs" />
     <Compile Include="Compression\IFileArchiver.cs" />
     <Compile Include="DataStructures\IBase64Content.cs" />
+    <Compile Include="DataStructures\IRange.cs" />
     <Compile Include="DataStructures\NodeReply.cs" />
     <Compile Include="DataStructures\Reply.cs" />
     <Compile Include="DataStructures\Observables.cs" />
     <Compile Include="DataStructures\RestReply.cs" />
+    <Compile Include="DateTimeTools\DateFactoryExtensions.cs" />
+    <Compile Include="DateTimeTools\DateRange.cs" />
+    <Compile Include="DateTimeTools\DateTimeExtensions.cs" />
+    <Compile Include="DateTimeTools\Today.cs" />
     <Compile Include="DomainModels\R2ErrorTicket.cs" />
     <Compile Include="DomainModels\R2Package.cs" />
     <Compile Include="DomainModels\R2PackagePart.cs" />

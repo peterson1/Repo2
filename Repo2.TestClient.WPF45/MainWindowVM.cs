@@ -25,6 +25,7 @@ namespace Repo2.TestClient.WPF45
 
         public MainWindowVM(ILifetimeScope scope, IEnumerable<string> args)
         {
+            //TestDialogue();
             InitializeUpdater(scope);
             InitializeFileWatcher(args);
             CreateCommands();
@@ -32,6 +33,22 @@ namespace Repo2.TestClient.WPF45
 
             _ui = SynchronizationContext.Current;
         }
+
+
+        //private async void TestDialogue()
+        //{
+        //    _dlg = new DateRangeDialogue();
+        //    var rng = _dlg.ShowDialog();
+        //    if (rng == null) return;
+        //    var prog = new ProgessWindow1("Building report ...");
+
+        //    foreach (var date in rng)
+        //    {
+        //        prog.Show($"Loading {date:d MMM yyyy} ...");
+        //        await Task.Delay(1000 * 3);
+        //    }
+        //    prog.Close();
+        //}
 
 
         public string  Status           { get; private set; }
