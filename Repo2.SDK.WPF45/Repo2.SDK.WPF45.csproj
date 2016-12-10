@@ -138,6 +138,7 @@
     <Compile Include="Exceptions\WebExceptionCaster.cs" />
     <Compile Include="Extensions\FileInfoExtensions\CommonFileInfoExtensions.cs" />
     <Compile Include="Extensions\IOCExtensions\AutofacBuilderExtensions.cs" />
+    <Compile Include="Extensions\ViewModelExtensions\DataContextExtensions.cs" />
     <Compile Include="FileSystems\FileSystemAccesor1.cs" />
     <Compile Include="InputCommands\R2AsyncCommandWPF.cs" />
     <Compile Include="InputCommands\R2CommandFactoryWPF.cs" />
