@@ -11,6 +11,10 @@ namespace Repo2.SDK.WPF45.Exceptions
             => Show(caption, message, MessageBoxImage.Error);
 
 
+        public static void ShowInfo(string caption, string message)
+            => Show(caption, message, MessageBoxImage.Information);
+
+
         //public static void ShowInfo(string caption, string message)
         //    => Show(caption, message, MessageBoxImage.Information);
 

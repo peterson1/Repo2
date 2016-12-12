@@ -80,6 +80,32 @@ namespace Repo2.SDK.WPF45.FileSystems
         }
 
 
+        public string WriteDesktopFile(string filename, string contents)
+        {
+            var path = GetDesktopFilePath(filename);
+            File.WriteAllText(path, contents);
+            return path;
+        }
+
+
+        public bool DesktopFileFound(string filename)
+            => File.Exists(GetDesktopFilePath(filename));
+
+
+        public string WriteDesktopJsonFile<T>(string filename, T objectToSerialize)
+        {
+            var json = Json.Serialize(objectToSerialize);
+            return WriteDesktopFile(filename, json);
+        }
+
+
+        public T ReadDesktopJsonFile<T>(string filename)
+        {
+            var json = File.ReadAllText(GetDesktopFilePath(filename));
+            return Json.Deserialize<T>(json);
+        }
+
+
         public bool WriteRepo2LogFile(string fileNameSuffix, string content, bool raiseError)
         {
             try
@@ -144,8 +170,12 @@ namespace Repo2.SDK.WPF45.FileSystems
             => Directory.CreateDirectory(foldrPath);
 
 
-        public string TempDir 
-            => Chain(Path.GetTempPath(), GetType().Name);
+
+        public string GetDesktopFilePath(string filename) => Chain(DesktopDir, filename);
+
+
+        public string DesktopDir  => GetFolderPath(SpecialFolder.DesktopDirectory);
+        public string TempDir     => Chain(Path.GetTempPath(), GetType().Name);
     }
 
 

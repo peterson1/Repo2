@@ -12,10 +12,18 @@ namespace Repo2.Core.ns11.FileSystems
         Task<bool>   Delete            (params string[] filePaths);
         Task<bool>   Delete            (IEnumerable<string> filePaths);
         string       GetSHA1           (string filePath);
-        string       WriteTempFile     (byte[] byts);
-        bool         WriteRepo2LogFile (string fileNameSuffix, string content, bool raiseError = false);
 
-        string       GetTempFilePath (string filename = null);
+        string       WriteTempFile        (byte[] byts);
+        bool         WriteRepo2LogFile    (string fileNameSuffix, string content, bool raiseError = false);
+
+        string       WriteDesktopFile     (string filename, string contents);
+        string       WriteDesktopJsonFile <T>(string filename, T objectToSerialize);
+        T            ReadDesktopJsonFile  <T>(string filename);
+
+        bool DesktopFileFound(string filename);
+
+        string       GetTempFilePath     (string filename = null);
+        string       GetDesktopFilePath  (string filename);
 
         string       ReadBase64    (string filePath);
         bool         Found         (string filePath);
