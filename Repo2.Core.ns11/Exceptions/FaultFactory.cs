@@ -64,5 +64,10 @@ namespace Repo2.Core.ns11.Exceptions
         public static UnauthorizedAccessException CantMove(string originalPath, string targetPath)
             => new UnauthorizedAccessException(
                 $"Failed to move file to target location.{L.f}source :  {originalPath}{L.f}target :  {targetPath}");
+
+
+        public static InvalidOperationException Failed (string operationDesc)
+            => new InvalidOperationException(
+                $"Operaion “{operationDesc}” failed.");
     }
 }
