@@ -17,6 +17,7 @@
 
     <Grid>
         <xtk:BusyIndicator x:Name="_busy"
+                           BusyContent="Please wait ..."
                            IsBusy="True"
                            />
     </Grid>
