@@ -13,6 +13,7 @@
         Title="Repo2 Uploader" Height="600" Width="800"
         x:Name="_win">
     <Window.Resources>
+
         <Style TargetType="Label">
             <Setter Property="Margin" Value="0,30,0,7" />
             <Setter Property="Padding" Value="0" />
@@ -73,18 +74,21 @@
                                   />
                 </StackPanel>
                 <StackPanel Margin="30,0,0,0">
-                    <Button Command="{Binding FillConfigKeysCmd}"
-                            Content="{Binding FillConfigKeysCmd.CurrentLabel}"
-                            />
-                    <ComboBox ItemsSource="{Binding ConfigKeys}"
-                              SelectedItem="{Binding ConfigKey}"
-                              >
-                        <int:Interaction.Triggers>
-                            <int:EventTrigger EventName="SelectionChanged">
-                                <int:InvokeCommandAction Command="{Binding CheckCredentialsCmd}" />
-                            </int:EventTrigger>
-                        </int:Interaction.Triggers>
-                    </ComboBox>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox ItemsSource="{Binding ConfigKeys}"
+                                  SelectedItem="{Binding ConfigKey}"
+                                  >
+                            <int:Interaction.Triggers>
+                                <int:EventTrigger EventName="SelectionChanged">
+                                    <int:InvokeCommandAction Command="{Binding CheckCredentialsCmd}" />
+                                </int:EventTrigger>
+                            </int:Interaction.Triggers>
+                        </ComboBox>
+                        <Button Command="{Binding FillConfigKeysCmd}"
+                                Style="{StaticResource refreshBtn}"
+                                Margin="0,7,0,0"
+                                />
+                    </StackPanel>
                     <Button Command="{Binding CheckCredentialsCmd}"
                             Content="{Binding CheckCredentialsCmd.CurrentLabel}"
                             />
@@ -155,12 +159,30 @@
             </xtk:BusyIndicator.BusyContentTemplate>
         </xtk:BusyIndicator>
 
-        <TextBox Grid.Column="1"
-                 Text="{Binding ClientStatus}"
-                 >
-            <int:Interaction.Behaviors>
-                <tbhv:ScrollOnChangeBehavior />
-            </int:Interaction.Behaviors>
-        </TextBox>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel DataContext="{Binding Previous}">
+                <TextBox Text="{Binding Status}"
+                         />
+                <Button Content="previous versions"
+                        Visibility="{Binding Rows, Converter={StaticResource visIfHasItems}}"
+                        Click="PreviousVersions_Click"
+                        />
+            </StackPanel>
+
+            <TextBox Grid.Row="1"
+                     Text="{Binding ClientStatus}"
+                     IsReadOnly="True"
+                     >
+                <int:Interaction.Behaviors>
+                    <tbhv:ScrollOnChangeBehavior />
+                </int:Interaction.Behaviors>
+            </TextBox>
+        </Grid>
     </Grid>
 </Window>

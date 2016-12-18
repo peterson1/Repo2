@@ -45,12 +45,12 @@ namespace Repo2.AcceptanceTests.Lib.Uploader.Lib45.Tests.PackageUploaders
         {
             var pkg = CreateFileWithSizeMB(srcMB);
             await EnableWriteAccess();
-            await _parts.DeleteByPackage(pkg, new CancellationToken());
+            await _parts.DeleteByPkgHash(pkg, new CancellationToken());
 
             _sut.MaxPartSizeMB = maxMB;
             await _sut.StartUpload(pkg);
 
-            var list1 = await _parts.ListByPackage(pkg, new CancellationToken());
+            var list1 = await _parts.ListByPkgHash(pkg, new CancellationToken());
             list1.Should().HaveCount(parts);
 
             var pkgs = await _pkgs.ListByFilename(pkg.Filename, new CancellationToken());

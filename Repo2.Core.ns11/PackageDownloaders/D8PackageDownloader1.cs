@@ -30,7 +30,7 @@ namespace Repo2.Core.ns11.PackageDownloaders
 
         public async Task<string> DownloadAndUnpack(R2Package remotePackage, string targetDir, CancellationToken cancelTkn)
         {
-            var list = await _parts.ListByPackage(remotePackage, cancelTkn);
+            var list = await _parts.ListByPkgHash(remotePackage, cancelTkn);
             if (list.Count == 0) throw new ArgumentException
                 ($"No parts found for package hash “{remotePackage.Hash}”.");
 

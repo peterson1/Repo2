@@ -56,7 +56,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
         {
             var moq = new Mock<IR2RestClient>();
 
-            moq.Setup(x => x.List<R2PackagePart, PartsByPackage1>(Any.Tkn, Any.Text, Any.Text))
+            moq.Setup(x => x.List<R2PackagePart, PartsByPkgHash1>(Any.Tkn, Any.Text, Any.Text))
                .ReturnsAsync(parts.ToList());
 
             var dict = new Dictionary<string, object>();
@@ -69,8 +69,8 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.NodeManagers
         }
 
 
-        private PartsByPackage1 SamplePkgPart()
-            => new PartsByPackage1
+        private PartsByPkgHash1 SamplePkgPart()
+            => new PartsByPkgHash1
             {
                 PackageFilename = "sample.pkg",
                 PackageHash = "abc123",

@@ -1,8 +1,34 @@
 ﻿<Application x:Class="Repo2.Uploader.WPF45.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Repo2.Uploader.WPF45">
+             xmlns:local="clr-namespace:Repo2.Uploader.WPF45"
+             xmlns:cnv="clr-namespace:Repo2.SDK.WPF45.Converters;assembly=Repo2.SDK.WPF45"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             x:Name="App"
+             >
     <Application.Resources>
-         
+
+        <cnv:VisibleIfHasItemConverter x:Key="visIfHasItems" />
+
+        <Style x:Key="awesomeBtn" TargetType="Button">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="TextElement.FontFamily" Value="pack://application:,,,/FontAwesome.WPF;component/#FontAwesome" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="ToolTipService.ShowDuration" Value="2147483647" />
+        </Style>
+
+        <Style x:Key="refreshBtn" TargetType="Button"
+                   BasedOn="{StaticResource awesomeBtn}">
+            <Setter Property="fa:Awesome.Content" Value="Refresh" />
+            <Setter Property="ToolTip" Value="Refresh" />
+        </Style>
+
+        <Style x:Key="btnMain" TargetType="Button">
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        
     </Application.Resources>
 </Application>

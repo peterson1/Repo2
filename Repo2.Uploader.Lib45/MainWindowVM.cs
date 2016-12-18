@@ -14,26 +14,29 @@ using Repo2.SDK.WPF45.Exceptions;
 using Repo2.SDK.WPF45.InputCommands;
 using Repo2.SDK.WPF45.PackageFinders;
 using Repo2.Uploader.Lib45.Configuration;
+using Repo2.Uploader.Lib45.PopupVMs;
 
 namespace Repo2.Uploader.Lib45
 {
     [ImplementPropertyChanged]
     public class MainWindowVM
     {
-        private IR2RestClient          _client;
-        private IR2PreUploadChecker    _preCheckr;
-        private IPackageUploader       _pkgUploadr;
-        private R2Package              _pkg;
-        private SynchronizationContext _ui;
+        private IR2RestClient           _client;
+        private IR2PreUploadChecker     _preCheckr;
+        private IPackageUploader        _pkgUploadr;
+        private R2Package               _pkg;
+        private SynchronizationContext  _ui;
 
         public MainWindowVM(IR2RestClient restClient,
                             IR2PreUploadChecker preUploadChecker,
-                            IPackageUploader packageUploader)
+                            IPackageUploader packageUploader,
+                            PreviousVersionsPopupVM previousVersionsPopupVM)
         {
             _client     = restClient;
             _preCheckr  = preUploadChecker;
             _pkgUploadr = packageUploader;
             _ui         = SynchronizationContext.Current;
+            Previous    = previousVersionsPopupVM;
 
             _pkgUploadr.StatusChanged += (s, statusText) 
                 => UploaderStatus = statusText;
@@ -53,7 +56,8 @@ namespace Repo2.Uploader.Lib45
         public string  ClientStatus    { get; private set; }
         public double  MaxPartSizeMB   { get; set; } = 0.5;
 
-        public UploaderConfigFile  Config  { get; private set; }
+        public UploaderConfigFile       Config   { get; private set; }
+        public PreviousVersionsPopupVM  Previous { get; private set; }
 
         public IR2Command  FillConfigKeysCmd      { get; private set; }
         public IR2Command  CheckCredentialsCmd    { get; private set; }
@@ -90,6 +94,9 @@ namespace Repo2.Uploader.Lib45
         {
             IsUploadable = false;
             _pkg         = LocalR2Package.From(PackagePath);
+
+            Previous.GetOldVersions(_pkg.Filename);
+
             IsUploadable = await _preCheckr.IsUploadable(_pkg, new CancellationToken());
 
             if (IsUploadable)

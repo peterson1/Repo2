@@ -1,0 +1,16 @@
+﻿<Window x:Class="Repo2.Uploader.WPF45.Popups.PreviousVersionsWindow1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Repo2.Uploader.WPF45.Popups"
+        xmlns:root="clr-namespace:Repo2.Uploader.WPF45"
+        mc:Ignorable="d"
+        Title="PreviousVersionsWindow1" Height="300" Width="300"
+        >
+    <Grid>
+        <Button Style="{DynamicResource btnMain}"
+                Content="sdfsdf"
+                />
+    </Grid>
+</Window>

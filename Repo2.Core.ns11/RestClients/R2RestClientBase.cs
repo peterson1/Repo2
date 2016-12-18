@@ -85,10 +85,23 @@ namespace Repo2.Core.ns11.RestClients
 
             SetCredentials(credentials, addCertToWhiteList);
 
-            var cookie = await GetCookie(credentials, cancelTkn);
+            //var cookie = await GetCookie(credentials, cancelTkn);
+            D8Cookie cookie = null;
+            await Task.Run(async () =>
+            {
+                cookie = await GetCookie(credentials, cancelTkn);
+            }
+            ).ConfigureAwait(false);
+
             if (cookie == null) return false;
 
-            _csrfToken = await GetCsrfToken(cookie, cancelTkn);
+            //_csrfToken = await GetCsrfToken(cookie, cancelTkn);
+            await Task.Run(async () =>
+            {
+                _csrfToken = await GetCsrfToken(cookie, cancelTkn);
+            }
+            ).ConfigureAwait(false);
+
             return !_csrfToken.IsBlank();
         }
 

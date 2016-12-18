@@ -12,6 +12,7 @@ using Repo2.SDK.WPF45.FileSystems;
 using Repo2.SDK.WPF45.RestClients;
 using Repo2.SDK.WPF45.TaskResilience;
 using Repo2.Uploader.Lib45.PackageUploaders;
+using Repo2.Uploader.Lib45.PopupVMs;
 
 namespace Repo2.Uploader.Lib45.Components
 {
@@ -22,6 +23,7 @@ namespace Repo2.Uploader.Lib45.Components
             var b = new ContainerBuilder();
 
             b.Solo<MainWindowVM>();
+            b.Solo<PreviousVersionsPopupVM>();
             b.Solo<IR2RestClient, ResilientClient1>();
             b.Solo<IRemotePackageManager, D8RemotePackageMgr1>();
             b.Solo<IPackagePartManager, D8PkgPartManager1>();

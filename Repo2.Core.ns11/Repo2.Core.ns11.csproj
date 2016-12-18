@@ -111,7 +111,8 @@
     <Compile Include="RestExportViews\IRestExportView.cs" />
     <Compile Include="RestExportViews\PackagesByFilename1.cs" />
     <Compile Include="RestExportViews\PartContentsByHash1.cs" />
-    <Compile Include="RestExportViews\PartsByPackage1.cs" />
+    <Compile Include="RestExportViews\PartsByPkgHash1.cs" />
+    <Compile Include="RestExportViews\PartsByPkgName1.cs" />
     <Compile Include="RestExportViews\PingsForCurrentUser1.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -43,7 +43,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
             var fNme = sampl.PackageFilename;
             var hash = sampl.PackageHash;
 
-            var list = await _parts.ListByPackage(fNme, hash, new CancellationToken());
+            var list = await _parts.ListByPkgHash(fNme, hash, new CancellationToken());
             list.Should().HaveCount(0);
 
             var reply = await _sut.PostNode(sampl, new CancellationToken());
@@ -51,13 +51,13 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
             reply.IsSuccessful.Should().BeTrue();
             reply.Nid.Should().BeGreaterThan(1);
 
-            list = await _parts.ListByPackage(fNme, hash, new CancellationToken());
+            list = await _parts.ListByPkgHash(fNme, hash, new CancellationToken());
             list.Should().HaveCount(1);
 
             var delRep = await _sut.DeleteNode(reply.Nid, new CancellationToken());
             delRep.IsSuccessful.Should().BeTrue();
 
-            list = await _parts.ListByPackage(fNme, hash, new CancellationToken());
+            list = await _parts.ListByPkgHash(fNme, hash, new CancellationToken());
             list.Should().HaveCount(0);
         }
 

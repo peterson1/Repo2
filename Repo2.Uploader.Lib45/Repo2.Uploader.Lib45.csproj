@@ -57,6 +57,7 @@
     <Compile Include="MainWindowVM.cs" />
     <Compile Include="PackageUploaders\PartSender1.cs" />
     <Compile Include="PackageUploaders\D8PackageUploader.cs" />
+    <Compile Include="PopupVMs\PreviousVersionsPopupVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

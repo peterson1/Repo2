@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +13,7 @@ namespace Repo2.Core.ns11.NodeManagers
 {
     public class D8PkgPartManager1 : IPackagePartManager
     {
-        private IR2RestClient      _client;
+        private IR2RestClient _client;
         private IFileSystemAccesor _fileIO;
 
         public D8PkgPartManager1(IR2RestClient r2RestClient, IFileSystemAccesor fileSystemAccesor)
@@ -24,9 +23,9 @@ namespace Repo2.Core.ns11.NodeManagers
         }
 
 
-        public async Task<Reply> AddNode (R2PackagePart pkgPart, CancellationToken cancelTkn)
+        public async Task<Reply> AddNode(R2PackagePart pkgPart, CancellationToken cancelTkn)
         {
-            var errors   = new List<string>();
+            var errors = new List<string>();
             var warnings = new List<string>();
 
             if (!pkgPart.IsValid(ref errors))
@@ -43,30 +42,40 @@ namespace Repo2.Core.ns11.NodeManagers
             //todo: add status and result to returned reply
 
             ReturnReply:
-                return new Reply
-                {
-                    Errors   = errors,
-                    Warnings = warnings
-                };
+            return new Reply
+            {
+                Errors = errors,
+                Warnings = warnings
+            };
         }
 
 
-        //public Task<List<R2PackagePart>> ListByPkgHash(R2PackagePart pkgPart)
-        //    => ListByPkgHash(pkgPart.PackageFilename, pkgPart.PackageHash);
+        public Task<List<R2PackagePart>> ListByPkgHash(R2Package package, CancellationToken cancelTkn)
+            => ListByPkgHash(package.Filename, package.Hash, cancelTkn);
 
-        public Task<List<R2PackagePart>> ListByPackage(R2Package package, CancellationToken cancelTkn)
-            => ListByPackage(package.Filename, package.Hash, cancelTkn);
 
-        public Task<List<R2PackagePart>> ListByPackage(string packageFilename, string packageHash, CancellationToken cancelTkn)
-            => _client.List<R2PackagePart, PartsByPackage1>(cancelTkn, packageFilename, packageHash);
+        public Task<List<R2PackagePart>> ListByPkgHash(string packageFilename, string packageHash, CancellationToken cancelTkn)
+            => _client.List<R2PackagePart, PartsByPkgHash1>(cancelTkn, packageFilename, packageHash);
+
+
+        public Task<List<R2PackagePart>> ListByPkgName(string packageFilename, CancellationToken cancelTkn)
+            => _client.List<R2PackagePart, PartsByPkgName1>(cancelTkn, packageFilename);
         //{
-        //    var list = await _client.List<PartsByPackage1>(cancelTkn, packageFilename, packageHash);
-        //    return list.Select(x => x as R2PackagePart).ToList();
+        //    try
+        //    {
+        //        return await _client.List<R2PackagePart, PartsByPkgName1>(cancelTkn, packageFilename);
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
         //}
+
 
         private async Task<bool> AlreadyInServer(R2PackagePart part, CancellationToken cancelTkn)
         {
-            var list = await ListByPackage(part.PackageFilename, part.PackageHash, cancelTkn);
+            var list = await ListByPkgHash(part.PackageFilename, part.PackageHash, cancelTkn);
             return list.Any(x => x.PartHash == part.PartHash
                             && x.PartNumber == part.PartNumber
                             && x.TotalParts == part.TotalParts);
@@ -74,9 +83,9 @@ namespace Repo2.Core.ns11.NodeManagers
 
 
 
-        public async Task<Reply> DeleteByPackage(R2Package package, CancellationToken cancelTkn)
+        public async Task<Reply> DeleteByPkgHash(R2Package package, CancellationToken cancelTkn)
         {
-            var list = await ListByPackage(package, cancelTkn);
+            var list = await ListByPkgHash(package, cancelTkn);
             foreach (var item in list)
             {
                 var reply = await _client.DeleteNode(item.nid, cancelTkn);
@@ -84,6 +93,10 @@ namespace Repo2.Core.ns11.NodeManagers
             }
             return Reply.Success;
         }
+
+
+        public Task<RestReply> DeleteByPartNid(int partNodeID, CancellationToken cancelTkn)
+            => _client.DeleteNode(partNodeID, cancelTkn);
 
 
         public async Task<string> DownloadToTemp(R2PackagePart part, CancellationToken cancelTkn)
