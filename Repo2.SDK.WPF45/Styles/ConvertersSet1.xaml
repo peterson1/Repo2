@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Repo2.SDK.WPF45.Styles"
+                    xmlns:cnv="clr-namespace:Repo2.SDK.WPF45.Converters"
+                    >
+    <cnv:VisibleIfHasItemConverter x:Key="visIfHasItems" />
+
+</ResourceDictionary>

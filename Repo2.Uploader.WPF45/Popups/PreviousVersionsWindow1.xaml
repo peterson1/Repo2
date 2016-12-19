@@ -6,11 +6,39 @@
         xmlns:local="clr-namespace:Repo2.Uploader.WPF45.Popups"
         xmlns:root="clr-namespace:Repo2.Uploader.WPF45"
         mc:Ignorable="d"
-        Title="PreviousVersionsWindow1" Height="300" Width="300"
+        Title="{Binding PackageFilename, StringFormat={}Uploaded Versions for {0}}"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterOwner"
         >
     <Grid>
-        <Button Style="{DynamicResource btnMain}"
-                Content="sdfsdf"
-                />
+        <DataGrid ItemsSource="{Binding Rows}"
+                  Style="{StaticResource dgBase1}"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="uploaded"
+                                    Binding="{Binding UploadDate, StringFormat=d MMM yyyy\, hh:mm tt}"
+                                    ElementStyle="{StaticResource dgColLabel}"
+                                    />
+                <DataGridTextColumn Header="hash"
+                                    Binding="{Binding VersionHash}"
+                                    ElementStyle="{StaticResource dgColCenter}"
+                                    />
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding DeleteVersionCmd}"
+                                    Style="{StaticResource deleteBtn}"
+                                    />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTextColumn Header="status"
+                                    Binding="{Binding Status}"
+                                    ElementStyle="{StaticResource dgColLeft}"
+                                    />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

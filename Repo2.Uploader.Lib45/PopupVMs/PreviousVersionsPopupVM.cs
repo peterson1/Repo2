@@ -26,20 +26,21 @@ namespace Repo2.Uploader.Lib45.PopupVMs
         }
 
 
-        public string Status { get; private set; }
+        public string   Status            { get; private set; }
+        public string   PackageFilename   { get; private set; }
 
         public ObservableCollection<PackageVersionRowVM> Rows { get; private set; }
 
 
         public async void GetOldVersions(string pkgFilename)
         {
-            Status        = $"Getting versions for “{pkgFilename}” ...";
-            var cancelTkn = new CancellationToken();
-            List<R2PackagePart> parts;
+            Status          = $"Getting versions for “{pkgFilename}” ...";
+            PackageFilename = pkgFilename;
 
+            List<R2PackagePart> parts;
             try
             {
-                parts = await _partsMgr.ListByPkgName(pkgFilename, cancelTkn);
+                parts = await _partsMgr.ListByPkgName(pkgFilename, new CancellationToken());
             }
             catch (Exception ex)
             {
@@ -51,13 +52,12 @@ namespace Repo2.Uploader.Lib45.PopupVMs
             foreach (var verGrp in parts.GroupBy(x => x.PackageHash))
             {
                 var row = new PackageVersionRowVM(verGrp, _partsMgr);
-                row.VersionHash = verGrp.Key;
-                row.CancelToken = cancelTkn;
                 list.Add(row);
             }
 
-            Rows = new ObservableCollection<PackageVersionRowVM>(list);
-            Status = $"Found {list.Count} previous versions.";
+            var sortd = list.OrderByDescending(x => x.UploadDate);
+            Rows      = new ObservableCollection<PackageVersionRowVM>(sortd);
+            Status    = $"Found {list.Count} previous versions.";
         }
     }
 
@@ -69,18 +69,23 @@ namespace Repo2.Uploader.Lib45.PopupVMs
         private List<R2PackagePart> _parts;
         private IPackagePartManager _partsMgr;
 
-        public PackageVersionRowVM(IEnumerable<R2PackagePart> partsList, IPackagePartManager packagePartManager)
+        public PackageVersionRowVM(IGrouping<string, R2PackagePart> grouping, IPackagePartManager packagePartManager)
         {
-            _parts           = partsList.ToList();
+            _parts           = grouping.ToList();
             _partsMgr        = packagePartManager;
+            VersionHash      = grouping.Key;
+            UploadDate       = grouping.FirstOrDefault(x => x.PartNumber == 1)?.created;
             DeleteVersionCmd = R2Command.Async(DeleteParts);
+            DeleteVersionCmd.DisableWhenDone = true;
         }
 
 
-        public IR2Command         DeleteVersionCmd  { get; private set; }
-        public string             Status            { get; private set; }
-        public string             VersionHash       { get; set; }
-        public CancellationToken  CancelToken       { get; set; }
+        public DateTime?      UploadDate        { get; private set; }
+        public string         VersionHash       { get; private set; }
+        public IR2Command     DeleteVersionCmd  { get; private set; }
+        public string         Status            { get; private set; }
+
+        public CancellationToken CancelToken { get; set; } = new CancellationToken();
 
         public int Count => _parts?.Count ?? 0;
 
