@@ -11,8 +11,11 @@ namespace Repo2.SDK.WPF45.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
             => HasItems(value) ? Visibility.Visible : Visibility.Collapsed;
 
+
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-            => HasItems(value) ? Visibility.Collapsed : Visibility.Visible;
+        {
+            throw new NotImplementedException();
+        }
 
 
         internal static bool HasItems(object value)
