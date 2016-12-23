@@ -50,10 +50,11 @@ namespace Repo2.SDK.WPF45.PrintTools
                 doc.Pages.Add(pgContent);
             }
 
-            var win = new PrintPreviewWindow1();
-            win.vwr.Document = doc;
-            win.Title = $"  Print Preview for {frameworkElements.Length} sheets on {inchesWidth:N1} x {inchesHeight:N1} inches";
-            win.Show();
+            //var win = new PrintPreviewWindow1();
+            //win.vwr.Document = doc;
+            //win.Title = $"  Print Preview for {frameworkElements.Length} sheets on {inchesWidth:N1} x {inchesHeight:N1} inches";
+            //win.Show();
+            PrintPreviewWindow1.Show(doc, inchesWidth, inchesHeight, "UI elements");
         }
     }
 }

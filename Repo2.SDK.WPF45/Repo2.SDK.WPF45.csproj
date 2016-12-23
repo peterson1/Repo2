@@ -161,11 +161,15 @@
     <Compile Include="Exceptions\WebExceptionCaster.cs" />
     <Compile Include="Extensions\FileInfoExtensions\CommonFileInfoExtensions.cs" />
     <Compile Include="Extensions\IOCExtensions\AutofacBuilderExtensions.cs" />
+    <Compile Include="Extensions\StyleExtensions\StylePropertySetters.cs" />
     <Compile Include="Extensions\ViewModelExtensions\DataContextExtensions.cs" />
     <Compile Include="FileSystems\FileSystemAccesor1.cs" />
     <Compile Include="InputCommands\R2AsyncCommandWPF.cs" />
     <Compile Include="InputCommands\R2CommandFactoryWPF.cs" />
     <Compile Include="PackageFinders\LocalR2Package.cs" />
+    <Compile Include="PrintTools\DataGridPaginator1.cs" />
+    <Compile Include="PrintTools\MatelichPaginators\MatelichDataGridPaginator.cs" />
+    <Compile Include="PrintTools\PageRangeDocumentPaginator.cs" />
     <Compile Include="PrintTools\PrintPreviewer.cs" />
     <Compile Include="PrintTools\PrintPreviewWindow1.xaml.cs">
       <DependentUpon>PrintPreviewWindow1.xaml</DependentUpon>
@@ -224,6 +228,10 @@
     <EmbeddedResource Include="Compression\7zxa.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="PrintTools\MatelichPaginators\DataGridPaginatorResourceDictionary1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PrintTools\PrintPreviewWindow1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
