@@ -161,6 +161,8 @@
     <Compile Include="Exceptions\ThreadedAlerter.cs" />
     <Compile Include="Exceptions\UnhandledErrors.cs" />
     <Compile Include="Exceptions\WebExceptionCaster.cs" />
+    <Compile Include="Extensions\DataGridExtensions\DataGridColumnToggler.cs" />
+    <Compile Include="Extensions\DataGridExtensions\DataGridPrintExtensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions\CommonFileInfoExtensions.cs" />
     <Compile Include="Extensions\IOCExtensions\AutofacBuilderExtensions.cs" />
     <Compile Include="Extensions\StyleExtensions\StylePropertySetters.cs" />
@@ -170,7 +172,6 @@
     <Compile Include="InputCommands\R2AsyncCommandWPF.cs" />
     <Compile Include="InputCommands\R2CommandFactoryWPF.cs" />
     <Compile Include="PackageFinders\LocalR2Package.cs" />
-    <Compile Include="PrintTools\DataGridPaginator1.cs" />
     <Compile Include="PrintTools\MatelichPaginators\MatelichDataGridPaginator.cs" />
     <Compile Include="PrintTools\PageRangeDocumentPaginator.cs" />
     <Compile Include="PrintTools\PrintPreviewer.cs" />
