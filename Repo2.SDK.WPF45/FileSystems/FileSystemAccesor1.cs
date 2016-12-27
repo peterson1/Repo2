@@ -129,8 +129,11 @@ namespace Repo2.SDK.WPF45.FileSystems
         public T DecryptJsonFile<T>(string filePath, string decryptKey)
         {
             var raw  = File.ReadAllText(filePath);
-            var json = AESThenHMAC.SimpleDecryptWithPassword(raw, decryptKey);
-            return Json.Deserialize<T>(json);
+            if (raw.Length == 0) return default(T);
+            if (raw[0] == Char.Parse("{")) return Json.Deserialize<T>(raw);
+
+            var decryptd = AESThenHMAC.SimpleDecryptWithPassword(raw, decryptKey);
+            return Json.Deserialize<T>(decryptd);
         }
 
 

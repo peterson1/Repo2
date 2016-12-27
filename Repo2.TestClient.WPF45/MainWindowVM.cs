@@ -54,7 +54,7 @@ namespace Repo2.TestClient.WPF45
         public string  Status           { get; private set; }
         public bool    IsChecking       { get; private set; }
         public int     SecondsInterval  { get; set; }
-        public string  ConfigKey        { get; set; } = "testDownloader1";
+        public string  ConfigKey        { get; set; } = "testDownloader1_open";
 
         public IR2Command  LoadConfigCmd     { get; private set; }
         public IR2Command  StartCheckingCmd  { get; private set; }
