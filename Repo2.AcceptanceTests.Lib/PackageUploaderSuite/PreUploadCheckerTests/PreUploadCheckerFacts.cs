@@ -24,7 +24,7 @@ namespace Repo2.AcceptanceTests.Lib.PackageUploaderSuite.PreUploadCheckerTests
                 _client = scope.Resolve<IR2RestClient>();
                 _sut    = scope.Resolve<IR2PreUploadChecker>();
             }
-            var cfg = UploaderConfigFile.Parse(UploaderCfg.KEY);
+            var cfg = UploaderConfigFile.Parse(UploaderCfg.Localhost);
             _client.SetCredentials(cfg);
         }
 

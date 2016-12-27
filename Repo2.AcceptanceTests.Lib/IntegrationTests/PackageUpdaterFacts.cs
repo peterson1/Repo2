@@ -23,7 +23,7 @@ namespace Repo2.AcceptanceTests.Lib.IntegrationTests
         public PackageUpdaterFacts()
         {
             IR2RestClient client;
-            var cfg = UploaderConfigFile.Parse(UploaderCfg.KEY);
+            var cfg = UploaderConfigFile.Parse(UploaderCfg.Localhost);
             using (var scope = Repo2IoC.BeginScope())
             {
                 client   = scope.Resolve<IR2RestClient>();

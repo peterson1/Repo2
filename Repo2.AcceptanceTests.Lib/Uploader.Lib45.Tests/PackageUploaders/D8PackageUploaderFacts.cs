@@ -28,7 +28,7 @@ namespace Repo2.AcceptanceTests.Lib.Uploader.Lib45.Tests.PackageUploaders
 
         public D8PackageUploaderFacts()
         {
-            _creds = UploaderConfigFile.Parse(UploaderCfg.KEY);
+            _creds = UploaderConfigFile.Parse(UploaderCfg.Localhost);
             using (var scope = UploaderIoC.BeginScope())
             {
                 _client = scope.Resolve<IR2RestClient>();

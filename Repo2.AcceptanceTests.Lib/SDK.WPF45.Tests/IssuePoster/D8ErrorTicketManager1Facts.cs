@@ -24,7 +24,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.IssuePoster
 
         public D8ErrorTicketManager1Facts()
         {
-            _creds = UploaderConfigFile.Parse(UploaderCfg.KEY);
+            _creds = UploaderConfigFile.Parse(UploaderCfg.Localhost);
             using (var scope = Repo2IoC.BeginScope())
             {
                 _client = scope.Resolve<IR2RestClient>();

@@ -25,7 +25,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
         public ResilientClient1CrudFacts()
         {
             _fke   = new FakeFactory();
-            _creds = UploaderConfigFile.Parse(UploaderCfg.KEY);
+            _creds = UploaderConfigFile.Parse(UploaderCfg.Localhost);
             using (var scope = UploaderIoC.BeginScope())
             {
                 _pkgs  = scope.Resolve<IRemotePackageManager>();

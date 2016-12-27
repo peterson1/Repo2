@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
@@ -12,7 +9,6 @@ using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.RestClients;
 using Repo2.SDK.WPF45.ComponentRegistry;
-using Repo2.SDK.WPF45.Configuration;
 using Repo2.Uploader.Lib45.Configuration;
 using Xunit;
 
@@ -26,7 +22,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.IssuePoster
 
         public IssuePosterFacts()
         {
-            var cfg = UploaderConfigFile.Parse(UploaderCfg.KEY);
+            var cfg = UploaderConfigFile.Parse(UploaderCfg.Localhost);
             using (var scope = Repo2IoC.BeginScope())
             {
                 _fs     = scope.Resolve<IFileSystemAccesor>();

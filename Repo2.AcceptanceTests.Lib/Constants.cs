@@ -2,7 +2,8 @@
 {
     internal struct UploaderCfg
     {
-        internal const string KEY = "fitTestRunner";
+        internal const string Localhost   = "Localhost";
+        internal const string FortuneFats = "fitTestRunner";
     }
 
     internal struct Downloader1Cfg
