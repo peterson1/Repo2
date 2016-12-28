@@ -98,6 +98,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MainTabs\PreviousVerTab1.xaml.cs">
+      <DependentUpon>PreviousVerTab1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainTabs\UploaderTab1.xaml.cs">
+      <DependentUpon>UploaderTab1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ConfigCheckerUC1.xaml.cs">
+      <DependentUpon>ConfigCheckerUC1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PackageCheckerUC1.xaml.cs">
+      <DependentUpon>PackageCheckerUC1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PackageUploaderUC1.xaml.cs">
+      <DependentUpon>PackageUploaderUC1.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainTabs\PreviousVerTab1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainTabs\UploaderTab1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -111,6 +134,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Popups\PreviousVersionsWindow1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ConfigCheckerUC1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PackageCheckerUC1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PackageUploaderUC1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

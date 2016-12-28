@@ -35,7 +35,7 @@ namespace Repo2.Uploader.WPF45
             using (var scope = UploaderIoC.BeginScope())
             {
                 vm = scope.Resolve<MainWindowVM>();
-                vm.PackagePath = e.Args.FirstOrDefault();
+                //vm.PackagePath = e.Args.FirstOrDefault();
             }
             return vm;
         }

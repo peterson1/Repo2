@@ -10,13 +10,6 @@ namespace Repo2.Uploader.WPF45
         public MainWindow()
         {
             InitializeComponent();
-
-            Loaded += async (a, b) =>
-            {
-                await Task.Delay(500);
-
-                VM.FillConfigKeysCmd.ExecuteIfItCan();
-            };
         }
 
 
@@ -25,9 +18,9 @@ namespace Repo2.Uploader.WPF45
 
         private void PreviousVersions_Click(object sender, RoutedEventArgs e)
         {
-            var win = new PreviousVersionsWindow1();
-            win.DataContext = VM.Previous;
-            win.Show();
+            //var win = new PreviousVersionsWindow1();
+            //win.DataContext = VM.Previous;
+            //win.Show();
         }
     }
 }

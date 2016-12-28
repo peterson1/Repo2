@@ -32,4 +32,11 @@
         <Setter Property="Foreground" Value="Red" />
     </Style>
 
+    <Style x:Key="cancelBtn" TargetType="Button"
+                       BasedOn="{StaticResource awesomeBtn}">
+        <Setter Property="fa:Awesome.Content" Value="TimesCircle" />
+        <Setter Property="ToolTip" Value="Cancel" />
+        <Setter Property="Foreground" Value="Red" />
+    </Style>
+
 </ResourceDictionary>

@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="Repo2.Uploader.WPF45.MainTabs.UploaderTab1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Repo2.Uploader.WPF45.MainTabs"
+             xmlns:uc="clr-namespace:Repo2.Uploader.WPF45.UserControls"
+             xmlns:sdk="clr-namespace:Repo2.SDK.WPF45.UserControls;assembly=Repo2.SDK.WPF45"
+             xmlns:int="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:tbhv="clr-namespace:Repo2.SDK.WPF45.ControlBehaviors.TextBoxBehaviors;assembly=Repo2.SDK.WPF45"
+             xmlns:xtk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             x:Name="_tab"
+             >
+    <UserControl.Resources>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="10,7,0,0" />
+            <Setter Property="MinWidth" Value="160" />
+            <Setter Property="Padding" Value="0,3,0,3" />
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="clientLog" TargetType="TextBox">
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="Red" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Height" Value="150" />
+            <Setter Property="FontSize" Value="9" />
+            <Setter Property="TextAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+
+    </UserControl.Resources>
+    <Grid>
+        
+        <TextBox Text="{Binding ClientStatus}"
+                 Style="{StaticResource clientLog}"
+                 >
+            <int:Interaction.Behaviors>
+                <tbhv:ScrollOnChangeBehavior />
+            </int:Interaction.Behaviors>
+        </TextBox>
+
+        <StackPanel Margin="30,15,20,0">
+
+            <uc:ConfigCheckerUC1   DataContext="{Binding ConfigChecker}" />
+            <uc:PackageCheckerUC1  DataContext="{Binding PkgChecker}"
+                                   Margin="0,3,0,0"
+                                   />
+
+            <uc:PackageUploaderUC1 DataContext="{Binding PkgUploader}"
+                                   Margin="0,20,0,0"
+                                   />
+        </StackPanel>
+
+        <xtk:BusyIndicator IsBusy="{Binding PkgUploader.StartUploadCmd.IsBusy}"
+                           >
+            <xtk:BusyIndicator.BusyContentTemplate>
+                <DataTemplate>
+                    <StackPanel DataContext="{Binding DataContext.PkgUploader, ElementName=_tab}">
+                        <TextBlock Text="{Binding UploaderStatus}"
+                                   />
+                        <Button Content="{Binding StopUploadCmd.CurrentLabel}"
+                                Command="{Binding StopUploadCmd}"
+                                HorizontalAlignment="Right"
+                                Width="40"
+                                />
+                    </StackPanel>
+                </DataTemplate>
+            </xtk:BusyIndicator.BusyContentTemplate>
+        </xtk:BusyIndicator>
+
+    </Grid>
+</UserControl>

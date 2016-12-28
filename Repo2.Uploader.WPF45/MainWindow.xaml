@@ -4,185 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Repo2.Uploader.WPF45"
+        xmlns:uc="clr-namespace:Repo2.Uploader.WPF45.UserControls"
+        xmlns:tabs="clr-namespace:Repo2.Uploader.WPF45.MainTabs"
         xmlns:sdk="clr-namespace:Repo2.SDK.WPF45.UserControls;assembly=Repo2.SDK.WPF45"
         xmlns:int="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:wbhv="clr-namespace:Repo2.SDK.WPF45.ControlBehaviors.WindowBehaviors;assembly=Repo2.SDK.WPF45"
         xmlns:tbhv="clr-namespace:Repo2.SDK.WPF45.ControlBehaviors.TextBoxBehaviors;assembly=Repo2.SDK.WPF45"
         xmlns:xtk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Repo2 Uploader" Height="600" Width="800"
-        x:Name="_win">
+        WindowStartupLocation="CenterScreen"
+        Title="Repo2 Uploader" Width="600" Height="360">
     <Window.Resources>
-
-        <Style TargetType="Label">
-            <Setter Property="Margin" Value="0,30,0,7" />
-            <Setter Property="Padding" Value="0" />
-            <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="Foreground" Value="BlueViolet" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="FontStyle" Value="Italic" />
-        </Style>
-
-        <Style TargetType="Button">
-            <Setter Property="Margin" Value="10,7,0,0" />
-            <Setter Property="MinWidth" Value="160" />
-            <Setter Property="Padding" Value="0,3,0,3" />
-        </Style>
-
-        <Style TargetType="ComboBox">
-            <Setter Property="Margin" Value="10,7,0,0" />
-            <Setter Property="Padding" Value="10,3,0,3" />
-        </Style>
-
-        <Style TargetType="TextBlock">
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
+        
     </Window.Resources>
     <int:Interaction.Behaviors>
         <wbhv:DraggableBehavior />
     </int:Interaction.Behaviors>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+        <TabControl>
+            <TabItem Header="Upload Package">
+                <tabs:UploaderTab1 DataContext="{Binding UploaderTab}" />
+            </TabItem>
+
+            <TabItem Header="{Binding PreviousVerTab.Title}">
+                <tabs:PreviousVerTab1 DataContext="{Binding PreviousVerTab}" />
+            </TabItem>
+            
+        </TabControl>
         
-        <StackPanel Grid.Column="0"
-                    Margin="30,0,20,0">
-            
-            
-            
-            
-            <Label Content="Configuration File" />
-            <StackPanel Orientation="Horizontal">
-                <StackPanel>
-                    <sdk:DualText Text1="server"
-                                  Text2="{Binding Config.BaseURL}"
-                                  />
-                    <sdk:DualText Text1="username"
-                                  Text2="{Binding Config.Username}"
-                                  />
-                    <sdk:DualText Text1="password"
-                                  Text2="{Binding Config.Password}"
-                                  />
-                    <sdk:DualText Text1="svr thumb"
-                                  Text2="{Binding Config.CertificateThumb}"
-                                  Text2Width="200"
-                                  />
-                    <sdk:DualText Text1="can write"
-                                  Text2="{Binding CanWrite}"
-                                  />
-                </StackPanel>
-                <StackPanel Margin="30,0,0,0">
-                    <StackPanel Orientation="Horizontal">
-                        <ComboBox ItemsSource="{Binding ConfigKeys}"
-                                  SelectedItem="{Binding ConfigKey}"
-                                  >
-                            <int:Interaction.Triggers>
-                                <int:EventTrigger EventName="SelectionChanged">
-                                    <int:InvokeCommandAction Command="{Binding CheckCredentialsCmd}" />
-                                </int:EventTrigger>
-                            </int:Interaction.Triggers>
-                        </ComboBox>
-                        <Button Command="{Binding FillConfigKeysCmd}"
-                                Style="{StaticResource refreshBtn}"
-                                Margin="0,7,0,0"
-                                />
-                    </StackPanel>
-                    <Button Command="{Binding CheckCredentialsCmd}"
-                            Content="{Binding CheckCredentialsCmd.CurrentLabel}"
-                            />
-                </StackPanel>
-            </StackPanel>
-
-            
-            
-
-            <Label Content="Package Path" />
-            <ComboBox ItemsSource="{Binding PackagePaths}"
-                      SelectedItem="{Binding PackagePath}"
-                      >
-                <int:Interaction.Triggers>
-                    <int:EventTrigger EventName="SelectionChanged">
-                        <int:InvokeCommandAction Command="{Binding CheckUploadabilityCmd}" />
-                    </int:EventTrigger>
-                </int:Interaction.Triggers>
-            </ComboBox>
-
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Right">
-                <sdk:DualText Text1="uploadable"
-                              Text2="{Binding IsUploadable}"
-                              VerticalAlignment="Center"
-                              Margin="0,7,0,0"
-                              />
-                <Button Command="{Binding CheckUploadabilityCmd}"
-                        Content="{Binding CheckUploadabilityCmd.CurrentLabel}"
-                        />
-            </StackPanel>
-            
-            
-            
-            
-            <Label Content="Upload Settings" />
-            <StackPanel Orientation="Horizontal"
-                        Margin="10,0,0,0">
-                <TextBlock Text="maximum part size :  " />
-                <xtk:DoubleUpDown Value="{Binding MaxPartSizeMB, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBlock Text=" MB" />
-            </StackPanel>
-
-
-
-
-            <Label Content="Execute" />
-            <Button Command="{Binding StartUploadCmd}"
-                    Content="{Binding StartUploadCmd.CurrentLabel}"
-                    />
-        </StackPanel>
-
-        <xtk:BusyIndicator Grid.Column="0"
-                           IsBusy="{Binding StartUploadCmd.IsBusy}"
-                           >
-            <xtk:BusyIndicator.BusyContentTemplate>
-                <DataTemplate>
-                    <StackPanel DataContext="{Binding DataContext, ElementName=_win}">
-                        <TextBlock Text="{Binding UploaderStatus}"
-                                   />
-                        <Button Content="{Binding StopUploadCmd.CurrentLabel}"
-                                Command="{Binding StopUploadCmd}"
-                                HorizontalAlignment="Right"
-                                Width="40"
-                                />
-                    </StackPanel>
-                </DataTemplate>
-            </xtk:BusyIndicator.BusyContentTemplate>
-        </xtk:BusyIndicator>
-
-
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <StackPanel DataContext="{Binding Previous}">
-                <TextBox Text="{Binding Status}"
-                         />
-                <Button Content="previous versions"
-                        Visibility="{Binding Rows, Converter={StaticResource visIfHasItems}}"
-                        Click="PreviousVersions_Click"
-                        />
-            </StackPanel>
-
-            <TextBox Grid.Row="1"
-                     Text="{Binding ClientStatus}"
-                     IsReadOnly="True"
-                     >
-                <int:Interaction.Behaviors>
-                    <tbhv:ScrollOnChangeBehavior />
-                </int:Interaction.Behaviors>
-            </TextBox>
-        </Grid>
     </Grid>
 </Window>
