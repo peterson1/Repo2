@@ -11,6 +11,7 @@
             <ColumnDefinition x:Name="colDef1" />
             <ColumnDefinition x:Name="colDefGap" />
             <ColumnDefinition x:Name="colDef2" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="txt1"
@@ -21,6 +22,11 @@
 
         <TextBlock x:Name="txt2"
                    Grid.Column="2"
+                   />
+
+        <TextBlock x:Name="elp2"
+                   Text=" ..."
+                   Grid.Column="3"
                    />
     </Grid>
 </UserControl>

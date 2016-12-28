@@ -17,6 +17,9 @@ namespace Repo2.SDK.WPF45.UserControls
             Text1Wrapping = TextWrapping.Wrap;
             Text2Wrapping = TextWrapping.Wrap;
 
+            Text1Ellipsis = Visibility.Collapsed;
+            Text2Ellipsis = Visibility.Collapsed;
+
             txt1.HandleClick();
             txt2.HandleClick();
 
@@ -28,9 +31,13 @@ namespace Repo2.SDK.WPF45.UserControls
 
             txt1.Bind(nameof(Text1Brush), TextBlock.ForegroundProperty);
             txt2.Bind(nameof(Text2Brush), TextBlock.ForegroundProperty);
+            elp2.Bind(nameof(Text2Brush), TextBlock.ForegroundProperty);
 
             txt1.Bind(nameof(Text1FontStyle), TextBlock.FontStyleProperty);
             txt2.Bind(nameof(Text2FontStyle), TextBlock.FontStyleProperty);
+            elp2.Bind(nameof(Text2FontStyle), TextBlock.FontStyleProperty);
+
+            elp2.Bind(nameof(Text2Ellipsis), TextBlock.VisibilityProperty);
 
             Loaded += (s, e) =>
             {
@@ -43,9 +50,11 @@ namespace Repo2.SDK.WPF45.UserControls
 
                 txt1.FontWeight = Text1Weight ?? FontWeights.Medium;
                 txt2.FontWeight = Text2Weight ?? FontWeights.Normal;
+                elp2.FontWeight = Text2Weight ?? FontWeights.Normal;
 
                 txt1.FontSize = Text1Size ?? 12;
                 txt2.FontSize = Text2Size ?? 12;
+                elp2.FontSize = Text2Size ?? 12;
 
                 txt1.TextAlignment = Text1Alignment ?? TextAlignment.Right;
                 txt2.TextAlignment = Text2Alignment ?? TextAlignment.Left;
@@ -53,30 +62,33 @@ namespace Repo2.SDK.WPF45.UserControls
         }
 
 
-        public string          Text1           { get; set; }
-        public string          Text2           { get; set; }
-                                               
-        public GridLength?     Text1Width      { get; set; }
-        public GridLength?     GapWidth        { get; set; }
-        public GridLength?     Text2Width      { get; set; }
-
-        public TextAlignment?  Text1Alignment  { get; set; }
-        public TextAlignment?  Text2Alignment  { get; set; }
-
-        public TextWrapping    Text1Wrapping   { get; set; }
-        public TextWrapping    Text2Wrapping   { get; set; }
-                               
-        public Brush           Text1Brush      { get; set; }
-        public Brush           Text2Brush      { get; set; }
-                               
-        public FontWeight?     Text1Weight     { get; set; }
-        public FontWeight?     Text2Weight     { get; set; }
-                               
-        public FontStyle       Text1FontStyle  { get; set; }
-        public FontStyle       Text2FontStyle  { get; set; }
-                               
-        public double?         Text1Size       { get; set; }
-        public double?         Text2Size       { get; set; }
+        public string          Text1             { get; set; }
+        public string          Text2             { get; set; }
+                                                 
+        public GridLength?     Text1Width        { get; set; }
+        public GridLength?     GapWidth          { get; set; }
+        public GridLength?     Text2Width        { get; set; }
+                                                 
+        public TextAlignment?  Text1Alignment    { get; set; }
+        public TextAlignment?  Text2Alignment    { get; set; }
+                                                 
+        public TextWrapping    Text1Wrapping     { get; set; }
+        public TextWrapping    Text2Wrapping     { get; set; }
+                                                 
+        public Brush           Text1Brush        { get; set; }
+        public Brush           Text2Brush        { get; set; }
+                                                 
+        public FontWeight?     Text1Weight       { get; set; }
+        public FontWeight?     Text2Weight       { get; set; }
+                                                 
+        public FontStyle       Text1FontStyle    { get; set; }
+        public FontStyle       Text2FontStyle    { get; set; }
+                                                 
+        public double?         Text1Size         { get; set; }
+        public double?         Text2Size         { get; set; }
+                                                 
+        public Visibility      Text1Ellipsis     { get; set; }
+        public Visibility      Text2Ellipsis     { get; set; }
     }
 
 
