@@ -60,7 +60,7 @@ namespace Repo2.AcceptanceTests.Lib.Uploader.Lib45.Tests.PackageUploaders
 
         private async Task EnableWriteAccess()
         {
-            var ok = await _client.EnableWriteAccess(_creds, new CancellationToken());
+            var ok = await _client.EnableWriteAccess(_creds);
             ok.Should().BeTrue();
         }
 

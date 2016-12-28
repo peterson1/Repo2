@@ -36,7 +36,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.IssuePoster
         [Fact(DisplayName = "Can POST Issues")]
         public async void CanPOSTIssues()
         {
-            var ok = await _client.EnableWriteAccess(_creds, new CancellationToken());
+            var ok = await _client.EnableWriteAccess(_creds);
             ok.Should().BeTrue("Can write");
 
             var list = await _sut.List(ErrorState.NeedsReview, new CancellationToken());

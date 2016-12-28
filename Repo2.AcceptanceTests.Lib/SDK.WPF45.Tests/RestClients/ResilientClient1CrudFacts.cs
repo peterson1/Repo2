@@ -38,7 +38,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
         [Fact(DisplayName = "Can POST & DELETE PkgPart")]
         public async void CanPostDeletePackagePart()
         {
-            (await _sut.EnableWriteAccess(_creds, new CancellationToken())).Should().BeTrue();
+            (await _sut.EnableWriteAccess(_creds)).Should().BeTrue();
             var sampl = SamplePkgPart();
             var fNme = sampl.PackageFilename;
             var hash = sampl.PackageHash;
@@ -65,7 +65,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
         [Fact(DisplayName = "Can PATCH Package")]
         public async void CanPatchPackage()
         {
-            (await _sut.EnableWriteAccess(_creds, new CancellationToken())).Should().BeTrue();
+            (await _sut.EnableWriteAccess(_creds)).Should().BeTrue();
             var pkg = UpdatedTestPackage2();
 
             var list = await _pkgs.ListByFilename(pkg.Filename, new CancellationToken());
@@ -85,7 +85,7 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
         [Fact(DisplayName = "PATCH Package requires hash")]
         public async void PatchPackageRequiresHash()
         {
-            (await _sut.EnableWriteAccess(_creds, new CancellationToken())).Should().BeTrue();
+            (await _sut.EnableWriteAccess(_creds)).Should().BeTrue();
             var pkg  = UpdatedTestPackage2();
             pkg.Hash = null;
 

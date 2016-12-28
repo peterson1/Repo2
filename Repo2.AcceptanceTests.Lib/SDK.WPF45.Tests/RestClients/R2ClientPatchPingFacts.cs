@@ -65,6 +65,6 @@ namespace Repo2.AcceptanceTests.Lib.SDK.WPF45.Tests.RestClients
 
 
         private async Task EnableWriteAccess()
-            => (await _sut.EnableWriteAccess(_creds, new CancellationToken())).Should().BeTrue();
+            => (await _sut.EnableWriteAccess(_creds)).Should().BeTrue();
     }
 }

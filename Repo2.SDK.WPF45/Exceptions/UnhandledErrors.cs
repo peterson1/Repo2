@@ -61,7 +61,7 @@ namespace Repo2.SDK.WPF45.Exceptions
                     var cli = scope.Resolve<IR2RestClient>();
                     var svr = scope.Resolve<IErrorTicketManager>();
 
-                    var ok = await cli.EnableWriteAccess(cfg, new CancellationToken(), _addToWhiteList);
+                    var ok = await cli.EnableWriteAccess(cfg, _addToWhiteList);
                     if (!ok) throw new Exception("Failed to enable write access.");
 
                     svr.Post(tkt);
