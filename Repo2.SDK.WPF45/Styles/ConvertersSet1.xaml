@@ -4,5 +4,7 @@
                     xmlns:cnv="clr-namespace:Repo2.SDK.WPF45.Converters"
                     >
     <cnv:VisibleIfHasItemConverter x:Key="visIfHasItems" />
+    <cnv:VisibleIfNullConverter x:Key="visIfNull" />
+    <cnv:VisibleIfFalseConverter x:Key="visIfFalse" />
 
 </ResourceDictionary>
