@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.Drupal8;
-using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.RestExportViews;
 
@@ -21,19 +20,24 @@ namespace Repo2.Core.ns11.RestClients
             remove { _onRetry -= value; }
         }
 
-
-        protected R2Credentials _creds;
-        protected string _csrfToken;
+        private R2RestClientAuthenticator _auth;
 
 
         protected abstract Task<T> BasicAuthPOST<T>(string url, object postBody, CancellationToken cancelTkn);
         protected abstract Task<T> BasicAuthPATCH<T>(string url, object patchBody, CancellationToken cancelTkn);
         protected abstract Task<T> BasicAuthDELETE<T>(string url, CancellationToken cancelTkn);
-        protected abstract Task<T> CookieAuthGET<T>(D8Cookie cookie, string url, CancellationToken cancelTkn);
-        protected abstract Task<T> NoAuthPOST<T>(string url, object postBody, CancellationToken cancelTkn);
+        public    abstract Task<T> CookieAuthGET<T>(D8Cookie cookie, string url, CancellationToken cancelTkn);
+        public    abstract Task<T> NoAuthPOST<T>(string url, object postBody, CancellationToken cancelTkn);
 
         protected abstract Task<T> BasicAuthGET<T>(string resourceUrl, CancellationToken cancelTkn);
-        protected abstract void AllowUntrustedCertificate(string serverThumbprint);
+        public    abstract void AllowUntrustedCertificate(string serverThumbprint);
+
+
+        public R2RestClientBase()
+        {
+            _auth = new R2RestClientAuthenticator(this);
+        }
+
 
 
         public Task<List<T>> List<T>(CancellationToken cancelTkn, params object[] args)
@@ -70,50 +74,24 @@ namespace Repo2.Core.ns11.RestClients
             => BasicAuthGET<List<T>>(ToURL(url, args), cancelTkn);
 
 
+
+
+        #region Authentication
+
+        public    bool          IsEnablingWriteAccess          => _auth.IsEnablingWriteAccess;
+        protected string        CsrfToken                      => _auth.CsrfToken;
+        protected R2Credentials Creds                          => _auth.Creds;
+        public    void          StopEnablingWriteAccess()      => _auth.StopEnablingWriteAccess();
+        protected string        ToAbsolute(string resourceURL) => _auth.ToAbsolute(resourceURL);
+
         public void SetCredentials(R2Credentials credentials, bool addCertToWhiteList)
-        {
-            _creds = credentials;
+            => _auth.SetCredentials(credentials, addCertToWhiteList);
 
-            if (addCertToWhiteList)
-                AllowUntrustedCertificate(_creds.CertificateThumb);
-        }
+        public Task<bool> EnableWriteAccess(R2Credentials credentials, bool addCertToWhiteList)
+            => _auth.EnableWriteAccess(credentials, addCertToWhiteList);
 
+        #endregion
 
-        public async Task<bool> EnableWriteAccess(R2Credentials credentials, CancellationToken cancelTkn, bool addCertToWhiteList)
-        {
-            _csrfToken = string.Empty;
-            SetCredentials(credentials, addCertToWhiteList);
-
-            D8Cookie cookie = null;
-            await Task.Run(async () =>
-            {
-                cookie = await GetCookie(credentials, cancelTkn);
-            }
-            ).ConfigureAwait(false);
-
-            if (cookie == null) return false;
-
-            await Task.Run(async () =>
-            {
-                _csrfToken = await GetCsrfToken(cookie, cancelTkn);
-            }
-            ).ConfigureAwait(false);
-
-            return !_csrfToken.IsBlank();
-        }
-
-
-
-        private Task<D8Cookie> GetCookie(R2Credentials creds, CancellationToken cancelTkn)
-            => NoAuthPOST<D8Cookie>(D8.API_USER_LOGIN, new
-            {
-                username = creds.Username,
-                password = creds.Password
-            }, cancelTkn);
-
-
-        private Task<string> GetCsrfToken(D8Cookie cookie, CancellationToken cancelTkn)
-            => CookieAuthGET<string>(cookie, D8.REST_SESSION_TOKEN, cancelTkn);
 
 
 
@@ -124,20 +102,13 @@ namespace Repo2.Core.ns11.RestClients
                 ? resourceUrl.Slash(args.Join("/")) : resourceUrl;
 
 
-        protected string ToAbsolute(string resourceURL)
-        {
-            if (_creds == null)
-                throw Fault.NullRef<R2Credentials>(nameof(_creds));
-
-            return _creds.BaseURL.Slash(resourceURL);
-        }
 
 
         public async Task<NodeReply> PostNode<T>(T node, CancellationToken cancelTkn) 
             where T : D8NodeBase
         {
             var url  = D8.NODE_FORMAT_HAL;
-            var mapd = D8NodeMapper.Cast(node, _creds.BaseURL);
+            var mapd = D8NodeMapper.Cast(node, _auth.Creds.BaseURL);
             var dict = await BasicAuthPOST
                         <Dictionary<string, object>>(url, mapd, cancelTkn);
 
@@ -150,7 +121,7 @@ namespace Repo2.Core.ns11.RestClients
         {
             var url  = string.Format(D8.NODE_X_FORMAT_HAL, node.nid);
             //var url  = string.Format(D8.NODE_X_REV_Y_FMT_HAL, node.nid, node.vid);
-            var mapd = D8NodeMapper.Cast(node, _creds.BaseURL);
+            var mapd = D8NodeMapper.Cast(node, _auth.Creds.BaseURL);
 
             //if (!revisionLog.IsBlank())
             //{

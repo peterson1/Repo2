@@ -45,16 +45,16 @@ namespace Repo2.SDK.WPF45.RestClients
                 url.DeleteFromUrlAsync(D8.CONTENT_TYPE_HAL, SetBasicAuthRequest), cancelTkn);
 
 
-        protected override Task<T> NoAuthPOST<T>(string resourceUrl, object postBody, CancellationToken cancelTkn)
+        public override Task<T> NoAuthPOST<T>(string resourceUrl, object postBody, CancellationToken cancelTkn)
             => _retry.Forever<T>(resourceUrl, (url, ct) => 
                 url.PostJsonToUrlAsync(postBody), cancelTkn);
 
 
 
 
-        protected override Task<T> CookieAuthGET<T>(D8Cookie cookie, string resourceUrl, CancellationToken cancelTkn)
+        public override Task<T> CookieAuthGET<T>(D8Cookie cookie, string resourceUrl, CancellationToken cancelTkn)
         {
-            var client = new JsonServiceClient(_creds.BaseURL);
+            var client = new JsonServiceClient(Creds.BaseURL);
             client.SetCookie(cookie.Name, cookie.Id);
 
             return _retry.Forever<T>(resourceUrl, (x, ct) 
@@ -62,14 +62,14 @@ namespace Repo2.SDK.WPF45.RestClients
         }
 
 
-        protected override void AllowUntrustedCertificate(string serverThumbprint)
+        public override void AllowUntrustedCertificate(string serverThumbprint)
             => Certificator.AllowFrom(serverThumbprint);
 
 
         private void SetBasicAuthRequest(HttpWebRequest req)
         {
-            req.AddBasicAuth(_creds.Username, _creds.Password);
-            req.Headers["X-CSRF-Token"] = _csrfToken;
+            req.AddBasicAuth(Creds.Username, Creds.Password);
+            req.Headers["X-CSRF-Token"] = CsrfToken;
         }
 
 
@@ -79,7 +79,7 @@ namespace Repo2.SDK.WPF45.RestClients
             retryr.MakeAbsolute = url => ToAbsolute(url);
 
             retryr.OnRetry = (ex, span) => _onRetry?.Invoke(this, 
-                $"{ex.FromUrl(_creds.BaseURL).Message}{L.f}Retrying in {span.Seconds} seconds ...");
+                $"{ex.FromUrl(Creds.BaseURL).Message}{L.f}Retrying in {span.Seconds} seconds ...");
 
             return retryr;
         }
