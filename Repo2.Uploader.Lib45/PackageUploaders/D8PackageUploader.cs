@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using PropertyChanged;
-using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.Compression;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.DomainModels;
@@ -119,6 +118,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
 
         public void StopUpload()
         {
+            if (_cancelr == null) return;
             _cancelr.Cancel(true);
             SetStatus("Uploading stopped.");
         }
