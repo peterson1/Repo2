@@ -9,7 +9,6 @@
         xmlns:sdk="clr-namespace:Repo2.SDK.WPF45.UserControls;assembly=Repo2.SDK.WPF45"
         xmlns:int="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:wbhv="clr-namespace:Repo2.SDK.WPF45.ControlBehaviors.WindowBehaviors;assembly=Repo2.SDK.WPF45"
-        xmlns:tbhv="clr-namespace:Repo2.SDK.WPF45.ControlBehaviors.TextBoxBehaviors;assembly=Repo2.SDK.WPF45"
         xmlns:xtk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
@@ -21,16 +20,15 @@
         <wbhv:DraggableBehavior />
     </int:Interaction.Behaviors>
     <Grid>
-        <TabControl>
-            <TabItem Header="Upload Package">
-                <tabs:UploaderTab1 DataContext="{Binding UploaderTab}" />
-            </TabItem>
-
-            <TabItem Header="{Binding PreviousVerTab.Title}">
-                <tabs:PreviousVerTab1 DataContext="{Binding PreviousVerTab}" />
-            </TabItem>
-            
-        </TabControl>
+        
+        <sdk:NonReloadingTabControl x:Name="_tabs" 
+                                    ItemsSource="{Binding Tabs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Title}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </sdk:NonReloadingTabControl>
         
     </Grid>
 </Window>

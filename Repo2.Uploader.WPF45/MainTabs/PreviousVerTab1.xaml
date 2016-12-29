@@ -7,6 +7,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-            
+        <DataGrid ItemsSource="{Binding Rows}"
+                  Style="{StaticResource dgBase1}"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="uploaded"
+                                    Binding="{Binding UploadDate, StringFormat=d MMM yyyy\, hh:mm tt}"
+                                    ElementStyle="{StaticResource dgColLabel}"
+                                    />
+                <DataGridTextColumn Header="hash"
+                                    Binding="{Binding VersionHash}"
+                                    ElementStyle="{StaticResource dgColCenter}"
+                                    />
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding DeleteVersionCmd}"
+                                    Style="{StaticResource deleteBtn}"
+                                    />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="status"
+                                    Binding="{Binding Status}"
+                                    ElementStyle="{StaticResource dgColLeft}"
+                                    />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

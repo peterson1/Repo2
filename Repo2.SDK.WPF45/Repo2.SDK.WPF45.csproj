@@ -167,6 +167,7 @@
     <Compile Include="Extensions\IOCExtensions\AutofacBuilderExtensions.cs" />
     <Compile Include="Extensions\StyleExtensions\StylePropertySetters.cs" />
     <Compile Include="Extensions\ViewModelExtensions\DataContextExtensions.cs" />
+    <Compile Include="Extensions\ViewModelExtensions\DataTemplateExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions\SizeAndPositionSetters.cs" />
     <Compile Include="FileSystems\FileSystemAccesor1.cs" />
     <Compile Include="InputCommands\R2AsyncCommandWPF.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="UserControls\DualText.xaml.cs">
       <DependentUpon>DualText.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\NonReloadingTabControl.cs" />
     <Compile Include="UserInputWindows\DateRangeDialogue.cs" />
     <Compile Include="UserInputWindows\DialogueWindow1.xaml.cs">
       <DependentUpon>DialogueWindow1.xaml</DependentUpon>
@@ -253,6 +255,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\FontAwesomeButtonTheme1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\NonReloadingTabControlTheme1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -48,7 +48,7 @@ namespace Repo2.Uploader.Lib45.UserControlVMs
         public IR2Command           CheckCredentialsCmd   { get; private set; }
         public IR2Command           StopCheckingCredsCmd  { get; private set; }
 
-        public string PackageFileName => PackagePath?.TextAfter("\\", true);
+        public string PackageFileName => PackagePath?.TextAfter("\\", true) ?? "...";
 
 
         private void FillConfigKeys()
@@ -61,8 +61,9 @@ namespace Repo2.Uploader.Lib45.UserControlVMs
 
         private async Task CheckCredentials()
         {
-            Config   = null;
-            CanWrite = null;
+            Config      = null;
+            CanWrite    = null;
+            PackagePath = null;
             PackagePaths.Clear();
 
             Config = UploaderConfigFile.Parse(ConfigKey);
@@ -71,7 +72,8 @@ namespace Repo2.Uploader.Lib45.UserControlVMs
             CanWrite = await _client.EnableWriteAccess(Config);
 
             AsUI(_ => PackagePaths.Swap(Config.LocalPackages));
-            if (PackagePaths.Any()) PackagePath = PackagePaths[0];
+            if (CanWrite == true && PackagePaths.Any())
+                PackagePath = PackagePaths[0];
         }
 
 
@@ -86,6 +88,7 @@ namespace Repo2.Uploader.Lib45.UserControlVMs
 
             StopCheckingCredsCmd = R2Command.Relay(_client.StopEnablingWriteAccess,
                                _ => _client.IsEnablingWriteAccess);
+            StopCheckingCredsCmd.DisableWhenDone = true;
         }
 
 

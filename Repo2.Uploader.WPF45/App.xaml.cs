@@ -1,11 +1,13 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using Autofac;
 using Autofac.Core;
 using Repo2.SDK.WPF45.Exceptions;
 using Repo2.SDK.WPF45.Extensions.IOCExtensions;
+using Repo2.SDK.WPF45.Extensions.ViewModelExtensions;
 using Repo2.Uploader.Lib45;
 using Repo2.Uploader.Lib45.Components;
+using Repo2.Uploader.Lib45.MainTabVMs;
+using Repo2.Uploader.WPF45.MainTabs;
 
 namespace Repo2.Uploader.WPF45
 {
@@ -14,6 +16,7 @@ namespace Repo2.Uploader.WPF45
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            SetDataTemplates();
 
             var win = new MainWindow();
             try
@@ -38,6 +41,13 @@ namespace Repo2.Uploader.WPF45
                 //vm.PackagePath = e.Args.FirstOrDefault();
             }
             return vm;
+        }
+
+
+        private void SetDataTemplates()
+        {
+            this.SetTemplate<UploaderTabVM, UploaderTab1>();
+            this.SetTemplate<PreviousVerTabVM, PreviousVerTab1>();
         }
     }
 }

@@ -64,6 +64,7 @@
     <Compile Include="UserControlVMs\ConfigCheckerVM.cs" />
     <Compile Include="UserControlVMs\PackageCheckerVM.cs" />
     <Compile Include="UserControlVMs\PackageUploaderVM.cs" />
+    <Compile Include="UserControlVMs\PackageVersionRowVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Repo2.Core.ns11\Repo2.Core.ns11.csproj">

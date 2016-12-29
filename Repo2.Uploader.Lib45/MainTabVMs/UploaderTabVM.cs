@@ -47,10 +47,12 @@ namespace Repo2.Uploader.Lib45.MainTabVMs
         private Task VerifyPackage()
             => PkgChecker.CheckUploadability(ConfigChecker.PackagePath);
 
+
         public ConfigCheckerVM          ConfigChecker  { get; private set; }
         public PackageCheckerVM         PkgChecker     { get; private set; }
         public PackageUploaderVM        PkgUploader    { get; private set; }
         public PreviousVersionsPopupVM  Previous       { get; private set; }
         public string                   ClientStatus   { get; private set; }
+        public string                   Title          { get; set; } = "Upload Package";
     }
 }

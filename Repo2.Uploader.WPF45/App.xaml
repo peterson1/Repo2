@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Repo2.Uploader.WPF45"
              xmlns:cnv="clr-namespace:Repo2.SDK.WPF45.Converters;assembly=Repo2.SDK.WPF45"
+             xmlns:uc="clr-namespace:Repo2.SDK.WPF45.UserControls;assembly=Repo2.SDK.WPF45"
              x:Name="App"
              >
     <Application.Resources>
@@ -12,8 +13,8 @@
                 <ResourceDictionary Source="/Repo2.SDK.WPF45;component/Styles/BasicDatagridTheme1.xaml" />
                 <ResourceDictionary Source="/Repo2.SDK.WPF45;component/Styles/FontAwesomeButtonTheme1.xaml" />
                 <ResourceDictionary Source="/Repo2.SDK.WPF45;component/Styles/ConvertersSet1.xaml" />
+                <ResourceDictionary Source="/Repo2.SDK.WPF45;component/Styles/NonReloadingTabControlTheme1.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
         </ResourceDictionary>
 
     </Application.Resources>
