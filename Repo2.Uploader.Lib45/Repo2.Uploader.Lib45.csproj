@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Components\UploaderIoC.cs" />
     <Compile Include="Configuration\UploaderConfigFile.cs" />
+    <Compile Include="Configuration\ConfigLoaderVM.cs" />
     <Compile Include="MainTabVMs\PreviousVerTabVM.cs" />
     <Compile Include="MainTabVMs\UploaderTabVM.cs" />
     <Compile Include="MainWindowVM.cs" />
@@ -61,7 +62,7 @@
     <Compile Include="PackageUploaders\D8PackageUploader.cs" />
     <Compile Include="PopupVMs\PreviousVersionsPopupVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserControlVMs\ConfigCheckerVM.cs" />
+    <Compile Include="UserControlVMs\AccessCheckerVM.cs" />
     <Compile Include="UserControlVMs\PackageCheckerVM.cs" />
     <Compile Include="UserControlVMs\PackageUploaderVM.cs" />
     <Compile Include="UserControlVMs\PackageVersionRowVM.cs" />

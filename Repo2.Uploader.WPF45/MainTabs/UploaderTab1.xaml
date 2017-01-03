@@ -11,11 +11,11 @@
              xmlns:xtk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             x:Name="_tab"
+             x:Name="_utab"
              >
     <UserControl.Resources>
 
-        <Style TargetType="Button">
+        <!--<Style TargetType="Button">
             <Setter Property="Margin" Value="10,7,0,0" />
             <Setter Property="MinWidth" Value="160" />
             <Setter Property="Padding" Value="0,3,0,3" />
@@ -23,7 +23,7 @@
 
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>
+        </Style>-->
 
         <Style x:Key="clientLog" TargetType="TextBox">
             <Setter Property="IsReadOnly" Value="True" />
@@ -49,7 +49,7 @@
 
         <StackPanel Margin="30,15,20,0">
 
-            <uc:ConfigCheckerUC1   DataContext="{Binding ConfigChecker}" />
+            <uc:AccessCheckerUC1   DataContext="{Binding AccessChecker}" />
             <uc:PackageCheckerUC1  DataContext="{Binding PkgChecker}"
                                    Margin="0,3,0,0"
                                    />
@@ -63,7 +63,7 @@
                            >
             <xtk:BusyIndicator.BusyContentTemplate>
                 <DataTemplate>
-                    <StackPanel DataContext="{Binding DataContext.PkgUploader, ElementName=_tab}">
+                    <StackPanel DataContext="{Binding DataContext.PkgUploader, ElementName=_utab}">
                         <TextBlock Text="{Binding UploaderStatus}"
                                    />
                         <Button Content="{Binding StopUploadCmd.CurrentLabel}"

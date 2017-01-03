@@ -54,7 +54,8 @@ namespace Repo2.Core.ns11.Authentication
         }
 
 
-        private async Task<bool> RequestWriteAccess(R2Credentials credentials, CancellationToken cancelTkn, bool addCertToWhiteList)
+        private async Task<bool> RequestWriteAccess(R2Credentials credentials, 
+            CancellationToken cancelTkn, bool addCertToWhiteList)
         {
             CsrfToken = string.Empty;
             SetCredentials(credentials, addCertToWhiteList);

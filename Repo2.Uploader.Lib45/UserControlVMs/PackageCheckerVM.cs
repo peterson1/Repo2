@@ -35,8 +35,6 @@ namespace Repo2.Uploader.Lib45.UserControlVMs
             IsUploadable = null;
             _pkg = LocalR2Package.From(pkgPath);
 
-            //Previous.GetOldVersions(_pkg.Filename);
-
             IsUploadable = await _preCheckr.IsUploadable(_pkg, new CancellationToken());
 
             if (IsUploadable == true)

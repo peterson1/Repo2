@@ -7,7 +7,10 @@ using PropertyChanged;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Exceptions;
+using Repo2.Core.ns11.Extensions.StringExtensions;
+using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.NodeManagers;
+using Repo2.SDK.WPF45.InputCommands;
 using Repo2.Uploader.Lib45.UserControlVMs;
 
 namespace Repo2.Uploader.Lib45.MainTabVMs
@@ -20,18 +23,20 @@ namespace Repo2.Uploader.Lib45.MainTabVMs
         public PreviousVerTabVM(IPackagePartManager packagePartManager)
         {
             _partsMgr = packagePartManager;
+
+            GetVersionsCmd = R2Command.Async(GetVersions, 
+                         _ => !Filename.IsBlank());
         }
 
 
-        internal async Task GetVersions(string packageFileName)
+        private async Task GetVersions()
         {
             Title    = "finding previous versions ...";
-            Filename = packageFileName;
 
             List<R2PackagePart> parts;
             try
             {
-                parts = await _partsMgr.ListByPkgName(packageFileName, new CancellationToken());
+                parts = await _partsMgr.ListByPkgName(Filename, new CancellationToken());
             }
             catch (Exception ex)
             {
@@ -52,10 +57,19 @@ namespace Repo2.Uploader.Lib45.MainTabVMs
         }
 
 
-        public string   Title      { get; private set; }
-        public string   Error      { get; private set; }
-        public string   Filename   { get; private set; }
+        public string      Filename       { get; set; }
+        public string      Title          { get; private set; } = "...";
+        public string      Error          { get; private set; }
+        public IR2Command  GetVersionsCmd { get; private set; }
 
         public Observables<PackageVersionRowVM>  Rows  { get; private set; }
+
+        public void Clear()
+        {
+            Filename = "";
+            Title = "...";
+            Error = "";
+            Rows?.Clear();
+        }
     }
 }

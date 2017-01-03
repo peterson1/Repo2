@@ -12,23 +12,28 @@
         xmlns:xtk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Repo2 Uploader" Width="600" Height="360">
-    <Window.Resources>
-        
-    </Window.Resources>
+        Title="Repo2 Uploader" Width="600" Height="360"
+        >
     <int:Interaction.Behaviors>
         <wbhv:DraggableBehavior />
     </int:Interaction.Behaviors>
     <Grid>
         
-        <sdk:NonReloadingTabControl x:Name="_tabs" 
-                                    ItemsSource="{Binding Tabs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+        <sdk:NonReloadingTabControl ItemsSource="{Binding Tabs, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Margin="0,10,0,0"
+                                    >
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Title}"/>
                 </DataTemplate>
             </TabControl.ItemTemplate>
         </sdk:NonReloadingTabControl>
-        
+
+        <uc:ConfigLoaderUC1 DataContext="{Binding ConfigLoader}"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            Margin="0,0,10,0"
+                            />
+
     </Grid>
 </Window>

@@ -14,39 +14,42 @@ namespace Repo2.SDK.WPF45.RestClients
 {
     public class ResilientClient1 : R2RestClientBase
     {
-        private CrappyConnectionRetryer _retry;
+        //private CrappyConnectionRetryer _retry;
 
         public ResilientClient1()
         {
-            _retry = ConfigureNewRetryer();
+            //_retry = ConfigureNewRetryer();
         }
+
+
+        private CrappyConnectionRetryer Retry => CreateNewRetryer();
 
 
 
         protected override Task<T> BasicAuthGET<T>(string resourceUrl, CancellationToken cancelTkn)
-            => _retry.Forever<T>(resourceUrl, (url, ct) => 
+            => Retry.Forever<T>(resourceUrl, (url, ct) => 
                 url.GetJsonFromUrlAsync(SetBasicAuthRequest), cancelTkn);
 
 
         protected override Task<T> BasicAuthPOST<T>(string resourceUrl, object postBody, CancellationToken cancelTkn)
-            => _retry.Forever<T>(resourceUrl, (url, ct) =>
+            => Retry.Forever<T>(resourceUrl, (url, ct) =>
                  url.PostStringToUrlAsync(Json.Serialize(postBody),
                     D8.CONTENT_TYPE_HAL, D8.CONTENT_TYPE_HAL, SetBasicAuthRequest), cancelTkn);
 
 
         protected override Task<T> BasicAuthPATCH<T>(string resourceUrl, object patchBody, CancellationToken cancelTkn)
-            => _retry.Forever<T>(resourceUrl, (url, ct) =>
+            => Retry.Forever<T>(resourceUrl, (url, ct) =>
                  url.PatchStringToUrlAsync(Json.Serialize(patchBody),
                     D8.CONTENT_TYPE_HAL, D8.CONTENT_TYPE_HAL, SetBasicAuthRequest), cancelTkn);
 
 
         protected override Task<T> BasicAuthDELETE<T>(string resourceUrl, CancellationToken cancelTkn)
-            => _retry.Forever<T>(resourceUrl, (url, ct) =>
+            => Retry.Forever<T>(resourceUrl, (url, ct) =>
                 url.DeleteFromUrlAsync(D8.CONTENT_TYPE_HAL, SetBasicAuthRequest), cancelTkn);
 
 
         public override Task<T> NoAuthPOST<T>(string resourceUrl, object postBody, CancellationToken cancelTkn)
-            => _retry.Forever<T>(resourceUrl, (url, ct) => 
+            => Retry.Forever<T>(resourceUrl, (url, ct) => 
                 url.PostJsonToUrlAsync(postBody), cancelTkn);
 
 
@@ -57,7 +60,7 @@ namespace Repo2.SDK.WPF45.RestClients
             var client = new JsonServiceClient(Creds.BaseURL);
             client.SetCookie(cookie.Name, cookie.Id);
 
-            return _retry.Forever<T>(resourceUrl, (x, ct) 
+            return Retry.Forever<T>(resourceUrl, (x, ct) 
                 => client.GetAsync<string>(resourceUrl), cancelTkn);
         }
 
@@ -73,7 +76,7 @@ namespace Repo2.SDK.WPF45.RestClients
         }
 
 
-        private CrappyConnectionRetryer ConfigureNewRetryer()
+        private CrappyConnectionRetryer CreateNewRetryer()
         {
             var retryr = new CrappyConnectionRetryer();
             retryr.MakeAbsolute = url => ToAbsolute(url);

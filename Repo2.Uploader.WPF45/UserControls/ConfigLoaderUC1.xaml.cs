@@ -1,11 +1,11 @@
 ﻿using System.Windows.Controls;
-using Repo2.Uploader.Lib45.UserControlVMs;
+using Repo2.Uploader.Lib45.Configuration;
 
 namespace Repo2.Uploader.WPF45.UserControls
 {
-    public partial class ConfigCheckerUC1 : UserControl
+    public partial class ConfigLoaderUC1 : UserControl
     {
-        public ConfigCheckerUC1()
+        public ConfigLoaderUC1()
         {
             InitializeComponent();
             Loaded += (a, b) =>
@@ -14,6 +14,7 @@ namespace Repo2.Uploader.WPF45.UserControls
             };
         }
 
-        private ConfigCheckerVM VM => DataContext as ConfigCheckerVM;
+
+        private ConfigLoaderVM VM => DataContext as ConfigLoaderVM;
     }
 }

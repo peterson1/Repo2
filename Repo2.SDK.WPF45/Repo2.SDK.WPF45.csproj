@@ -195,6 +195,7 @@
     <Compile Include="UserInputWindows\DialogueWindow1.xaml.cs">
       <DependentUpon>DialogueWindow1.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModelTools\R2ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

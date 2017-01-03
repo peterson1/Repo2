@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Repo2.Uploader.WPF45.UserControls.ConfigCheckerUC1"
+﻿<UserControl x:Class="Repo2.Uploader.WPF45.UserControls.AccessCheckerUC1"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -47,28 +47,6 @@
     </UserControl.Resources>
     <StackPanel>
             
-        <StackPanel Orientation="Horizontal"
-                    Margin="0,0,0,8"
-                    Background="White"
-                    HorizontalAlignment="Left"
-                    >
-            <Label Content="config key"
-                   Style="{StaticResource txt1Label}"
-                   />
-            <ComboBox ItemsSource="{Binding ConfigKeys}"
-                      SelectedItem="{Binding ConfigKey}"
-                      Width="200"
-                      >
-                <int:Interaction.Triggers>
-                    <int:EventTrigger EventName="SelectionChanged">
-                        <int:InvokeCommandAction Command="{Binding CheckCredentialsCmd}" />
-                    </int:EventTrigger>
-                </int:Interaction.Triggers>
-            </ComboBox>
-            <Button Command="{Binding FillConfigKeysCmd}"
-                    Style="{StaticResource refreshBtn}"
-                    />
-        </StackPanel>
         <sdk:DualText Text1="server"
                       Text2="{Binding Config.BaseURL}"
                       />
@@ -96,21 +74,8 @@
                        />
             <Button Style="{StaticResource cancelBtn}"
                     Command="{Binding StopCheckingCredsCmd}"
-                    Visibility="{Binding CanWrite, Converter={StaticResource visIfNull}}"
+                    Visibility="{Binding IsChecking, Converter={StaticResource visIfTrue}}"
                     />
         </StackPanel>
-
-        <StackPanel Orientation="Horizontal">
-            <Label Content="package file"
-                   Style="{StaticResource txt1Label}"
-                   />
-            <Label Content="{Binding PackageFileName}"
-                   Style="{StaticResource h1Label}"
-                   />
-        </StackPanel>
-
-        <ComboBox ItemsSource="{Binding PackagePaths}"
-                  SelectedItem="{Binding PackagePath}"
-                  />
     </StackPanel>
 </UserControl>

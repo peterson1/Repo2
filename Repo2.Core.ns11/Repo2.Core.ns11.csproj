@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Authentication\R2Credentials.cs" />
     <Compile Include="Authentication\R2RestClientAuthenticator.cs" />
+    <Compile Include="ChangeNotification\EventHandlerExtensions.cs" />
     <Compile Include="ChangeNotification\IStatusChanger.cs" />
     <Compile Include="ChangeNotification\PropertyChangedExtensions.cs" />
     <Compile Include="ChangeNotification\StatusText.cs" />

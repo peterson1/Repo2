@@ -6,5 +6,6 @@
     <cnv:VisibleIfHasItemConverter x:Key="visIfHasItems" />
     <cnv:VisibleIfNullConverter x:Key="visIfNull" />
     <cnv:VisibleIfFalseConverter x:Key="visIfFalse" />
+    <cnv:VisibleIfTrueConverter x:Key="visIfTrue" />
 
 </ResourceDictionary>

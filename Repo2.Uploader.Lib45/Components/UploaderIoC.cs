@@ -11,6 +11,7 @@ using Repo2.SDK.WPF45.Extensions.IOCExtensions;
 using Repo2.SDK.WPF45.FileSystems;
 using Repo2.SDK.WPF45.RestClients;
 using Repo2.SDK.WPF45.TaskResilience;
+using Repo2.Uploader.Lib45.Configuration;
 using Repo2.Uploader.Lib45.MainTabVMs;
 using Repo2.Uploader.Lib45.PackageUploaders;
 using Repo2.Uploader.Lib45.PopupVMs;
@@ -25,10 +26,11 @@ namespace Repo2.Uploader.Lib45.Components
             var b = new ContainerBuilder();
 
             b.Solo<MainWindowVM>();
+            b.Solo<ConfigLoaderVM>();
             b.Solo<UploaderTabVM>();
             b.Solo<PreviousVerTabVM>();
 
-            b.Solo<ConfigCheckerVM>();
+            b.Solo<AccessCheckerVM>();
             b.Solo<PackageCheckerVM>();
             b.Solo<PackageUploaderVM>();
             b.Solo<PreviousVersionsPopupVM>();

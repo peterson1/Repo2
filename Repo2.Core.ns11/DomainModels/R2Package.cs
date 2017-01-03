@@ -21,5 +21,8 @@ namespace Repo2.Core.ns11.DomainModels
 
         public string  LocalDir    { get; set; }
         public bool    FileFound   { get; set; }
+
+
+        public override string ToString() => Filename;
     }
 }
