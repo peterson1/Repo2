@@ -2,9 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using PropertyChanged;
+using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.DomainModels;
+using Repo2.Core.ns11.Extensions.StringExtensions;
+using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.PackageRegistration;
-using Repo2.SDK.WPF45.PackageFinders;
+using Repo2.SDK.WPF45.InputCommands;
 
 namespace Repo2.Uploader.Lib45.UserControlVMs
 {
@@ -14,37 +17,39 @@ namespace Repo2.Uploader.Lib45.UserControlVMs
         public event EventHandler<R2Package> PackageVerified = delegate { };
 
         private IR2PreUploadChecker _preCheckr;
-        private R2Package _pkg;
 
 
         public PackageCheckerVM(IR2PreUploadChecker preUploadChecker)
         {
             _preCheckr = preUploadChecker;
+
+            CheckPackageCmd = R2Command.Async(CheckUploadability,
+                          _ => Package != null);
         }
 
 
-        public bool?   IsUploadable  { get; private set; }
+        public string     Text1    { get; private set; }
+        public string     Text2    { get; private set; }
+        public R2Package  Package  { get; set; }
+
+        public IR2Command CheckPackageCmd { get; private set; }
 
 
-        [DependsOn(nameof(IsUploadable))]
-        public string ReasonWhyNot => _preCheckr.ReasonWhyNot;
-
-
-        internal async Task CheckUploadability(string pkgPath)
+        private async Task CheckUploadability()
         {
-            IsUploadable = null;
-            _pkg = LocalR2Package.From(pkgPath);
+            Text1 = Package.Filename;
+            Text2 = "verifying package file ...";
 
-            IsUploadable = await _preCheckr.IsUploadable(_pkg, new CancellationToken());
-
-            if (IsUploadable == true)
+            var ok = await _preCheckr.IsUploadable(Package, new CancellationToken());
+            if (!ok)
             {
-                _pkg.nid = _preCheckr.LastPackage.nid;
-                PackageVerified?.Invoke(this, _pkg);
+                Text2 = $"File cannot be uploaded.{L.f}{_preCheckr.ReasonWhyNot}";
+                return;
             }
 
-            //StartUploadCmd.CurrentLabel = IsUploadable
-            //    ? "Upload Package" : _preCheckr.ReasonWhyNot;
+            Package.nid = _preCheckr.LastPackage.nid;
+            PackageVerified.Raise(Package);
+            Text2 = "Ready for upload";
         }
     }
 }

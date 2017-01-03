@@ -6,22 +6,17 @@
              xmlns:local="clr-namespace:Repo2.Uploader.WPF45.UserControls"
              xmlns:sdk="clr-namespace:Repo2.SDK.WPF45.UserControls;assembly=Repo2.SDK.WPF45"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel>
-        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    >
-            <sdk:DualText Text1="uploadable"
-                          Text2="{Binding IsUploadable}"
-                          />
-            <TextBlock Text="verifying package file ..."
-                       Visibility="{Binding IsUploadable, Converter={StaticResource visIfNull}}"
-                       />
-        </StackPanel>
-        <TextBlock Text="{Binding ReasonWhyNot}"
-                   Foreground="Red"
-                   Visibility="{Binding IsUploadable, Converter={StaticResource visIfFalse}}"
-                   HorizontalAlignment="Center"
-                   />
+             d:DesignHeight="300" d:DesignWidth="300"
+             >
+    <StackPanel Orientation="Horizontal"
+                >
+        <sdk:DualText Text1="{Binding Text1}"
+                      Text1Width="180"
+                      Text2="{Binding Text2}"
+                      />
+        <Button Command="{Binding CheckPackageCmd}"
+                Style="{StaticResource refreshBtn}"
+                Margin="5,0,0,0"
+                />
     </StackPanel>
 </UserControl>

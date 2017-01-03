@@ -10,7 +10,7 @@ namespace Repo2.Uploader.WPF45.UserControls
             InitializeComponent();
             Loaded += (a, b) =>
             {
-                VM.FillConfigKeysCmd.ExecuteIfItCan();
+                VM?.FillConfigKeysCmd.ExecuteIfItCan();
             };
         }
 

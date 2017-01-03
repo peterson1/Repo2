@@ -4,11 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Repo2.Uploader.WPF45.MainTabs"
+             xmlns:sdk="clr-namespace:Repo2.SDK.WPF45.UserControls;assembly=Repo2.SDK.WPF45"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal"
+                    Margin="0,3,0,3"
+                    >
+            <sdk:DualText Text1="package"
+                          Text2="{Binding Filename}"
+                          Text2Weight="Medium"
+                          Text2FontStyle="Italic"
+                          />
+        </StackPanel>
+        
         <DataGrid ItemsSource="{Binding Rows}"
                   Style="{StaticResource dgBase1}"
+                  Grid.Row="1"
                   >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="uploaded"

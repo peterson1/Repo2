@@ -24,9 +24,11 @@ namespace Repo2.Uploader.Lib45
             {
                 PreviousVerTab.Clear();
                 PreviousVerTab.Filename = pkg?.Filename;
+                UploaderTab.PkgUploader.DisableUpload();
+                UploaderTab.PkgChecker.Package = pkg;
 
                 if (UploaderTab.AccessChecker.CanWrite == true)
-                    PreviousVerTab.GetVersionsCmd.ExecuteIfItCan();
+                    OnWriteAccessEnabled();
             };
 
             //ConfigLoader.PackageChanged += async (a, b) =>
@@ -36,12 +38,19 @@ namespace Repo2.Uploader.Lib45
             //};
 
             UploaderTab.AccessChecker.WriteAccessEnabled += (a, b)
-                => PreviousVerTab.GetVersionsCmd.ExecuteIfItCan();
+                => OnWriteAccessEnabled();
         }
 
         public Observables<object>  Tabs            { get; private set; }
         public ConfigLoaderVM       ConfigLoader    { get; private set; }
         public UploaderTabVM        UploaderTab     { get; private set; }
         public PreviousVerTabVM     PreviousVerTab  { get; private set; }
+
+
+        private void OnWriteAccessEnabled()
+        {
+            UploaderTab.PkgChecker.CheckPackageCmd.ExecuteIfItCan();
+            PreviousVerTab.GetVersionsCmd.ExecuteIfItCan();
+        }
     }
 }

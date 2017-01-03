@@ -12,7 +12,7 @@
         xmlns:xtk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Repo2 Uploader" Width="600" Height="360"
+        Title="Repo2 Uploader" Width="700" Height="360"
         >
     <int:Interaction.Behaviors>
         <wbhv:DraggableBehavior />

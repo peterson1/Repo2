@@ -11,15 +11,21 @@
         
         <Button Command="{Binding StartUploadCmd}"
                 Content="{Binding StartUploadCmd.CurrentLabel}"
+                HorizontalAlignment="Right"
+                Width="250" Height="50"
                 />
 
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Right"
                     Margin="0,7,0,0"
                     >
-            <TextBlock Text="maximum part size :  " />
+            <TextBlock Text="maximum part size :  "
+                       VerticalAlignment="Bottom"
+                       />
             <xtk:DoubleUpDown Value="{Binding MaxPartSizeMB, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text=" MB" />
+            <TextBlock Text=" MB"
+                       VerticalAlignment="Bottom"
+                       />
         </StackPanel>
 
     </StackPanel>

@@ -15,16 +15,6 @@
              >
     <UserControl.Resources>
 
-        <!--<Style TargetType="Button">
-            <Setter Property="Margin" Value="10,7,0,0" />
-            <Setter Property="MinWidth" Value="160" />
-            <Setter Property="Padding" Value="0,3,0,3" />
-        </Style>
-
-        <Style TargetType="TextBlock">
-            <Setter Property="VerticalAlignment" Value="Center" />
-        </Style>-->
-
         <Style x:Key="clientLog" TargetType="TextBox">
             <Setter Property="IsReadOnly" Value="True" />
             <Setter Property="BorderThickness" Value="0" />
@@ -32,12 +22,11 @@
             <Setter Property="Focusable" Value="False" />
             <Setter Property="Height" Value="200" />
             <Setter Property="FontSize" Value="9" />
-            <Setter Property="TextAlignment" Value="Right" />
-            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
         </Style>
 
     </UserControl.Resources>
-    <Grid>
+    <Grid Margin="20,15,15,0">
         
         <TextBox Text="{Binding ClientStatus}"
                  Style="{StaticResource clientLog}"
@@ -47,18 +36,17 @@
             </int:Interaction.Behaviors>
         </TextBox>
 
-        <StackPanel Margin="30,15,20,0">
-
-            <uc:AccessCheckerUC1   DataContext="{Binding AccessChecker}" />
-            <uc:PackageCheckerUC1  DataContext="{Binding PkgChecker}"
-                                   Margin="0,3,0,0"
-                                   />
-
+        <StackPanel>
+            <uc:AccessCheckerUC1 DataContext="{Binding AccessChecker}" />
+        </StackPanel>
+        
+        <StackPanel HorizontalAlignment="Right">
+            <uc:PackageCheckerUC1  DataContext="{Binding PkgChecker}" />
             <uc:PackageUploaderUC1 DataContext="{Binding PkgUploader}"
                                    Margin="0,20,0,0"
                                    />
         </StackPanel>
-
+        
         <xtk:BusyIndicator IsBusy="{Binding PkgUploader.StartUploadCmd.IsBusy}"
                            >
             <xtk:BusyIndicator.BusyContentTemplate>

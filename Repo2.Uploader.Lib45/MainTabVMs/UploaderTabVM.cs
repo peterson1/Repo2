@@ -40,16 +40,14 @@ namespace Repo2.Uploader.Lib45.MainTabVMs
             PkgChecker.PackageVerified += (a, pkg)
                 => PkgUploader.EnableUpload(pkg);
 
-            PkgUploader.UploadFinished += async (a, r) =>
+            PkgUploader.UploadFinished += (a, r) =>
             {
                 Alerter.Show(r, "Package Upload");
-                if (r.IsSuccessful) await VerifyPackage();
+                if (r.IsSuccessful)
+                    PkgChecker.CheckPackageCmd.ExecuteIfItCan();
             };
         }
 
-
-        private Task VerifyPackage()
-            => PkgChecker.CheckUploadability(_pkgPath);
 
 
         public AccessCheckerVM          AccessChecker  { get; private set; }
