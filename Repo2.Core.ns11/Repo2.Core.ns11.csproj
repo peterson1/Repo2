@@ -93,6 +93,11 @@
     <Compile Include="NodeManagers\IPackagePartManager.cs" />
     <Compile Include="NodeManagers\D8PkgPartManager1.cs" />
     <Compile Include="NodeManagers\IPingManager.cs" />
+    <Compile Include="NodeReaders\CachedPkgPartReader1.cs" />
+    <Compile Include="NodeReaders\x_CachedPkgPartReader1.cs" />
+    <Compile Include="NodeReaders\x_CachedReaderBase.cs" />
+    <Compile Include="NodeReaders\x_ICachedReader.cs" />
+    <Compile Include="NodeReaders\IPackagePartReader.cs" />
     <Compile Include="PackageDownloaders\ILocalPackageFileUpdater.cs" />
     <Compile Include="PackageDownloaders\IPackageDownloader.cs" />
     <Compile Include="PackageDownloaders\D8PackageDownloader1.cs" />
@@ -116,6 +121,7 @@
     <Compile Include="RestExportViews\PartsByPkgHash1.cs" />
     <Compile Include="RestExportViews\PartsByPkgName1.cs" />
     <Compile Include="RestExportViews\PingsForCurrentUser1.cs" />
+    <Compile Include="Serialization\IR2Serializer.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

@@ -69,6 +69,8 @@
                         <Button Content="{Binding StopUploadCmd.CurrentLabel}"
                                 Command="{Binding StopUploadCmd}"
                                 HorizontalAlignment="Right"
+                                Padding="7,3,7,3"
+                                Margin="0,5,0,5"
                                 />
                     </StackPanel>
                 </DataTemplate>

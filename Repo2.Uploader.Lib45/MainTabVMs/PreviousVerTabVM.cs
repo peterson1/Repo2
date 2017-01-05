@@ -29,6 +29,14 @@ namespace Repo2.Uploader.Lib45.MainTabVMs
         }
 
 
+        public string      Filename       { get; set; }
+        public string      Title          { get; private set; } = "...";
+        public string      Error          { get; private set; }
+        public IR2Command  GetVersionsCmd { get; private set; }
+
+        public Observables<PackageVersionRowVM>  Rows  { get; private set; }
+
+
         private async Task GetVersions()
         {
             Title    = "finding previous versions ...";
@@ -57,18 +65,11 @@ namespace Repo2.Uploader.Lib45.MainTabVMs
         }
 
 
-        public string      Filename       { get; set; }
-        public string      Title          { get; private set; } = "...";
-        public string      Error          { get; private set; }
-        public IR2Command  GetVersionsCmd { get; private set; }
-
-        public Observables<PackageVersionRowVM>  Rows  { get; private set; }
-
         public void Clear()
         {
             Filename = "";
-            Title = "...";
-            Error = "";
+            Title    = "...";
+            Error    = "";
             Rows?.Clear();
         }
     }

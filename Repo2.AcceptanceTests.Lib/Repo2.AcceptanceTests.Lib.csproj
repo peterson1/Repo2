@@ -83,6 +83,7 @@
     <Compile Include="AutofacSlimCreateOperator.cs" />
     <Compile Include="ComponentRegistry\ContainerFactory.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Core.ns11.Tests\NodeReaders\CachedPkgPartReader1Facts.cs" />
     <Compile Include="IntegrationTests\PackageUpdaterFacts.cs" />
     <Compile Include="PackageUploaderSuite\PreUploadCheckerTests\PreUploadCheckerFacts.cs" />
     <Compile Include="SDK.WPF45.Tests\FileSystems\FileSystemAccesor1Facts.cs" />
