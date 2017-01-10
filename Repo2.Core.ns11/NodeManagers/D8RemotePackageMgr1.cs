@@ -22,7 +22,7 @@ namespace Repo2.Core.ns11.NodeManagers
             => _client.List<R2Package, PackagesByFilename1>(cancelTkn, pkgFilename);
 
 
-        public Task<NodeReply>  UpdateRemoteNode (R2Package updatedPkg, CancellationToken cancelTkn)
-            => _client.PatchNode(updatedPkg, cancelTkn);
+        public Task<NodeReply>  UpdateRemoteNode (R2Package updatedPkg, string revisionLog, CancellationToken cancelTkn)
+            => _client.PatchNode(updatedPkg, cancelTkn, revisionLog);
     }
 }

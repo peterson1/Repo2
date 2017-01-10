@@ -17,8 +17,11 @@ namespace Repo2.Uploader.Lib45
             PreviousVerTab = previousVerTabVM;
             Tabs           = new Observables<object> { UploaderTab, PreviousVerTab };
 
-            ConfigLoader.ConfigLoaded += (a, cfg) 
-                => UploaderTab.ClientStatus = "";
+            ConfigLoader.ConfigLoaded += (a, cfg) =>
+            {
+                UploaderTab.ClientStatus = "";
+                UploaderTab.PkgChecker.Clear();
+            };
 
             ConfigLoader.PackageChanged += (a, pkg) =>
             {

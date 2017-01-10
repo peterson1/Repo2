@@ -13,10 +13,10 @@ namespace Repo2.Core.ns11.RestClients
 {
     public abstract class R2RestClientBase : IR2RestClient
     {
-        protected    EventHandler<string> _onRetry;
-        public event EventHandler<string>  OnRetry
+        protected EventHandler<string> _onRetry;
+        public event EventHandler<string> OnRetry
         {
-            add    { _onRetry -= value; _onRetry += value; }
+            add { _onRetry -= value; _onRetry += value; }
             remove { _onRetry -= value; }
         }
 
@@ -26,11 +26,11 @@ namespace Repo2.Core.ns11.RestClients
         protected abstract Task<T> BasicAuthPOST<T>(string url, object postBody, CancellationToken cancelTkn);
         protected abstract Task<T> BasicAuthPATCH<T>(string url, object patchBody, CancellationToken cancelTkn);
         protected abstract Task<T> BasicAuthDELETE<T>(string url, CancellationToken cancelTkn);
-        public    abstract Task<T> CookieAuthGET<T>(D8Cookie cookie, string url, CancellationToken cancelTkn);
-        public    abstract Task<T> NoAuthPOST<T>(string url, object postBody, CancellationToken cancelTkn);
+        public abstract Task<T> CookieAuthGET<T>(D8Cookie cookie, string url, CancellationToken cancelTkn);
+        public abstract Task<T> NoAuthPOST<T>(string url, object postBody, CancellationToken cancelTkn);
 
         protected abstract Task<T> BasicAuthGET<T>(string resourceUrl, CancellationToken cancelTkn);
-        public    abstract void AllowUntrustedCertificate(string serverThumbprint);
+        public abstract void AllowUntrustedCertificate(string serverThumbprint);
 
 
         public R2RestClientBase()
@@ -47,8 +47,8 @@ namespace Repo2.Core.ns11.RestClients
                               cancelTkn);
 
 
-        public async Task<List<TModel>> List<TModel, TDto>(CancellationToken cancelTkn, params object[] args) 
-            where TDto   : IRestExportView, TModel, new()
+        public async Task<List<TModel>> List<TModel, TDto>(CancellationToken cancelTkn, params object[] args)
+            where TDto : IRestExportView, TModel, new()
             where TModel : class
         {
             var list = await List<TDto>(cancelTkn, args);
@@ -58,6 +58,10 @@ namespace Repo2.Core.ns11.RestClients
 
             return list.Select(x => x as TModel).ToList();
         }
+
+
+        public Task<List<object>> ListRevisions(string nodeTitle, CancellationToken cancelTkn)
+            => GetList<object>(D8.REVISIONS_BY_TITLE, new List<string>{ nodeTitle }, cancelTkn);
 
 
         public async Task<byte[]> GetBytes<T>(CancellationToken cancelTkn, params object[] args) 
@@ -123,12 +127,14 @@ namespace Repo2.Core.ns11.RestClients
             //var url  = string.Format(D8.NODE_X_REV_Y_FMT_HAL, node.nid, node.vid);
             var mapd = D8NodeMapper.Cast(node, _auth.Creds.BaseURL);
 
-            //if (!revisionLog.IsBlank())
-            //{
-            //    mapd.Add("vid", D8HALJson.ValueField(node.vid));
-            //    mapd.Add("revision", D8HALJson.ValueField(1));
-            //    mapd.Add("log", D8HALJson.ValueField(revisionLog));
-            //}
+            if (!revisionLog.IsBlank())
+            {
+                //mapd.Add("vid", D8HALJson.ValueField(node.vid));
+                //mapd.Add("revision", D8HALJson.ValueField(1));
+                //mapd.Add("log", D8HALJson.ValueField(revisionLog));
+                var log = $"[{DateTime.Now:d MMM yyyy, h:mmtt}] {revisionLog}";
+                mapd.Add("revision_log", D8HALJson.ValueField(log));
+            }
 
             Dictionary<string, object> dict;
 

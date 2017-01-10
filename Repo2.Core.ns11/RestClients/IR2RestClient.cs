@@ -27,6 +27,8 @@ namespace Repo2.Core.ns11.RestClients
             where TModel : class
             where TDto   : TModel, IRestExportView, new();
 
+        Task<List<object>> ListRevisions (string nodeTitle, CancellationToken cancelTkn);
+
         Task<byte[]>     GetBytes   <T>(CancellationToken cancelTkn, params object[] args) 
             where T : IRestExportView, IBase64Content, new();
 

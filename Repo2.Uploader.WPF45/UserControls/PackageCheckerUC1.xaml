@@ -16,6 +16,7 @@
                       />
         <Button Command="{Binding CheckPackageCmd}"
                 Style="{StaticResource refreshBtn}"
+                FontSize="10"
                 Margin="5,0,0,0"
                 />
     </StackPanel>

@@ -10,7 +10,7 @@ namespace Repo2.Core.ns11.NodeManagers
     {
         Task<List<R2Package>> ListByFilename(string pkgFilename, CancellationToken cancelTkn);
 
-        Task<NodeReply>  UpdateRemoteNode  (R2Package updatedPackage, CancellationToken cancelTkn);
+        Task<NodeReply>  UpdateRemoteNode  (R2Package updatedPackage, string revisionLog, CancellationToken cancelTkn);
         //Task<bool>       IsOutdated        (R2Package localPackage);
     }
 }

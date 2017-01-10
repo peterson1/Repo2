@@ -51,5 +51,13 @@ namespace Repo2.Uploader.Lib45.UserControlVMs
             PackageVerified.Raise(Package);
             Text2 = "Ready for upload";
         }
+
+
+        internal void Clear()
+        {
+            Text1   = "";
+            Text2   = "";
+            Package = null;
+        }
     }
 }

@@ -99,7 +99,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
                 throw Fault.HashMismatch("Original Package File", "Downloaded Package File");
 
             SetStatus("Updating package node ...");
-            return await _pkgMgr.UpdateRemoteNode(localPkg, cancelTkn);
+            return await _pkgMgr.UpdateRemoteNode(localPkg, string.Empty, cancelTkn);
         }
 
 

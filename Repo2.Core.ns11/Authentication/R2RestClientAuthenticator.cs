@@ -28,7 +28,8 @@ namespace Repo2.Core.ns11.Authentication
 
         internal void SetCredentials(R2Credentials credentials, bool addCertToWhiteList)
         {
-            Creds = credentials;
+            if (credentials != null)
+                Creds = credentials;
 
             if (addCertToWhiteList)
                 _client.AllowUntrustedCertificate(Creds.CertificateThumb);
@@ -63,7 +64,7 @@ namespace Repo2.Core.ns11.Authentication
             D8Cookie cookie = null;
             await Task.Run(async () =>
             {
-                cookie = await GetCookie(credentials, cancelTkn);
+                cookie = await GetCookie(cancelTkn);
             }
             ).ConfigureAwait(false);
 
@@ -79,11 +80,11 @@ namespace Repo2.Core.ns11.Authentication
         }
 
 
-        private Task<D8Cookie> GetCookie(R2Credentials creds, CancellationToken cancelTkn)
+        private Task<D8Cookie> GetCookie(CancellationToken cancelTkn)
             => _client.NoAuthPOST<D8Cookie>(D8.API_USER_LOGIN, new
             {
-                username = creds.Username,
-                password = creds.Password
+                username = Creds.Username,
+                password = Creds.Password
             }, cancelTkn);
 
 
