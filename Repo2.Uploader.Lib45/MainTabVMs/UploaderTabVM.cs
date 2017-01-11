@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Windows.Input;
 using PropertyChanged;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.PackageUploaders;
@@ -42,9 +43,13 @@ namespace Repo2.Uploader.Lib45.MainTabVMs
 
             PkgUploader.UploadFinished += (a, r) =>
             {
+                PkgUploader.DisableUpload();
                 Alerter.Show(r, "Package Upload");
+
                 if (r.IsSuccessful)
                     PkgChecker.CheckPackageCmd.ExecuteIfItCan();
+
+                CommandManager.InvalidateRequerySuggested();
             };
         }
 

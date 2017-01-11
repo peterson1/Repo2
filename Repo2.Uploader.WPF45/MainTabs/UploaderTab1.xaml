@@ -37,7 +37,7 @@
         </Style>-->
         
     </UserControl.Resources>
-    <Grid Margin="20,15,15,0">
+    <Grid Margin="20,15,15,20">
         
         <TextBox Text="{Binding ClientStatus}"
                  Style="{StaticResource clientLog}"
@@ -47,16 +47,14 @@
             </int:Interaction.Behaviors>
         </TextBox>
 
-        <StackPanel>
-            <uc:AccessCheckerUC1 DataContext="{Binding AccessChecker}" />
-        </StackPanel>
+        <uc:AccessCheckerUC1 DataContext="{Binding AccessChecker}" />
         
-        <StackPanel HorizontalAlignment="Right">
-            <uc:PackageCheckerUC1  DataContext="{Binding PkgChecker}" />
-            <uc:PackageUploaderUC1 DataContext="{Binding PkgUploader}"
-                                   Margin="0,20,0,0"
-                                   />
-        </StackPanel>
+        <uc:PackageCheckerUC1  DataContext="{Binding PkgChecker}"
+                               HorizontalAlignment="Right"
+                               />
+        <uc:PackageUploaderUC1 DataContext="{Binding PkgUploader}"
+                               Margin="0,70,0,0"
+                               />
 
         <xtk:BusyIndicator x:Name="busyInd"
                            IsBusy="{Binding PkgUploader.StartUploadCmd.IsBusy}"

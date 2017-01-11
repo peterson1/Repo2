@@ -11,7 +11,11 @@
     <StackPanel Orientation="Horizontal"
                 >
         <sdk:DualText Text1="{Binding Text1}"
-                      Text1Width="180"
+                      Text1Width="auto"
+                      Text1Weight="Bold"
+                      Text1FontStyle="Italic"
+                      Text1Brush="BlueViolet"
+                      Text1Size="14"
                       Text2="{Binding Text2}"
                       />
         <Button Command="{Binding CheckPackageCmd}"

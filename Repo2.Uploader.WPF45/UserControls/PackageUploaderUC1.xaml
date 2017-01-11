@@ -6,27 +6,66 @@
              xmlns:local="clr-namespace:Repo2.Uploader.WPF45.UserControls"
              xmlns:xtk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel>
+             d:DesignHeight="300" d:DesignWidth="300"
+             >
+    <UserControl.Resources>
         
-        <Button Command="{Binding StartUploadCmd}"
-                Content="{Binding StartUploadCmd.CurrentLabel}"
-                HorizontalAlignment="Right"
-                Width="250" Height="50"
-                />
+        <Style TargetType="Label">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="BlueViolet" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontStyle" Value="Italic" />
+        </Style>
+        
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11" />
+        </Style>
+        
+        <Style TargetType="xtk:DoubleUpDown">
+            <Setter Property="FontSize" Value="11" />
+        </Style>
+        
+    </UserControl.Resources>
 
-        <StackPanel Orientation="Horizontal"
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Margin="0,0,20,0">
+            <Label Content="Revision Log"
+                   DockPanel.Dock="Top"
+                   />
+            <TextBox x:Name="txtLog"
+                     Text="{Binding RevisionLog, UpdateSourceTrigger=PropertyChanged}"
+                     Padding="10,7,5,5"
+                     AcceptsReturn="True"
+                     />
+        </DockPanel>
+        
+        <StackPanel Grid.Column="1"
+                    Margin="0,30,0,0">
+        
+            <Button Command="{Binding StartUploadCmd}"
+                    Content="{Binding StartUploadCmd.CurrentLabel}"
                     HorizontalAlignment="Right"
-                    Margin="0,7,0,0"
-                    >
-            <TextBlock Text="maximum part size :  "
-                       VerticalAlignment="Bottom"
-                       />
-            <xtk:DoubleUpDown Value="{Binding MaxPartSizeMB, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text=" MB"
-                       VerticalAlignment="Bottom"
-                       />
-        </StackPanel>
+                    Width="180" Height="50"
+                    />
 
-    </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,7,0,0"
+                        >
+                <TextBlock Text="maximum part size :  "
+                           VerticalAlignment="Bottom"
+                           />
+                <xtk:DoubleUpDown Value="{Binding MaxPartSizeMB, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text=" MB"
+                           VerticalAlignment="Bottom"
+                           />
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
 </UserControl>

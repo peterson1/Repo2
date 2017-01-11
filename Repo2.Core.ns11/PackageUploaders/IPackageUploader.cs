@@ -7,7 +7,7 @@ namespace Repo2.Core.ns11.PackageUploaders
 {
     public interface IPackageUploader : IStatusChanger
     {
-        Task<NodeReply>  StartUpload  (R2Package localPackage);
+        Task<NodeReply>  StartUpload  (R2Package localPackage, string revisionLog);
         void             StopUpload   ();
 
         bool   IsUploading   { get; }

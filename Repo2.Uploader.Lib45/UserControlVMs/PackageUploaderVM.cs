@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using PropertyChanged;
 using Repo2.Core.ns11.DataStructures;
@@ -8,8 +9,6 @@ using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.PackageUploaders;
-using Repo2.Core.ns11.RestClients;
-using Repo2.SDK.WPF45.Exceptions;
 using Repo2.SDK.WPF45.InputCommands;
 
 namespace Repo2.Uploader.Lib45.UserControlVMs
@@ -42,6 +41,7 @@ namespace Repo2.Uploader.Lib45.UserControlVMs
         public IR2Command   StartUploadCmd   { get; private set; }
         public IR2Command   StopUploadCmd    { get; private set; }
         public double       MaxPartSizeMB    { get; set; } = 0.5;
+        public string       RevisionLog      { get; set; }
 
 
         internal void EnableUpload  (R2Package pkg) => Package = pkg;
@@ -50,8 +50,10 @@ namespace Repo2.Uploader.Lib45.UserControlVMs
 
         private async Task StartUpload()
         {
+            Clipboard.SetText(RevisionLog);
+
             _pkgUploadr.MaxPartSizeMB = this.MaxPartSizeMB;
-            var reply = await _pkgUploadr.StartUpload(Package);
+            var reply = await _pkgUploadr.StartUpload(Package, RevisionLog);
 
             UploadFinished?.Invoke(this, reply);
 
@@ -59,6 +61,15 @@ namespace Repo2.Uploader.Lib45.UserControlVMs
 
             //if (reply.IsSuccessful)
             //    CheckUploadabilityCmd.ExecuteIfItCan();
+        }
+
+
+        private bool CanUpload()
+        {
+            if (Package == null) return false;
+            if (MaxPartSizeMB <= 0) return false;
+            if (RevisionLog.IsBlank()) return false;
+            return true;
         }
 
 
@@ -72,7 +83,7 @@ namespace Repo2.Uploader.Lib45.UserControlVMs
         private void CreateCommands()
         {
             StartUploadCmd = R2Command.Async(StartUpload,
-                         x => (Package != null) && (MaxPartSizeMB > 0), "Upload Package");
+                         x => CanUpload(), "Upload Package");
 
             StopUploadCmd = R2Command.Relay(StopUpload,
                         x => _pkgUploadr.IsUploading, "stop uploading");

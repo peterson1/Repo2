@@ -48,7 +48,7 @@ namespace Repo2.AcceptanceTests.Lib.Uploader.Lib45.Tests.PackageUploaders
             await _parts.DeleteByPkgHash(pkg, new CancellationToken());
 
             _sut.MaxPartSizeMB = maxMB;
-            await _sut.StartUpload(pkg);
+            await _sut.StartUpload(pkg, "test upload");
 
             var list1 = await _parts.ListByPkgHash(pkg, new CancellationToken());
             list1.Should().HaveCount(parts);

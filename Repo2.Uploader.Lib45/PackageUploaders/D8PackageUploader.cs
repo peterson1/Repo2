@@ -65,7 +65,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
         //    }
         //}
 
-        public async Task<NodeReply> StartUpload (R2Package localPkg)
+        public async Task<NodeReply> StartUpload (R2Package localPkg, string revisionLog)
         {
             if (localPkg.nid == 0) throw Fault
                 .BadData(localPkg, "nid should NOT be zero");
@@ -73,7 +73,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
             _cancelr = new CancellationTokenSource();
             try
             {
-                return await ExecuteUpload(localPkg, _cancelr.Token);
+                return await ExecuteUpload(localPkg, revisionLog, _cancelr.Token);
             }
             catch (OperationCanceledException ex)
             {
@@ -82,7 +82,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
         }
 
 
-        private async Task<NodeReply> ExecuteUpload(R2Package localPkg, CancellationToken cancelTkn)
+        private async Task<NodeReply> ExecuteUpload(R2Package localPkg, string revisionLog, CancellationToken cancelTkn)
         {
             SetStatus("Isolating local package file...");
             var pkgPath = await _fileIO.IsolateFile(localPkg);
@@ -99,7 +99,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
                 throw Fault.HashMismatch("Original Package File", "Downloaded Package File");
 
             SetStatus("Updating package node ...");
-            return await _pkgMgr.UpdateRemoteNode(localPkg, string.Empty, cancelTkn);
+            return await _pkgMgr.UpdateRemoteNode(localPkg, revisionLog, cancelTkn);
         }
 
 
