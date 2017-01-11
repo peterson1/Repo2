@@ -129,12 +129,11 @@ namespace Repo2.Core.ns11.RestClients
 
             if (!revisionLog.IsBlank())
             {
-                //mapd.Add("vid", D8HALJson.ValueField(node.vid));
-                //mapd.Add("revision", D8HALJson.ValueField(1));
-                //mapd.Add("log", D8HALJson.ValueField(revisionLog));
-                var log = $"[{DateTime.Now:d MMM yyyy, h:mmtt}] {revisionLog}";
+                var now = DateTime.Now.ToString("d MMM yyyy, h:mmtt");
+                var log = $"[{Creds.Username}, {now}] {revisionLog}";
                 mapd.Add("revision_log", D8HALJson.ValueField(log));
             }
+
 
             Dictionary<string, object> dict;
 

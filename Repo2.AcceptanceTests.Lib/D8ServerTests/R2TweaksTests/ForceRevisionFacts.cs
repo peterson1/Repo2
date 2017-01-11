@@ -33,19 +33,36 @@ namespace Repo2.AcceptanceTests.Lib.D8ServerTests.R2TweaksTests
         }
 
 
-        [Fact(DisplayName = "Package edit creates revision")]
+        [Fact(DisplayName = "With RevLog: Adds revision")]
         public async void PackageEditCreatesRevision()
         {
             await EnableWriteAccess();
 
             var origCount = await CountCurrentRevisions();
 
-            await UpdatePackageNode();
+            await UpdatePackageNode("Changed to " + F.ke.Text);
 
             var newCount = await CountCurrentRevisions();
 
             newCount.Should().Be(origCount + 1);
         }
+
+
+        //[Fact(DisplayName = "Blank RevLog: No revision")]
+        //public async void NoRevLog_NoRevision()
+        //{
+        //    await EnableWriteAccess();
+
+        //    var origCount = await CountCurrentRevisions();
+
+        //    await UpdatePackageNode(null);
+
+        //    var newCount = await CountCurrentRevisions();
+
+        //    newCount.Should().Be(origCount, 
+        //        "Should not create a revision if revisionLog is blank");
+        //}
+
 
         private async Task EnableWriteAccess()
         {
@@ -61,7 +78,7 @@ namespace Repo2.AcceptanceTests.Lib.D8ServerTests.R2TweaksTests
         }
 
 
-        private async Task UpdatePackageNode()
+        private async Task UpdatePackageNode(string revisionLog)
         {
             var node = new R2Package
             {
@@ -74,8 +91,8 @@ namespace Repo2.AcceptanceTests.Lib.D8ServerTests.R2TweaksTests
             //var node  = list[0];
             //node.Hash = F.ke.Text;
 
-            var reply = await _pkgMgr.UpdateRemoteNode(node, F.ke.FullName(), new CancellationToken());
-            reply.IsSuccessful.Should().BeTrue("reply.IsSuccessful");
+            var reply = await _pkgMgr.UpdateRemoteNode(node, revisionLog, new CancellationToken());
+            reply.IsSuccessful.Should().BeTrue(reply.ErrorsText);
         }
     }
 }
