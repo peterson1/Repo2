@@ -18,6 +18,7 @@
         <Style x:Key="clientLog" TargetType="TextBox">
             <Setter Property="IsReadOnly" Value="True" />
             <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="{x:Null}" />
             <Setter Property="Foreground" Value="Red" />
             <Setter Property="Focusable" Value="False" />
             <Setter Property="MaxHeight" Value="200" />
@@ -38,14 +39,6 @@
         
     </UserControl.Resources>
     <Grid Margin="20,15,15,20">
-        
-        <TextBox Text="{Binding ClientStatus}"
-                 Style="{StaticResource clientLog}"
-                 >
-            <int:Interaction.Behaviors>
-                <tbhv:ScrollOnChangeBehavior />
-            </int:Interaction.Behaviors>
-        </TextBox>
 
         <uc:AccessCheckerUC1 DataContext="{Binding AccessChecker}" />
         
@@ -55,6 +48,14 @@
         <uc:PackageUploaderUC1 DataContext="{Binding PkgUploader}"
                                Margin="0,70,0,0"
                                />
+        
+        <TextBox Text="{Binding ClientStatus}"
+                 Style="{StaticResource clientLog}"
+                 >
+            <int:Interaction.Behaviors>
+                <tbhv:ScrollOnChangeBehavior />
+            </int:Interaction.Behaviors>
+        </TextBox>
 
         <xtk:BusyIndicator x:Name="busyInd"
                            IsBusy="{Binding PkgUploader.StartUploadCmd.IsBusy}"

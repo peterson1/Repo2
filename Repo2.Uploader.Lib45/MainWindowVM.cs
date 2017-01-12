@@ -25,8 +25,9 @@ namespace Repo2.Uploader.Lib45
 
             ConfigLoader.PackageChanged += (a, pkg) =>
             {
-                PreviousVerTab.Clear();
-                PreviousVerTab.Filename = pkg?.Filename;
+                //PreviousVerTab.Clear();
+                //PreviousVerTab.Filename = pkg?.Filename;
+                PreviousVerTab.SetPackage(pkg?.Filename);
                 UploaderTab.PkgUploader.DisableUpload();
                 UploaderTab.PkgChecker.Package = pkg;
 
@@ -53,7 +54,7 @@ namespace Repo2.Uploader.Lib45
         private void OnWriteAccessEnabled()
         {
             UploaderTab.PkgChecker.CheckPackageCmd.ExecuteIfItCan();
-            PreviousVerTab.GetVersionsCmd.ExecuteIfItCan();
+            //PreviousVerTab.GetVersionsCmd.ExecuteIfItCan();
         }
     }
 }

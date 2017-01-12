@@ -83,7 +83,7 @@ namespace Repo2.SDK.WPF45.FileSystems
         public string WriteDesktopFile(string filename, string contents)
         {
             var path = GetDesktopFilePath(filename);
-            File.WriteAllText(path, contents);
+            WriteTextFile(contents, path);
             return path;
         }
 
@@ -114,8 +114,7 @@ namespace Repo2.SDK.WPF45.FileSystems
                 var fNme = $"{date}_{fileNameSuffix}.log";
                 var envF = GetFolderPath(SpecialFolder.LocalApplicationData);
                 var dir  = Chain(envF, "Repo2", "Logs");
-                CreateDir(dir);
-                File.WriteAllText(Chain(dir, fNme), content);
+                WriteTextFile(content, Chain(dir, fNme));
                 return true;
             }
             catch (Exception ex)
@@ -141,19 +140,24 @@ namespace Repo2.SDK.WPF45.FileSystems
         {
             var json = Json.Serialize(obj);
             var raw  = AESThenHMAC.SimpleEncryptWithPassword(json, encryptKey);
+            WriteTextFile(raw, filePath);
+        }
+
+
+        public void WriteJsonFile(object objectToSerialize, string filePath)
+            => WriteTextFile(Json.Serialize(objectToSerialize), filePath);
+
+
+        public void WriteTextFile(string text, string filePath)
+        {
             CreateDir(Path.GetDirectoryName(filePath));
-            File.WriteAllText(filePath, raw);
+            File.WriteAllText(filePath, text);
         }
 
 
         public string ReadBase64(string filePath)
             => Convert.ToBase64String(
                   File.ReadAllBytes(filePath));
-
-
-        public string GetTempFilePath(string filename = null)
-            => filename.IsBlank() ? Path.GetTempFileName()
-                                  : Chain(TempDir, filename);
 
 
         public bool Found(string filePath)
@@ -174,9 +178,19 @@ namespace Repo2.SDK.WPF45.FileSystems
 
 
 
-        public string GetDesktopFilePath(string filename) => Chain(DesktopDir, filename);
+
+        public string GetTempFilePath(string filename = null)
+            => filename.IsBlank() ? Path.GetTempFileName()
+                                  : Chain(TempDir, filename);
+
+        public string GetDesktopFilePath(string filename) 
+            => Chain(DesktopDir, filename);
+
+        public string GetAppDataFilePath(string subFoldername, string filename, string parentDir)
+            => Chain(AppDataDir, parentDir, subFoldername, filename);
 
 
+        public string AppDataDir  => GetFolderPath(SpecialFolder.LocalApplicationData);
         public string DesktopDir  => GetFolderPath(SpecialFolder.DesktopDirectory);
         public string TempDir     => Chain(Path.GetTempPath(), GetType().Name);
     }

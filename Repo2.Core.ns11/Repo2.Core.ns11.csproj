@@ -46,6 +46,7 @@
     <Compile Include="ChangeNotification\PropertyChangedExtensions.cs" />
     <Compile Include="ChangeNotification\StatusText.cs" />
     <Compile Include="Compression\IFileArchiver.cs" />
+    <Compile Include="Databases\ILocalDatabase.cs" />
     <Compile Include="DataStructures\IBase64Content.cs" />
     <Compile Include="DataStructures\IRange.cs" />
     <Compile Include="DataStructures\NodeReply.cs" />

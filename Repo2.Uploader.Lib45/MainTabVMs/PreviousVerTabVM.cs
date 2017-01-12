@@ -29,7 +29,7 @@ namespace Repo2.Uploader.Lib45.MainTabVMs
         }
 
 
-        public string      Filename       { get; set; }
+        public string      Filename       { get; private set; }
         public string      Title          { get; private set; } = "...";
         public string      Error          { get; private set; }
         public IR2Command  GetVersionsCmd { get; private set; }
@@ -65,7 +65,15 @@ namespace Repo2.Uploader.Lib45.MainTabVMs
         }
 
 
-        public void Clear()
+        internal void SetPackage(string pkgFilename)
+        {
+            Clear();
+            Filename = pkgFilename;
+            GetVersionsCmd.ExecuteIfItCan();
+        }
+
+
+        private void Clear()
         {
             Filename = "";
             Title    = "...";
