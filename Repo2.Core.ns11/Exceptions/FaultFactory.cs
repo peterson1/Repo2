@@ -69,5 +69,10 @@ namespace Repo2.Core.ns11.Exceptions
         public static InvalidOperationException Failed (string operationDesc)
             => new InvalidOperationException(
                 $"Operaion “{operationDesc}” failed.");
+
+
+        public static NotSupportedException Unsupported(object unsupportedValue)
+            => new NotSupportedException(
+                $"Unsupported value: “{unsupportedValue}”.");
     }
 }
