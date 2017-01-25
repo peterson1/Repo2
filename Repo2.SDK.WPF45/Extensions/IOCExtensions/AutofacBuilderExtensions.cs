@@ -22,6 +22,12 @@ namespace Repo2.SDK.WPF45.Extensions.IOCExtensions
 
         public static string GetMessage(this DependencyResolutionException ex)
         {
+            if (ex.InnerException == null)
+                return ex.Message;
+
+            if (ex.InnerException.InnerException == null)
+                return ex.InnerException.Message;
+
             var msg = ex.InnerException.InnerException.Message;
             var resolving = msg.Between("DefaultConstructorFinder' on type '", "'");
             var argTyp = msg.Between("Cannot resolve parameter '", " ");
