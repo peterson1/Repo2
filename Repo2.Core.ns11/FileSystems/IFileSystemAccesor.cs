@@ -18,10 +18,13 @@ namespace Repo2.Core.ns11.FileSystems
         void         WriteTextFile        (string text, string filePath);
         void         WriteJsonFile        (object objectToSerialize, string filePath);
 
+        T            ReadDesktopJsonFile    <T>(string filename);
         string       WriteDesktopFile       (string filename, string contents);
         string       WriteDesktopJsonFile   <T>(string filename, T objectToSerialize);
-        T            ReadDesktopJsonFile    <T>(string filename);
+
         T            ReadJsonFileBesideExe  <T>(string filename);
+        string       WriteFileBesideExe     (string filename, string contents);
+        string       WriteJsonFileBesideExe <T>(string filename, T objectToSerialize);
 
         bool DesktopFileFound(string filename);
 

@@ -89,6 +89,14 @@ namespace Repo2.SDK.WPF45.FileSystems
         }
 
 
+        public string WriteFileBesideExe(string filename, string contents)
+        {
+            var path = GetBesideExeFilePath(filename);
+            WriteTextFile(contents, path);
+            return path;
+        }
+
+
         public bool DesktopFileFound(string filename)
             => File.Exists(GetDesktopFilePath(filename));
 
@@ -97,6 +105,13 @@ namespace Repo2.SDK.WPF45.FileSystems
         {
             var json = Json.Serialize(objectToSerialize);
             return WriteDesktopFile(filename, json);
+        }
+
+
+        public string WriteJsonFileBesideExe<T>(string filename, T objectToSerialize)
+        {
+            var json = Json.Serialize(objectToSerialize);
+            return WriteFileBesideExe(filename, json);
         }
 
 
