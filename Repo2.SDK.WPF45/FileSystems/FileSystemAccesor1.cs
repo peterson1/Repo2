@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Extensions.StringExtensions;
@@ -105,6 +106,12 @@ namespace Repo2.SDK.WPF45.FileSystems
             return Json.Deserialize<T>(json);
         }
 
+        public T ReadJsonFileBesideExe<T>(string filename)
+        {
+            var json = File.ReadAllText(GetBesideExeFilePath(filename));
+            return Json.Deserialize<T>(json);
+        }
+
 
         public bool WriteRepo2LogFile(string fileNameSuffix, string content, bool raiseError)
         {
@@ -186,13 +193,17 @@ namespace Repo2.SDK.WPF45.FileSystems
         public string GetDesktopFilePath(string filename) 
             => Chain(DesktopDir, filename);
 
+        public string GetBesideExeFilePath(string filename)
+            => Chain(BesideExeDir, filename);
+
         public string GetAppDataFilePath(string subFoldername, string filename, string parentDir)
             => Chain(AppDataDir, parentDir, subFoldername, filename);
 
 
-        public string AppDataDir  => GetFolderPath(SpecialFolder.LocalApplicationData);
-        public string DesktopDir  => GetFolderPath(SpecialFolder.DesktopDirectory);
-        public string TempDir     => Chain(Path.GetTempPath(), GetType().Name);
+        public string AppDataDir   => GetFolderPath(SpecialFolder.LocalApplicationData);
+        public string DesktopDir   => GetFolderPath(SpecialFolder.DesktopDirectory);
+        public string BesideExeDir => Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName;
+        public string TempDir      => Chain(Path.GetTempPath(), GetType().Name);
     }
 
 

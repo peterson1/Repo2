@@ -18,15 +18,17 @@ namespace Repo2.Core.ns11.FileSystems
         void         WriteTextFile        (string text, string filePath);
         void         WriteJsonFile        (object objectToSerialize, string filePath);
 
-        string       WriteDesktopFile     (string filename, string contents);
-        string       WriteDesktopJsonFile <T>(string filename, T objectToSerialize);
-        T            ReadDesktopJsonFile  <T>(string filename);
+        string       WriteDesktopFile       (string filename, string contents);
+        string       WriteDesktopJsonFile   <T>(string filename, T objectToSerialize);
+        T            ReadDesktopJsonFile    <T>(string filename);
+        T            ReadJsonFileBesideExe  <T>(string filename);
 
         bool DesktopFileFound(string filename);
 
-        string       GetTempFilePath     (string filename = null);
-        string       GetDesktopFilePath  (string filename);
-        string       GetAppDataFilePath  (string subFoldername, string filename, string parentDir = "Repo2");
+        string       GetTempFilePath      (string filename = null);
+        string       GetDesktopFilePath   (string filename);
+        string       GetBesideExeFilePath (string filename);
+        string       GetAppDataFilePath   (string subFoldername, string filename, string parentDir = "Repo2");
 
         string       ReadBase64    (string filePath);
         bool         Found         (string filePath);
