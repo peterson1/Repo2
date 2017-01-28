@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Core.ns11.Tests\DateTimeExtensions\DateTimeExtensionsFacts.cs" />
     <Compile Include="Core.ns11.Tests\DomainModels\R2PackagePartValidations.cs" />
     <Compile Include="Core.ns11.Tests\Drupal8\D8NodeMapperFacts.cs" />
     <Compile Include="Core.ns11.Tests\NodeManagers\D8PkgPartManager1Facts.cs" />
