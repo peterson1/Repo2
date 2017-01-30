@@ -217,7 +217,20 @@ namespace Repo2.SDK.WPF45.FileSystems
 
         public string AppDataDir   => GetFolderPath(SpecialFolder.LocalApplicationData);
         public string DesktopDir   => GetFolderPath(SpecialFolder.DesktopDirectory);
-        public string BesideExeDir => Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName;
+        public string BesideExeDir => GetBesideExeFileDir();
+
+
+
+        private string GetBesideExeFileDir()
+        {
+            //Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName;
+
+            var dir = Assembly.GetEntryAssembly()?.Location
+                   ?? AppDomain.CurrentDomain.BaseDirectory;
+
+            return Directory.GetParent(dir).FullName;
+        }
+
         public string TempDir      => Chain(Path.GetTempPath(), GetType().Name);
     }
 
