@@ -74,6 +74,7 @@
     <Compile Include="Exceptions\ErrorMessageTrimmer.cs" />
     <Compile Include="Extensions\StringExtensions\BasicStringExtensions.cs" />
     <Compile Include="Extensions\StringExtensions\HashExtensions.cs" />
+    <Compile Include="Extensions\SystemDataExtensions.cs" />
     <Compile Include="FileSystems\IFileSystemAccesor.cs" />
     <Compile Include="HashLib\Crypto\SHA0.cs" />
     <Compile Include="HashLib\Crypto\SHA1.cs" />
@@ -124,7 +125,11 @@
     <Compile Include="RestExportViews\PingsForCurrentUser1.cs" />
     <Compile Include="Serialization\IR2Serializer.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="System.Data">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
