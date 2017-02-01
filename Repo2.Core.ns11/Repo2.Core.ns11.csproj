@@ -72,6 +72,7 @@
     <Compile Include="Exceptions\FaultFactory.cs" />
     <Compile Include="Extensions\BooleanExtensions\BasicBooleanExtensions.cs" />
     <Compile Include="Exceptions\ErrorMessageTrimmer.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\StringExtensions\BasicStringExtensions.cs" />
     <Compile Include="Extensions\StringExtensions\HashExtensions.cs" />
     <Compile Include="Extensions\SystemDataExtensions.cs" />

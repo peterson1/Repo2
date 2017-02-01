@@ -139,6 +139,7 @@
     <Compile Include="Compression\FileArchiver1.cs" />
     <Compile Include="Compression\FileChunker1.cs" />
     <Compile Include="Compression\SevenZipper2.cs" />
+    <Compile Include="Configuration\BesideExeCfgLoader.cs" />
     <Compile Include="Configuration\DownloaderConfigFile.cs" />
     <Compile Include="Configuration\LocalConfigFile.cs" />
     <Compile Include="Configuration\R2ConfigFile1.cs" />
