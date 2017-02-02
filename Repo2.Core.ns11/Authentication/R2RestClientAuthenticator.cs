@@ -14,6 +14,7 @@ namespace Repo2.Core.ns11.Authentication
     {
         private R2RestClientBase        _client;
         private CancellationTokenSource _cancelr;
+        private D8Cookie _cookie;
 
         internal string         CsrfToken                { get; private set; }
         internal R2Credentials  Creds                    { get; private set; }
@@ -61,18 +62,18 @@ namespace Repo2.Core.ns11.Authentication
             CsrfToken = string.Empty;
             SetCredentials(credentials, addCertToWhiteList);
 
-            D8Cookie cookie = null;
+            _cookie = null;
             await Task.Run(async () =>
             {
-                cookie = await GetCookie(cancelTkn);
+                _cookie = await GetCookie(cancelTkn);
             }
             ).ConfigureAwait(false);
 
-            if (cookie == null) return false;
+            if (_cookie == null) return false;
 
             await Task.Run(async () =>
             {
-                CsrfToken = await GetCsrfToken(cookie, cancelTkn);
+                CsrfToken = await GetCsrfToken(_cookie, cancelTkn);
             }
             ).ConfigureAwait(false);
 
@@ -90,6 +91,10 @@ namespace Repo2.Core.ns11.Authentication
 
         private Task<string> GetCsrfToken(D8Cookie cookie, CancellationToken cancelTkn)
             => _client.CookieAuthGET<string>(cookie, D8.REST_SESSION_TOKEN, cancelTkn);
+
+
+        internal Task<string> DisableWriteAccess()
+            => _client.CookieAuthPOST<string>(_cookie, D8.API_USER_LOGOUT, new CancellationToken());
 
 
         internal void StopEnablingWriteAccess()

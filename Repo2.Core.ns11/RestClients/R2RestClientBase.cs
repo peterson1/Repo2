@@ -27,6 +27,7 @@ namespace Repo2.Core.ns11.RestClients
         protected abstract Task<T> BasicAuthPATCH<T>(string url, object patchBody, CancellationToken cancelTkn);
         protected abstract Task<T> BasicAuthDELETE<T>(string url, CancellationToken cancelTkn);
         public abstract Task<T> CookieAuthGET<T>(D8Cookie cookie, string url, CancellationToken cancelTkn);
+        public abstract Task<T> CookieAuthPOST<T>(D8Cookie cookie, string url, CancellationToken cancelTkn);
         public abstract Task<T> NoAuthPOST<T>(string url, object postBody, CancellationToken cancelTkn);
 
         protected abstract Task<T> BasicAuthGET<T>(string resourceUrl, CancellationToken cancelTkn);
@@ -87,12 +88,14 @@ namespace Repo2.Core.ns11.RestClients
         protected R2Credentials Creds                          => _auth.Creds;
         public    void          StopEnablingWriteAccess()      => _auth.StopEnablingWriteAccess();
         protected string        ToAbsolute(string resourceURL) => _auth.ToAbsolute(resourceURL);
+        public    Task<string>  DisableWriteAccess()           => _auth.DisableWriteAccess();
 
         public void SetCredentials(R2Credentials credentials, bool addCertToWhiteList)
             => _auth.SetCredentials(credentials, addCertToWhiteList);
 
         public Task<bool> EnableWriteAccess(R2Credentials credentials, bool addCertToWhiteList)
             => _auth.EnableWriteAccess(credentials, addCertToWhiteList);
+
 
         #endregion
 

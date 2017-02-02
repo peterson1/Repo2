@@ -64,6 +64,17 @@ namespace Repo2.SDK.WPF45.RestClients
                 => client.GetAsync<string>(resourceUrl), cancelTkn);
         }
 
+        public override Task<T> CookieAuthPOST<T>(D8Cookie cookie, string resourceUrl, CancellationToken cancelTkn)
+        {
+            var client = new JsonServiceClient(Creds.BaseURL);
+            client.SetCookie(cookie.Name, cookie.Id);
+
+            return Retry.Forever<T>(resourceUrl, (url, ct)
+                //=> client.PostAsync<string>(resourceUrl, null), cancelTkn);
+                //=> resourceUrl.PostToUrlAsync(string.Empty, requestFilter: req => { req.Headers["X-CSRF-Token"] = CsrfToken; }), cancelTkn);
+                => url.PostToUrlAsync(string.Empty, "application/json", r => SetBasicAuthRequest(r)), cancelTkn);
+        }
+
 
         public override void AllowUntrustedCertificate(string serverThumbprint)
             => Certificator.AllowFrom(serverThumbprint);

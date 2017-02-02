@@ -14,10 +14,11 @@ namespace Repo2.Core.ns11.RestClients
     {
         event EventHandler<string> OnRetry;
 
-        void        SetCredentials          (R2Credentials credentials, bool addCertToWhiteList = true);
-        Task<bool>  EnableWriteAccess       (R2Credentials credentials, bool addCertToWhiteList = true);
-        void        StopEnablingWriteAccess ();
-        bool        IsEnablingWriteAccess   { get; }
+        void          SetCredentials          (R2Credentials credentials, bool addCertToWhiteList = true);
+        Task<bool>    EnableWriteAccess       (R2Credentials credentials, bool addCertToWhiteList = true);
+        void          StopEnablingWriteAccess ();
+        Task<string>  DisableWriteAccess      ();
+        bool          IsEnablingWriteAccess   { get; }
 
 
         Task<List<T>>  List  <T>(CancellationToken cancelTkn, params object[] args)

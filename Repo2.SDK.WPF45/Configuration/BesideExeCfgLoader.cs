@@ -34,5 +34,9 @@ namespace Repo2.SDK.WPF45.Configuration
                 return defaultCfg;
             }
         }
+
+
+        public void RewriteFile()
+            => _fs.WriteJsonFileBesideExe(SETTINGS_CFG, _lastLoaded);
     }
 }
