@@ -31,7 +31,7 @@ namespace Repo2.SDK.WPF45.Configuration
             catch (FileNotFoundException)
             {
                 _fs.WriteJsonFileBesideExe(SETTINGS_CFG, defaultCfg);
-                return null;
+                return defaultCfg;
             }
         }
     }
