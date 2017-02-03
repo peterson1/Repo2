@@ -17,7 +17,7 @@ namespace Repo2.Core.ns11.RestClients
         void          SetCredentials          (R2Credentials credentials, bool addCertToWhiteList = true);
         Task<bool>    EnableWriteAccess       (R2Credentials credentials, bool addCertToWhiteList = true);
         void          StopEnablingWriteAccess ();
-        Task<string>  DisableWriteAccess      ();
+        Task<bool>    DisableWriteAccess      ();
         bool          IsEnablingWriteAccess   { get; }
 
 

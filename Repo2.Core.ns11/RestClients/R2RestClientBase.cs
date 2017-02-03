@@ -88,7 +88,7 @@ namespace Repo2.Core.ns11.RestClients
         protected R2Credentials Creds                          => _auth.Creds;
         public    void          StopEnablingWriteAccess()      => _auth.StopEnablingWriteAccess();
         protected string        ToAbsolute(string resourceURL) => _auth.ToAbsolute(resourceURL);
-        public    Task<string>  DisableWriteAccess()           => _auth.DisableWriteAccess();
+        public    Task<bool>    DisableWriteAccess()           => _auth.DisableWriteAccess();
 
         public void SetCredentials(R2Credentials credentials, bool addCertToWhiteList)
             => _auth.SetCredentials(credentials, addCertToWhiteList);

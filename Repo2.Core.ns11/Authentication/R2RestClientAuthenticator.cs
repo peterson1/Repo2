@@ -93,8 +93,13 @@ namespace Repo2.Core.ns11.Authentication
             => _client.CookieAuthGET<string>(cookie, D8.REST_SESSION_TOKEN, cancelTkn);
 
 
-        internal Task<string> DisableWriteAccess()
-            => _client.CookieAuthPOST<string>(_cookie, D8.API_USER_LOGOUT, new CancellationToken());
+        internal async Task<bool> DisableWriteAccess()
+        {
+            var res = await _client.CookieAuthPOST<string>
+                (_cookie, D8.API_USER_LOGOUT, new CancellationToken());
+
+            return res.Trim() == "[]";
+        }
 
 
         internal void StopEnablingWriteAccess()
