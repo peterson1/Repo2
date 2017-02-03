@@ -2,9 +2,10 @@
 {
     public class R2Credentials
     {
-        public string  Username          { get; set; }
-        public string  Password          { get; set; }
-        public string  BaseURL           { get; set; }
-        public string  CertificateThumb  { get; set; }
+        public string  Username             { get; set; }
+        public string  Password             { get; set; }
+        public string  BaseURL              { get; set; }
+        public string  CertificateThumb     { get; set; }
+        public int     CheckIntervalSeconds { get; set; }
     }
 }
