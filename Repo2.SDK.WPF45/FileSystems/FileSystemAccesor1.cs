@@ -8,7 +8,6 @@ using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.SDK.WPF45.Encryption;
-using Repo2.SDK.WPF45.Exceptions;
 using Repo2.SDK.WPF45.Extensions.FileInfoExtensions;
 using Repo2.SDK.WPF45.PackageFinders;
 using Repo2.SDK.WPF45.Serialization;
@@ -215,18 +214,17 @@ namespace Repo2.SDK.WPF45.FileSystems
             => Chain(AppDataDir, parentDir, subFoldername, filename);
 
 
-        public string AppDataDir   => GetFolderPath(SpecialFolder.LocalApplicationData);
-        public string DesktopDir   => GetFolderPath(SpecialFolder.DesktopDirectory);
-        public string BesideExeDir => GetBesideExeFileDir();
-
+        public string AppDataDir      => GetFolderPath(SpecialFolder.LocalApplicationData);
+        public string DesktopDir      => GetFolderPath(SpecialFolder.DesktopDirectory);
+        public string BesideExeDir    => GetBesideExeFileDir();
+        public string CurrentExeFile  => Assembly.GetEntryAssembly()?.Location;
 
 
         private string GetBesideExeFileDir()
         {
             //Directory.GetParent(Assembly.GetEntryAssembly().Location).FullName;
 
-            var dir = Assembly.GetEntryAssembly()?.Location
-                   ?? AppDomain.CurrentDomain.BaseDirectory;
+            var dir = CurrentExeFile ?? AppDomain.CurrentDomain.BaseDirectory;
 
             return Directory.GetParent(dir).FullName;
         }

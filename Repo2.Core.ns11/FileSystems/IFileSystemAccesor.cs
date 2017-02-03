@@ -28,10 +28,12 @@ namespace Repo2.Core.ns11.FileSystems
 
         bool DesktopFileFound(string filename);
 
-        string       GetTempFilePath      (string filename = null);
-        string       GetDesktopFilePath   (string filename);
-        string       GetBesideExeFilePath (string filename);
-        string       GetAppDataFilePath   (string subFoldername, string filename, string parentDir = "Repo2");
+        string       GetTempFilePath         (string filename = null);
+        string       GetDesktopFilePath      (string filename);
+        string       GetBesideExeFilePath    (string filename);
+        string       GetAppDataFilePath      (string subFoldername, string filename, string parentDir = "Repo2");
+
+        string       CurrentExeFile   { get; }
 
         string       ReadBase64    (string filePath);
         bool         Found         (string filePath);
