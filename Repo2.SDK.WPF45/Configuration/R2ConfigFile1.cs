@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.SDK.WPF45.FileSystems;
 
@@ -36,6 +35,15 @@ namespace Repo2.SDK.WPF45.Configuration
                 .EncryptJsonToFile(path, cfg, Saltify(configKey));
 
             return cfg;
+        }
+
+
+        public static async void WriteNew(string configKey,
+            string username, string password, string baseUrl, string certificateThumb, int checkIntervalSeconds)
+        {
+            var path = new R2ConfigFile1().GetFilePath(configKey);
+            await new FileSystemAccesor1().Delete(path);
+            ParseOrDefault(configKey, username, password, baseUrl, certificateThumb, checkIntervalSeconds);
         }
 
 

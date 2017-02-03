@@ -1,4 +1,6 @@
-﻿namespace Repo2.Core.ns11.Authentication
+﻿using System;
+
+namespace Repo2.Core.ns11.Authentication
 {
     public class R2Credentials
     {
@@ -7,5 +9,8 @@
         public string  BaseURL              { get; set; }
         public string  CertificateThumb     { get; set; }
         public int     CheckIntervalSeconds { get; set; }
+
+        public TimeSpan CheckInterval 
+            => TimeSpan.FromSeconds(CheckIntervalSeconds);
     }
 }
