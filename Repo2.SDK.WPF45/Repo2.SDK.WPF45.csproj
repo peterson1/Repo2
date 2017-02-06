@@ -167,6 +167,7 @@
     <Compile Include="Exceptions\ThreadedAlerter.cs" />
     <Compile Include="Exceptions\UnhandledErrors.cs" />
     <Compile Include="Exceptions\WebExceptionCaster.cs" />
+    <Compile Include="Extensions\ApplicationExtensions\ProcessExtensions.cs" />
     <Compile Include="Extensions\DataGridExtensions\DataGridColumnToggler.cs" />
     <Compile Include="Extensions\DataGridExtensions\DataGridPrintExtensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions\CommonFileInfoExtensions.cs" />
