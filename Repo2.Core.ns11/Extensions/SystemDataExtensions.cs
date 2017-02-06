@@ -27,6 +27,10 @@ namespace Repo2.Core.ns11.Extensions
         }
 
 
+        public static long ToLong(this IDataRecord rec, int i, long defaultVal = 0)
+            => ToLong_(rec, i) ?? defaultVal;
+
+
         public static double? ToDouble_(this IDataRecord rec, int i)
         {
             if (rec.IsDBNull(i)) return null;
