@@ -33,7 +33,8 @@ namespace Repo2.Core.ns11.FileSystems
         string       GetBesideExeFilePath    (string filename);
         string       GetAppDataFilePath      (string subFoldername, string filename, string parentDir = "Repo2");
 
-        string       CurrentExeFile   { get; }
+        string       CurrentExeFile      { get; }
+        string       CurrentExeVersion   { get; }
 
         string       ReadBase64    (string filePath);
         bool         Found         (string filePath);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -214,11 +215,11 @@ namespace Repo2.SDK.WPF45.FileSystems
             => Chain(AppDataDir, parentDir, subFoldername, filename);
 
 
-        public string AppDataDir      => GetFolderPath(SpecialFolder.LocalApplicationData);
-        public string DesktopDir      => GetFolderPath(SpecialFolder.DesktopDirectory);
-        public string BesideExeDir    => GetBesideExeFileDir();
-        public string CurrentExeFile  => Assembly.GetEntryAssembly()?.Location;
-
+        public string AppDataDir        => GetFolderPath(SpecialFolder.LocalApplicationData);
+        public string DesktopDir        => GetFolderPath(SpecialFolder.DesktopDirectory);
+        public string BesideExeDir      => GetBesideExeFileDir();
+        public string CurrentExeFile    => Assembly.GetEntryAssembly()?.Location;
+        public string CurrentExeVersion => GetFileVersion(CurrentExeFile);
 
         private string GetBesideExeFileDir()
         {
@@ -230,6 +231,11 @@ namespace Repo2.SDK.WPF45.FileSystems
         }
 
         public string TempDir      => Chain(Path.GetTempPath(), GetType().Name);
+
+
+
+        private string GetFileVersion(string filePath)
+            => FileVersionInfo.GetVersionInfo(filePath).FileVersion;
     }
 
 
