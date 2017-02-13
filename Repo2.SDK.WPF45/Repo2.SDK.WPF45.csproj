@@ -147,6 +147,7 @@
     <Compile Include="ControlBehaviors\WindowBehaviors\DraggableBehavior.cs" />
     <Compile Include="Converters\FalseIfHasItemsConverter.cs" />
     <Compile Include="Converters\FalseIfNullConverter.cs" />
+    <Compile Include="Converters\OpenIfNotNullConverter.cs" />
     <Compile Include="Converters\TrueIfFalseConverter.cs" />
     <Compile Include="Converters\TrueIfNotNullConverter.cs" />
     <Compile Include="Converters\ValueConverterBase.cs" />
@@ -255,6 +256,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\BasicDatagridTheme1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ButtonsTheme1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
