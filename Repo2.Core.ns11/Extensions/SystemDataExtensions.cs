@@ -6,6 +6,30 @@ namespace Repo2.Core.ns11.Extensions
     public static class SystemDataExtensions
     {
 
+        public static int? ToInt_(this IDataRecord rec, int i)
+        {
+            if (rec.IsDBNull(i)) return null;
+            try
+            {
+                return rec.GetInt32(i);
+            }
+            catch (InvalidCastException)
+            {
+                var val = rec.GetValue(i);
+                if (val == null) return null;
+
+                int num = 0;
+                if (int.TryParse(val.ToString(), out num))
+                    return num;
+                else
+                    return null;
+            }
+        }
+
+        public static int ToInt(this IDataRecord rec, int i, int defaultVal = 0)
+            => ToInt_(rec, i) ?? defaultVal;
+
+
         public static long? ToLong_(this IDataRecord rec, int i)
         {
             if (rec.IsDBNull(i)) return null;
