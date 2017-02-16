@@ -96,6 +96,9 @@ namespace Repo2.Core.ns11.Extensions
             }
         }
 
+        public static decimal ToDecimal(this IDataRecord rec, int i, decimal defaultVal = 0)
+            => ToDecimal_(rec, i) ?? defaultVal;
+
 
         public static bool? ToBool_(this IDataRecord rec, int i)
         {

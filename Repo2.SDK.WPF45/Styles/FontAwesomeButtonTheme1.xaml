@@ -39,4 +39,11 @@
         <Setter Property="Foreground" Value="Red" />
     </Style>
 
+    <Style x:Key="backBtn" TargetType="Button"
+           BasedOn="{StaticResource awesomeBtn}">
+        <Setter Property="fa:Awesome.Content" Value="ArrowCircleLeft" />
+        <Setter Property="ToolTip" Value="Back" />
+        <Setter Property="Foreground" Value="Black" />
+    </Style>
+
 </ResourceDictionary>
