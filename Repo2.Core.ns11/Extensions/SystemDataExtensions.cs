@@ -180,6 +180,10 @@ namespace Repo2.Core.ns11.Extensions
             }
         }
 
+        public static DateTime ToDate(this IDataRecord rec, int i)
+            => ToDate_(rec, i) ?? DateTime.MinValue;
+
+
 
         public static string ToText(this IDataRecord rec, int i)
         {
