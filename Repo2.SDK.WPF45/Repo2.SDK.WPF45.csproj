@@ -148,6 +148,7 @@
     <Compile Include="Converters\FalseIfHasItemsConverter.cs" />
     <Compile Include="Converters\FalseIfNullConverter.cs" />
     <Compile Include="Converters\OpenIfNotNullConverter.cs" />
+    <Compile Include="Converters\OpenIfTrueConverter.cs" />
     <Compile Include="Converters\TrueIfFalseConverter.cs" />
     <Compile Include="Converters\TrueIfNotNullConverter.cs" />
     <Compile Include="Converters\ValueConverterBase.cs" />

@@ -8,5 +8,6 @@
     <cnv:VisibleIfFalseConverter x:Key="visIfFalse" />
     <cnv:VisibleIfTrueConverter x:Key="visIfTrue" />
     <cnv:OpenIfNotNullConverter x:Key="openIfNotNull" />
+    <cnv:OpenIfTrueConverter x:Key="openIfTrue" />
 
 </ResourceDictionary>
