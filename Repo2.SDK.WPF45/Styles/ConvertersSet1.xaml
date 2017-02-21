@@ -5,6 +5,7 @@
                     >
     <cnv:VisibleIfHasItemConverter x:Key="visIfHasItems" />
     <cnv:VisibleIfNullConverter x:Key="visIfNull" />
+    <cnv:VisibleIfNotNullConverter x:Key="visIfNotNull" />
     <cnv:VisibleIfFalseConverter x:Key="visIfFalse" />
     <cnv:VisibleIfTrueConverter x:Key="visIfTrue" />
     <cnv:OpenIfNotNullConverter x:Key="openIfNotNull" />
