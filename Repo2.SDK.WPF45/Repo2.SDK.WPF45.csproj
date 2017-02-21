@@ -143,6 +143,7 @@
     <Compile Include="Configuration\DownloaderConfigFile.cs" />
     <Compile Include="Configuration\LocalConfigFile.cs" />
     <Compile Include="Configuration\R2ConfigFile1.cs" />
+    <Compile Include="ControlBehaviors\KeyboardFocusBehavior.cs" />
     <Compile Include="ControlBehaviors\TextBoxBehaviors\ScrollOnChangeBehavior.cs" />
     <Compile Include="ControlBehaviors\WindowBehaviors\DraggableBehavior.cs" />
     <Compile Include="Converters\FalseIfHasItemsConverter.cs" />

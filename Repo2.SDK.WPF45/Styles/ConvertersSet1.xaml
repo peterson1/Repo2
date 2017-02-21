@@ -3,11 +3,15 @@
                     xmlns:local="clr-namespace:Repo2.SDK.WPF45.Styles"
                     xmlns:cnv="clr-namespace:Repo2.SDK.WPF45.Converters"
                     >
+    
     <cnv:VisibleIfHasItemConverter x:Key="visIfHasItems" />
     <cnv:VisibleIfNullConverter x:Key="visIfNull" />
     <cnv:VisibleIfNotNullConverter x:Key="visIfNotNull" />
     <cnv:VisibleIfFalseConverter x:Key="visIfFalse" />
     <cnv:VisibleIfTrueConverter x:Key="visIfTrue" />
+
+    <cnv:TrueIfNotNullConverter x:Key="trueIfNotNull" />
+
     <cnv:OpenIfNotNullConverter x:Key="openIfNotNull" />
     <cnv:OpenIfTrueConverter x:Key="openIfTrue" />
 
