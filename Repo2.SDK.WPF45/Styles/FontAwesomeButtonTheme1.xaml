@@ -32,6 +32,13 @@
         <Setter Property="Foreground" Value="Red" />
     </Style>
 
+    <Style x:Key="editBtn" TargetType="Button"
+           BasedOn="{StaticResource awesomeBtn}">
+        <Setter Property="fa:Awesome.Content" Value="Pencil" />
+        <Setter Property="ToolTip" Value="Edit" />
+        <Setter Property="Foreground" Value="Green" />
+    </Style>
+
     <Style x:Key="cancelBtn" TargetType="Button"
                        BasedOn="{StaticResource awesomeBtn}">
         <Setter Property="fa:Awesome.Content" Value="TimesCircle" />
