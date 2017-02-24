@@ -15,6 +15,9 @@ namespace Repo2.Core.ns11.DataStructures
         }
 
 
+        public double? ManualTotal { get; set; }
+
+
         public void Swap(IEnumerable<T> newItems)
         {
             this.ClearItems();
