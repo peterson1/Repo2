@@ -9,6 +9,8 @@
     <cnv:VisibleIfNotNullConverter x:Key="visIfNotNull" />
     <cnv:VisibleIfFalseConverter x:Key="visIfFalse" />
     <cnv:VisibleIfTrueConverter x:Key="visIfTrue" />
+    <cnv:VisibleIfZeroConverter x:Key="visIfZero" />
+    <cnv:VisibleIfNotZeroConverter x:Key="visIfNotZero" />
 
     <cnv:TrueIfNotNullConverter x:Key="trueIfNotNull" />
 
