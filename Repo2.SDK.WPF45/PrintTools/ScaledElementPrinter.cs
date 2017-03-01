@@ -78,7 +78,9 @@ namespace Repo2.SDK.WPF45.PrintTools
 
 
         public static void PrintSolo(this FrameworkElement ctrl
-                                   , string printJobDesc = "Scaled Visual")
+                                   , string printJobDesc = "Scaled Visual"
+                                   , double printScaleOffset = 0
+                                   , bool resetVisualStateAfterwards = false)
         {
             PrintDialog print = new PrintDialog();
             if (print.ShowDialog() != true) return;
@@ -87,6 +89,8 @@ namespace Repo2.SDK.WPF45.PrintTools
 
             double scale = Math.Min(capabilities.PageImageableArea.ExtentWidth / ctrl.ActualWidth,
                                     capabilities.PageImageableArea.ExtentHeight / ctrl.ActualHeight);
+
+            scale += printScaleOffset;
 
             ctrl.LayoutTransform = new ScaleTransform(scale, scale);
 
@@ -98,6 +102,9 @@ namespace Repo2.SDK.WPF45.PrintTools
             ctrl.Focus();
 
             print.PrintVisual(ctrl, printJobDesc);
+
+            if (resetVisualStateAfterwards)
+                ResetVisualState(ctrl, capabilities);
         }
 
 
@@ -129,7 +136,7 @@ namespace Repo2.SDK.WPF45.PrintTools
         }
 
 
-        private static void ResetVisualState(ContentPresenter objectToPrint, PrintCapabilities printCaps)
+        private static void ResetVisualState(FrameworkElement objectToPrint, PrintCapabilities printCaps)
         {
             objectToPrint.Width = double.NaN;
             objectToPrint.UpdateLayout();
