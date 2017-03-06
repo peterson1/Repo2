@@ -23,7 +23,10 @@ namespace Repo2.SDK.WPF45.ViewModelTools
         }
 
 
-        public string Title { get; set; }
+        public string Title { get; private set; }
+
+
+        protected void UpdateTitle(string text) => Title = text;
 
 
         protected void AsUI(SendOrPostCallback action)
