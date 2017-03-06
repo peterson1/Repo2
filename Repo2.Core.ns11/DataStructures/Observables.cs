@@ -14,6 +14,13 @@ namespace Repo2.Core.ns11.DataStructures
             remove { _selectionChanged -= value; }
         }
 
+        private      EventHandler _contentSwapped;
+        public event EventHandler  ContentSwapped
+        {
+            add    { _contentSwapped -= value; _contentSwapped += value; }
+            remove { _contentSwapped -= value; }
+        }
+
 
         public Observables() : base()
         {
@@ -31,8 +38,11 @@ namespace Repo2.Core.ns11.DataStructures
         public void Swap(IEnumerable<T> newItems)
         {
             this.ClearItems();
+
             foreach (var item in newItems)
                 this.Add(item);
+
+            _contentSwapped.Raise();
         }
 
 

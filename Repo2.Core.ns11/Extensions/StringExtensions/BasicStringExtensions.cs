@@ -200,5 +200,18 @@ namespace Repo2.Core.ns11.Extensions.StringExtensions
 
         public static string Join(this IEnumerable<string> list, string delimeter)
             => string.Join(delimeter, list);
+
+
+
+        public static string JoinNonBlanks(this string separator, params string[] args)
+        {
+            if (args.Length == 0) return string.Empty;
+            var nonBlanks = args.Where(x => !x.IsBlank());
+            if (nonBlanks.Count() == 0) return string.Empty;
+            nonBlanks = nonBlanks.Select(x => x.Trim())
+                                 .Where (x => !x.IsBlank());
+            if (nonBlanks.Count() == 0) return string.Empty;
+            return nonBlanks.Join(separator);
+        }
     }
 }
