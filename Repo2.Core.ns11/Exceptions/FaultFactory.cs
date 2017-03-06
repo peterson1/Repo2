@@ -21,6 +21,11 @@ namespace Repo2.Core.ns11.Exceptions
                 $"No ‹{typeof(T).Name}› found where [{key}] {operatr} “{value}”.");
 
 
+        public static InvalidOperationException MultiMatch<T>(string key, object value, string operatr = "==")
+            => new InvalidOperationException(
+                $"Multiple ‹{typeof(T).Name}› found where [{key}] {operatr} “{value}”.");
+
+
         public static InvalidOperationException NonSolo(string listDescription, int actualItemCount)
             => new InvalidOperationException(
                 $"Expected list of {listDescription} to contain a SINGLE item, but found [{actualItemCount}].");
