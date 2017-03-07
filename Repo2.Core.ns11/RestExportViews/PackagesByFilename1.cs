@@ -20,7 +20,7 @@ namespace Repo2.Core.ns11.RestExportViews
             return new List<string> { pkgName };
         }
 
-        public void PostProcess(object obj)
+        public void PostProcess()
         {
         }
     }

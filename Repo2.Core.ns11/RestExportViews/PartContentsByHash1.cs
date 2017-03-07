@@ -18,7 +18,7 @@ namespace Repo2.Core.ns11.RestExportViews
         }
 
 
-        public void PostProcess(object obj)
+        public void PostProcess()
         {
         }
     }

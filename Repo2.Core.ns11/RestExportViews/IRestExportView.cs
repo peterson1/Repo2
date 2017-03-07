@@ -8,6 +8,6 @@ namespace Repo2.Core.ns11.RestExportViews
 
         List<string> CastArguments(object[] args);
 
-        void PostProcess(object obj);
+        void PostProcess();
     }
 }

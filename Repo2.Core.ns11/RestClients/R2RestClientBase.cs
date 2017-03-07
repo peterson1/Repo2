@@ -48,7 +48,7 @@ namespace Repo2.Core.ns11.RestClients
             var list = await GetList<T>(view.DisplayPath, view.CastArguments(args), cancelTkn);
 
             foreach (var item in list)
-                view.PostProcess(item);
+                item?.PostProcess();
 
             return list;
         }
