@@ -7,5 +7,7 @@ namespace Repo2.Core.ns11.RestExportViews
         string DisplayPath { get; }
 
         List<string> CastArguments(object[] args);
+
+        void PostProcess(object obj);
     }
 }

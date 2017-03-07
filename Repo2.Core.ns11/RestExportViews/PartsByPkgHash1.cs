@@ -20,5 +20,10 @@ namespace Repo2.Core.ns11.RestExportViews
 
             return new List<string>{ pkgName, pkgHash };
         }
+
+
+        public void PostProcess(object obj)
+        {
+        }
     }
 }

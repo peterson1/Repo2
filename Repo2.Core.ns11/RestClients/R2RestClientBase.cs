@@ -41,11 +41,17 @@ namespace Repo2.Core.ns11.RestClients
 
 
 
-        public Task<List<T>> List<T>(CancellationToken cancelTkn, params object[] args)
+        public async Task<List<T>> List<T>(CancellationToken cancelTkn, params object[] args)
             where T : IRestExportView, new()
-                => GetList<T>(new T().DisplayPath,
-                              new T().CastArguments(args),
-                              cancelTkn);
+        {
+            var view = new T();
+            var list = await GetList<T>(view.DisplayPath, view.CastArguments(args), cancelTkn);
+
+            foreach (var item in list)
+                view.PostProcess(item);
+
+            return list;
+        }
 
 
         public async Task<List<TModel>> List<TModel, TDto>(CancellationToken cancelTkn, params object[] args)

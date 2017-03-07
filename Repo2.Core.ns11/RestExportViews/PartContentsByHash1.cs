@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.Extensions.StringExtensions;
@@ -16,6 +15,11 @@ namespace Repo2.Core.ns11.RestExportViews
             var partHash = args[0]?.ToString();
             if (partHash.IsBlank()) throw Fault.BlankText("Part Hash");
             return new List<string> { partHash };
+        }
+
+
+        public void PostProcess(object obj)
+        {
         }
     }
 }

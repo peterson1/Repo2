@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Repo2.Core.ns11.DomainModels;
 
 namespace Repo2.Core.ns11.RestExportViews
@@ -11,5 +12,10 @@ namespace Repo2.Core.ns11.RestExportViews
         public List<string> CastArguments(object[] args)
             //=> new List<string> { args[0].ToString() };
             => new List<string>();
+
+
+        public void PostProcess(object obj)
+        {
+        }
     }
 }
