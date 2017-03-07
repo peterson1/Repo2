@@ -7,6 +7,6 @@ namespace Repo2.Core.ns11.ReflectionTools
 
         // http://stackoverflow.com/a/1398934
         public static bool IsNullableType(this Type type)
-            => type.GetGenericTypeDefinition().Equals(typeof(Nullable<>));
+            => type.IsGenericParameter && type.GetGenericTypeDefinition().Equals(typeof(Nullable<>));
     }
 }

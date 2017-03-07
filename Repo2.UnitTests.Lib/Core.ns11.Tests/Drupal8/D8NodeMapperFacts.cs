@@ -24,7 +24,7 @@ namespace Repo2.UnitTests.Lib.Core.ns11.Tests.Drupal8
         {
             var node = new TestClass { Date1 = 23.February(2016) };
             var mapd = D8NodeMapper.Cast(node, "");
-            mapd.MustHave("field_date1", "value", node.Date1.ToString("yyyy-MM-dd hh:mm"));
+            mapd.MustHave("field_date1", "value", node.Date1.ToString("yyyy-MM-dd H:mm:ss"));
         }
     }
 

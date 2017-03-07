@@ -51,8 +51,8 @@ namespace Repo2.Core.ns11.Drupal8.Attributes
         private static Dictionary<Type, Func<object, object>> GetTypeActions()
             => new Dictionary<Type, Func<object, object>>
             {
-                { typeof(string  ), x => x?.ToString() },
-                { typeof(DateTime), x => ((DateTime)x).ToString("yyyy-MM-dd hh:mm") }
+                { typeof(string  ), x => x?.ToString() ?? "" },
+                { typeof(DateTime), x => ((DateTime)x).ToString("yyyy-MM-dd H:mm:ss") }
             };
 
         private static CustomAttributeData FindThisAttribute(PropertyInfo prop)
