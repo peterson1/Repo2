@@ -45,6 +45,7 @@
     <Compile Include="ChangeNotification\IStatusChanger.cs" />
     <Compile Include="ChangeNotification\PropertyChangedExtensions.cs" />
     <Compile Include="ChangeNotification\StatusText.cs" />
+    <Compile Include="Comparisons\PropertyComparer.cs" />
     <Compile Include="Compression\IFileArchiver.cs" />
     <Compile Include="Databases\ILocalDatabase.cs" />
     <Compile Include="DataStructures\IBase64Content.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="ReflectionTools\AssemblyReflector.cs" />
     <Compile Include="ReflectionTools\NestedPropertyFinder.cs" />
     <Compile Include="ReflectionTools\PropertyValueCopier.cs" />
+    <Compile Include="ReflectionTools\TypeExtensions.cs" />
     <Compile Include="RestClients\IR2RestClient.cs" />
     <Compile Include="RestClients\R2RestClientBase.cs" />
     <Compile Include="RestExportViews\ErrorsByStatus1.cs" />
