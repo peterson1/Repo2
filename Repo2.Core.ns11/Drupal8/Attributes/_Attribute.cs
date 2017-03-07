@@ -7,6 +7,8 @@ namespace Repo2.Core.ns11.Drupal8.Attributes
 {
     public class _Attribute : Attribute
     {
+        private static Dictionary<Type, Func<object, object>> _typFunctions = GetTypeActions();
+
         public _Attribute(string fieldName)
         {
             FieldName = fieldName;
@@ -34,12 +36,24 @@ namespace Repo2.Core.ns11.Drupal8.Attributes
             var attr = FindThisAttribute(prop);
             if (attr == null) return null;
 
-            var key = $"field_{GetFieldName(attr)}";
-            var val = prop.GetValue(sourceObj);
+            var key    = $"field_{GetFieldName(attr)}";
+            var objVal = prop.GetValue(sourceObj);
 
-            return new KeyValuePair<string, object>
-                (key, D8HALJson.ValueField(val));
+            Func<object, object> func;
+            if (_typFunctions.TryGetValue(prop.PropertyType, out func))
+                return new KeyValuePair<string, object>
+                    (key, D8HALJson.ValueField(func(objVal)));
+            else
+                return new KeyValuePair<string, object>
+                    (key, D8HALJson.ValueField(objVal));
         }
+
+        private static Dictionary<Type, Func<object, object>> GetTypeActions()
+            => new Dictionary<Type, Func<object, object>>
+            {
+                { typeof(string  ), x => x?.ToString() },
+                { typeof(DateTime), x => ((DateTime)x).ToString("yyyy-MM-dd hh:mm") }
+            };
 
         private static CustomAttributeData FindThisAttribute(PropertyInfo prop)
             => prop.CustomAttributes.SingleOrDefault(x

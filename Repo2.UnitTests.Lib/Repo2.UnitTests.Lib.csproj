@@ -83,6 +83,7 @@
     <Compile Include="Core.ns11.Tests\DateTimeExtensions\DateTimeExtensionsFacts.cs" />
     <Compile Include="Core.ns11.Tests\DomainModels\R2PackagePartValidations.cs" />
     <Compile Include="Core.ns11.Tests\Drupal8\D8NodeMapperFacts.cs" />
+    <Compile Include="Core.ns11.Tests\Drupal8\MappedNodeExtensions.cs" />
     <Compile Include="Core.ns11.Tests\NodeManagers\D8PkgPartManager1Facts.cs" />
     <Compile Include="Core.ns11.Tests\PackageRegistration\D8PreUploadCheckerFacts.cs" />
     <Compile Include="Core.ns11.Tests\ReflectionTools\AssemblyReflectorFacts.cs" />
