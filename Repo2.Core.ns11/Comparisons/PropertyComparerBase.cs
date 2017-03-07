@@ -8,9 +8,9 @@ using Repo2.Core.ns11.ReflectionTools;
 
 namespace Repo2.Core.ns11.Comparisons
 {
-    public abstract class PropertyComparer<T>
+    public abstract class PropertyComparerBase<T>
     {
-        public PropertyComparer(T obj1, T obj2)
+        public PropertyComparerBase(T obj1, T obj2)
         {
             _1 = obj1;
             _2 = obj2;
@@ -35,12 +35,16 @@ namespace Repo2.Core.ns11.Comparisons
         public bool SameValues => _diff.Count == 0;
         public string DiffText => string.Join(Environment.NewLine, _diff);
 
+        public bool Only1HasValue  => (_1 != null) && (_2 == null);
+        public bool Only2HasValue  => (_1 == null) && (_2 != null);
+        public bool BothHaveValues => (_1 != null) && (_2 != null);
+        public bool BothAreNull    => (_1 == null) && (_2 == null);
+
 
         public bool CompareValues(out string diffText)
         {
             _diff.Clear();
-            if (_1 == null && _2 == null) goto Return;
-            //if (BothEmptyStrings(_1, _2)) goto Return;
+            if (BothAreNull) goto Return;
             if (_1 == null) AddDiffText("self", "NULL", "has_value");
             if (_2 == null) AddDiffText("self", "has_value", "NULL");
             if (!SameValues) goto Return;
