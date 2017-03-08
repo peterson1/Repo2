@@ -20,6 +20,7 @@ namespace Repo2.Core.ns11.Comparisons
                 { typeof(int     ), (b1, b2) => CompareInt     (b1, b2) },
                 { typeof(DateTime), (b1, b2) => CompareDate    (b1, b2) },
                 { typeof(decimal ), (b1, b2) => CompareDecimal (b1, b2) },
+                { typeof(double  ), (b1, b2) => CompareDouble  (b1, b2) },
                 { typeof(bool    ), (b1, b2) => CompareBool    (b1, b2) },
             };
         }
@@ -177,6 +178,10 @@ namespace Repo2.Core.ns11.Comparisons
 
         protected virtual bool CompareDecimal(object value1, object value2)
             => (decimal)value1 == (decimal)value2;
+
+
+        protected virtual bool CompareDouble(object value1, object value2)
+            => (double)value1 == (double)value2;
 
 
         protected virtual bool CompareBool(object value1, object value2)
