@@ -86,10 +86,48 @@ namespace Repo2.Core.ns11.RestClients
 
 
 
+        public async Task<List<TModel>> Paged<TModel, TDto>(int itemsPerPage, int totalItemsCount, CancellationToken cancelTkn)
+            where TModel : class
+            where TDto : IRestExportView, TModel, new()
+        {
+            var jobs = new List<Task<List<TDto>>>();
+            var list = new List<TModel>();
+
+            var delay = 0;
+            for (int i = 0; i < totalItemsCount; i += itemsPerPage)
+            {
+                var url = new TDto().DisplayPath
+                        + $"?items_per_page={itemsPerPage}"
+                        + $"&offset={i}";
+
+                jobs.Add(GetDelayedPage<TDto>(delay, url, cancelTkn));
+                delay += 50;
+            }
+
+            await Task.WhenAll(jobs);
+
+            foreach (var job in jobs)
+            {
+                var partial = await job;
+                list.AddRange(partial.Select(x => x as TModel));
+            }
+
+            return list;
+        }
+
+
+        private async Task<List<TDto>> GetDelayedPage<TDto>(int delayMS, string url, CancellationToken cancelTkn)
+        {
+            await Task.Delay(delayMS);
+            return await BasicAuthGET<List<TDto>>(url, cancelTkn);
+        }
+
+
+
 
         #region Authentication
 
-        public    bool          IsEnablingWriteAccess          => _auth.IsEnablingWriteAccess;
+        public bool          IsEnablingWriteAccess          => _auth.IsEnablingWriteAccess;
         protected string        CsrfToken                      => _auth.CsrfToken;
         protected R2Credentials Creds                          => _auth.Creds;
         public    void          StopEnablingWriteAccess()      => _auth.StopEnablingWriteAccess();

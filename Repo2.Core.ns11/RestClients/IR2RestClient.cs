@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Repo2.Core.ns11.Authentication;
@@ -21,23 +20,37 @@ namespace Repo2.Core.ns11.RestClients
         bool          IsEnablingWriteAccess   { get; }
 
 
+        Task<List<TModel>> Paged<TModel, TDto>(
+            int itemsPerPage,
+            int totalItemsCount,
+            CancellationToken cancelTkn)
+                where TModel : class
+                where TDto : TModel, IRestExportView, new();
+
+
         Task<List<T>>  List  <T>(CancellationToken cancelTkn, params object[] args)
             where T : IRestExportView, new();
+
 
         Task<List<TModel>>  List  <TModel, TDto>(CancellationToken cancelTkn, params object[] args)
             where TModel : class
             where TDto   : TModel, IRestExportView, new();
 
+
         Task<List<object>> ListRevisions (string nodeTitle, CancellationToken cancelTkn);
+
 
         Task<byte[]>     GetBytes   <T>(CancellationToken cancelTkn, params object[] args) 
             where T : IRestExportView, IBase64Content, new();
 
+
         Task<NodeReply>  PostNode   <T>(T node, CancellationToken cancelTkn) 
             where T : D8NodeBase;
 
+
         Task<NodeReply>  PatchNode  <T>(T node, CancellationToken cancelTkn, string revisionLog = null) 
             where T : D8NodeBase;
+
 
         Task<RestReply>  DeleteNode (int nodeID, CancellationToken cancelTkn);
     }
