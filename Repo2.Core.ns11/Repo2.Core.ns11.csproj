@@ -69,6 +69,7 @@
     <Compile Include="Drupal8\D8HALJson.cs" />
     <Compile Include="Drupal8\D8NodeBase.cs" />
     <Compile Include="Drupal8\D8NodeMapper.cs" />
+    <Compile Include="Drupal8\ID8Node.cs" />
     <Compile Include="EnumTools\EnumTool.cs" />
     <Compile Include="Exceptions\FaultFactory.cs" />
     <Compile Include="Extensions\BooleanExtensions\BasicBooleanExtensions.cs" />

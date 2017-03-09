@@ -151,6 +151,13 @@ namespace Repo2.Core.ns11.Comparisons
             return same;
         }
 
+        protected bool Compare(string propName, string value1, string value2)
+        {
+            var same = CompareString(value1, value2);
+            if (!same) AddDiffText(propName, value1, value2);
+            return same;
+        }
+
 
 
 

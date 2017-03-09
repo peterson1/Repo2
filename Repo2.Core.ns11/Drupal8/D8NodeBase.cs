@@ -2,7 +2,7 @@
 
 namespace Repo2.Core.ns11.Drupal8
 {
-    public abstract class D8NodeBase
+    public abstract class D8NodeBase : ID8Node
     {
         public int nid { get; set; }
         public int uid { get; set; }
