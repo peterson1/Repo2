@@ -14,12 +14,11 @@ namespace Repo2.SDK.WPF45.InputCommands
     {
         private   string                 _origLabel;
         private   bool                   _origOverride;
-        protected Func<object, Task>     _task;
         protected Predicate<object>      _canExecute;
 
         internal R2AsyncCommandWPF(Func<object, Task> task, Predicate<object> canExecute, string buttonLabel)
         {
-            _task        = task;
+            AsyncTask    = task;
             _canExecute  = canExecute;
             CurrentLabel = buttonLabel;
         }
@@ -34,6 +33,8 @@ namespace Repo2.SDK.WPF45.InputCommands
         public bool      LastExecutedOK    { get; protected set; }
         public DateTime  LastExecuteStart  { get; protected set; }
         public DateTime  LastExecuteEnd    { get; protected set; }
+
+        public Func<object, Task>  AsyncTask  { get; }
 
 
 
@@ -60,7 +61,7 @@ namespace Repo2.SDK.WPF45.InputCommands
         {
             try
             {
-                await _task.Invoke(parameter);
+                await AsyncTask.Invoke(parameter);
                 return true;
             }
             catch (Exception ex)

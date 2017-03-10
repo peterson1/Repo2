@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Repo2.Core.ns11.InputCommands
@@ -17,5 +18,7 @@ namespace Repo2.Core.ns11.InputCommands
 
         void  ConcludeExecute ();
         void  ExecuteIfItCan  (object param = null);
+
+        Func<object, Task> AsyncTask { get; }
     }
 }
