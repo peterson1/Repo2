@@ -58,6 +58,7 @@
     <Compile Include="DateTimeTools\DateRange.cs" />
     <Compile Include="DateTimeTools\DateTimeExtensions.cs" />
     <Compile Include="DateTimeTools\Today.cs" />
+    <Compile Include="DateTimeTools\UnixTimeExtensions.cs" />
     <Compile Include="DomainModels\R2ErrorTicket.cs" />
     <Compile Include="DomainModels\R2Package.cs" />
     <Compile Include="DomainModels\R2PackagePart.cs" />
