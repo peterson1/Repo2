@@ -20,12 +20,22 @@ namespace Repo2.Core.ns11.RestClients
         bool          IsEnablingWriteAccess   { get; }
 
 
-        Task<List<TModel>> Paged<TModel, TDto>(
+        Task<List<TModel>> PagedSerial<TModel, TDto>(
             int itemsPerPage,
             int totalItemsCount,
             CancellationToken cancelTkn)
                 where TModel : class
                 where TDto : TModel, IRestExportView, new();
+
+
+        Task<List<TModel>> PagedParallel<TModel, TDto>(
+            int itemsPerPage,
+            int totalItemsCount,
+            int requestGapMS,
+            CancellationToken cancelTkn)
+                where TModel : class
+                where TDto : IRestExportView, TModel, new();
+
 
 
         Task<List<T>>  List  <T>(CancellationToken cancelTkn, params object[] args)
