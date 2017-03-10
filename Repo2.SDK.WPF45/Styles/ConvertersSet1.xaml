@@ -13,6 +13,7 @@
     <cnv:VisibleIfNotZeroConverter x:Key="visIfNotZero" />
 
     <cnv:TrueIfNotNullConverter x:Key="trueIfNotNull" />
+    <cnv:TrueIfFalseConverter x:Key="trueIfFalse" />
 
     <cnv:OpenIfNotNullConverter x:Key="openIfNotNull" />
     <cnv:OpenIfTrueConverter x:Key="openIfTrue" />
