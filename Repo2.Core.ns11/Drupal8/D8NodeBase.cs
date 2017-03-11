@@ -10,5 +10,10 @@ namespace Repo2.Core.ns11.Drupal8
         public DateTime? created { get; set; }
 
         public abstract string D8TypeName { get; }
+
+
+        protected string ReplaceAmpersand(string text)
+            => text.Contains("&amp;")
+             ? text?.Replace("&amp;", "&") : text;
     }
 }
