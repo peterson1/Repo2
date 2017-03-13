@@ -52,7 +52,9 @@ namespace Repo2.Core.ns11.Drupal8.Attributes
             => new Dictionary<Type, Func<object, object>>
             {
                 { typeof(string  ), x => x?.ToString() ?? "" },
-                { typeof(DateTime), x => ((DateTime)x).ToString("yyyy-MM-dd H:mm:ss") }
+                //{ typeof(DateTime), x => ((DateTime)x).ToString("yyyy-MM-dd H:mm:ss") }
+                { typeof(DateTime ), x => ToD8Date(x) },
+                { typeof(DateTime?), x => ToD8Date(x) }
             };
 
         private static CustomAttributeData FindThisAttribute(PropertyInfo prop)
@@ -61,5 +63,8 @@ namespace Repo2.Core.ns11.Drupal8.Attributes
 
         private static string GetFieldName(CustomAttributeData attr)
             => attr.ConstructorArguments.Single().Value.ToString();
+
+        private static string ToD8Date(object obj)
+            => obj == null ? null : ((DateTime)obj).ToString("yyyy-MM-dd H:mm:ss");
     }
 }

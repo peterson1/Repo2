@@ -16,12 +16,13 @@ namespace Repo2.Core.ns11.Comparisons
             _2 = obj2;
             _methods = new Dictionary<Type, Func<object, object, bool>>
             {
-                { typeof(string  ), (b1, b2) => CompareString  (b1, b2) },
-                { typeof(int     ), (b1, b2) => CompareInt     (b1, b2) },
-                { typeof(DateTime), (b1, b2) => CompareDate    (b1, b2) },
-                { typeof(decimal ), (b1, b2) => CompareDecimal (b1, b2) },
-                { typeof(double  ), (b1, b2) => CompareDouble  (b1, b2) },
-                { typeof(bool    ), (b1, b2) => CompareBool    (b1, b2) },
+                { typeof(string   ), (b1, b2) => CompareString  (b1, b2) },
+                { typeof(int      ), (b1, b2) => CompareInt     (b1, b2) },
+                { typeof(DateTime ), (b1, b2) => CompareDate    (b1, b2) },
+                { typeof(DateTime?), (b1, b2) => CompareDate_   (b1, b2) },
+                { typeof(decimal  ), (b1, b2) => CompareDecimal (b1, b2) },
+                { typeof(double   ), (b1, b2) => CompareDouble  (b1, b2) },
+                { typeof(bool     ), (b1, b2) => CompareBool    (b1, b2) },
             };
         }
 
@@ -181,6 +182,10 @@ namespace Repo2.Core.ns11.Comparisons
 
         protected virtual bool CompareDate(object value1, object value2)
             => (DateTime)value1 == (DateTime)value2;
+
+
+        protected virtual bool CompareDate_(object value1, object value2)
+            => (DateTime?)value1 == (DateTime?)value2;
 
 
         protected virtual bool CompareDecimal(object value1, object value2)

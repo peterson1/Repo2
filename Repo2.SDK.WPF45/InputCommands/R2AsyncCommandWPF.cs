@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using PropertyChanged;
@@ -43,14 +42,14 @@ namespace Repo2.SDK.WPF45.InputCommands
             if (IsBusy) return;
             if (!OverrideEnabled) return;
 
-            IsBusy             = true;
-            _origOverride      = OverrideEnabled;
-            _origLabel         = CurrentLabel;
-            CurrentLabel       = $"Running “{_origLabel}”…";
-            OverrideEnabled    = false;
-            LastExecuteStart   = DateTime.Now;
+            IsBusy           = true;
+            _origOverride    = OverrideEnabled;
+            _origLabel       = CurrentLabel;
+            CurrentLabel     = $"Running “{_origLabel}”…";
+            OverrideEnabled  = false;
+            LastExecuteStart = DateTime.Now;
 
-            LastExecutedOK     = await SafeRun(parameter);
+            LastExecutedOK   = await SafeRun(parameter);
 
             ConcludeExecute();
             CommandManager.InvalidateRequerySuggested();
