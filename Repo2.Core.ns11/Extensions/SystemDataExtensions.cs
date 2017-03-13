@@ -168,7 +168,7 @@ namespace Repo2.Core.ns11.Extensions
             if (rec.IsDBNull(i)) return null;
             try
             {
-                return rec.GetDateTime(i);
+                return new DateTime?(rec.GetDateTime(i));
             }
             catch (InvalidCastException)
             {
@@ -177,7 +177,7 @@ namespace Repo2.Core.ns11.Extensions
 
                 DateTime date;
                 if (DateTime.TryParse(val.ToString(), out date))
-                    return date;
+                    return new DateTime?(date);
                 else
                     return null;
             }
