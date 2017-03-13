@@ -12,6 +12,7 @@ namespace Repo2.Core.ns11.Extensions
              TValue defaultValue = default(TValue))
         {
             TValue value;
+            if (key == null) return defaultValue;
             return dictionary.TryGetValue(key, out value) ? value : defaultValue;
         }
 
@@ -21,6 +22,7 @@ namespace Repo2.Core.ns11.Extensions
              Func<TValue> defaultValueProvider)
         {
             TValue value;
+            if (key == null) return defaultValueProvider();
             return dictionary.TryGetValue(key, out value) ? value
                  : defaultValueProvider();
         }
