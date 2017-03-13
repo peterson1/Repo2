@@ -77,8 +77,10 @@ namespace Repo2.Core.ns11.Comparisons
 
                 if (typ.Namespace == "System")
                 {
-                    b1 = Convert.ChangeType(val1, typ);
-                    b2 = Convert.ChangeType(val2, typ);
+                    try   { b1 = Convert.ChangeType(val1, typ); }
+                    catch { }
+                    try   { b2 = Convert.ChangeType(val2, typ); }
+                    catch { }
                 }
 
                 if (!_methods[typ](b1, b2)) AddDiffText(propName, b1, b2);
