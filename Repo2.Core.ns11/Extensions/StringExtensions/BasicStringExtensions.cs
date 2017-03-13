@@ -213,5 +213,13 @@ namespace Repo2.Core.ns11.Extensions.StringExtensions
             if (nonBlanks.Count() == 0) return string.Empty;
             return nonBlanks.Join(separator);
         }
+
+
+        public static string SubstringFromEnd(this string source, int tail_length)
+        {
+            if (tail_length >= source.Length)
+                return source;
+            return source.Substring(source.Length - tail_length);
+        }
     }
 }
