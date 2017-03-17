@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.Drupal8;
+using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.RestExportViews;
 
@@ -86,6 +87,19 @@ namespace Repo2.Core.ns11.RestClients
 
 
 
+        public async Task<List<TModel>> Paged<TModel, TDto>(int pageNumber, int itemsPerPage, CancellationToken cancelTkn)
+            where TModel : class
+            where TDto : IRestExportView, TModel, new()
+        {
+            if (pageNumber < 1)
+                throw new ArgumentException($"Expected “{nameof(pageNumber)}” argument to be greater than or equal to 1, but was [{pageNumber}]");
+
+            var offset = itemsPerPage * (pageNumber - 1);
+            var url    = AppendPagerArgs<TDto>(itemsPerPage, offset);
+            return (await BasicAuthGET<List<TDto>>(url, cancelTkn))
+                        .Select(x => x as TModel).ToList();
+        }
+
 
         public async Task<List<TModel>> PagedSerial<TModel, TDto>(int itemsPerPage, int totalItemsCount, CancellationToken cancelTkn)
             where TModel : class
@@ -95,16 +109,20 @@ namespace Repo2.Core.ns11.RestClients
 
             for (int i = 0; i < totalItemsCount; i += itemsPerPage)
             {
-                var url = new TDto().DisplayPath
-                        + $"?items_per_page={itemsPerPage}"
-                        + $"&offset={i}";
-
+                var url = AppendPagerArgs<TDto>(itemsPerPage, i);
                 var partial = await BasicAuthGET<List<TDto>>(url, cancelTkn);
                 list.AddRange(partial.Select(x => x as TModel));
             }
             return list;
         }
 
+
+        private string AppendPagerArgs<TDto>(int itemsPerPage, int offset)
+            where TDto : IRestExportView, new()
+        {
+            var url = new TDto().DisplayPath;
+            return $"{url}?items_per_page={itemsPerPage}&offset={offset}";
+        }
 
 
         public async Task<List<TModel>> PagedParallel<TModel, TDto>(int itemsPerPage, int totalItemsCount, int requestGapMS, CancellationToken cancelTkn)
@@ -117,10 +135,7 @@ namespace Repo2.Core.ns11.RestClients
             var delay = 0;
             for (int i = 0; i < totalItemsCount; i += itemsPerPage)
             {
-                var url = new TDto().DisplayPath
-                        + $"?items_per_page={itemsPerPage}"
-                        + $"&offset={i}";
-
+                var url = AppendPagerArgs<TDto>(itemsPerPage, i);
                 jobs.Add(GetDelayedPage<TDto>(delay, url, cancelTkn));
                 delay += requestGapMS;
             }
