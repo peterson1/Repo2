@@ -20,5 +20,6 @@ namespace Repo2.Core.ns11.InputCommands
         void  ExecuteIfItCan  (object param = null);
 
         Func<object, Task> AsyncTask { get; }
+        Task RunAsync(object arg = null);
     }
 }

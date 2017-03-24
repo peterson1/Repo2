@@ -35,6 +35,7 @@ namespace Repo2.SDK.WPF45.InputCommands
 
         public Func<object, Task>  AsyncTask  { get; }
 
+        public Task RunAsync(object arg = null) => AsyncTask(arg);
 
 
         public async void Execute(object parameter)
