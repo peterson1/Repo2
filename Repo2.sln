@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repo2.Uploader.WPF45", "Rep
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repo2.TestClient.WPF45", "Repo2.TestClient.WPF45\Repo2.TestClient.WPF45.csproj", "{2073BBEE-2CD8-43C0-ABD5-FAC1F2F3C6A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repo2.DnsUpdater.WPF", "Repo2.DnsUpdater.WPF\Repo2.DnsUpdater.WPF.csproj", "{9214BC16-4943-46E5-8748-AE3D3973AF6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{2073BBEE-2CD8-43C0-ABD5-FAC1F2F3C6A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2073BBEE-2CD8-43C0-ABD5-FAC1F2F3C6A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2073BBEE-2CD8-43C0-ABD5-FAC1F2F3C6A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9214BC16-4943-46E5-8748-AE3D3973AF6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9214BC16-4943-46E5-8748-AE3D3973AF6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9214BC16-4943-46E5-8748-AE3D3973AF6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9214BC16-4943-46E5-8748-AE3D3973AF6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
