@@ -5,7 +5,7 @@ namespace Repo2.Core.ns11.Drupal8
 {
     public class D8NodeMapper
     {
-        public static Dictionary<string, object> Cast<T>(T sourceObj, string baseUrl) where T : D8NodeBase
+        public static Dictionary<string, object> Cast<T>(T sourceObj, string baseUrl) where T : ID8Node
         {
             var dict = new Dictionary<string, object>();
 

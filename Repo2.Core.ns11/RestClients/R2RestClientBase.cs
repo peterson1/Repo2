@@ -196,7 +196,7 @@ namespace Repo2.Core.ns11.RestClients
 
 
         public async Task<NodeReply> PostNode<T>(T node, CancellationToken cancelTkn) 
-            where T : D8NodeBase
+            where T : ID8Node
         {
             var url  = D8.NODE_FORMAT_HAL;
             var mapd = D8NodeMapper.Cast(node, _auth.Creds.BaseURL);

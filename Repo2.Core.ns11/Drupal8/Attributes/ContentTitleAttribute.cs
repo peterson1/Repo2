@@ -18,7 +18,7 @@ namespace Repo2.Core.ns11.Drupal8.Attributes
             return prop?.GetValue(sourceObj);
         }
 
-        internal static List<Dictionary<string, object>> ToD8Field<T>(T sourceObj) where T : D8NodeBase
+        internal static List<Dictionary<string, object>> ToD8Field<T>(T sourceObj) where T : ID8Node
             => D8HALJson.ValueField(GetPropertyValue(sourceObj)?.ToString());
     }
 }

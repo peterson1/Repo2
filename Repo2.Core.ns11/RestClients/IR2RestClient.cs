@@ -63,7 +63,7 @@ namespace Repo2.Core.ns11.RestClients
 
 
         Task<NodeReply>  PostNode   <T>(T node, CancellationToken cancelTkn) 
-            where T : D8NodeBase;
+            where T : ID8Node;
 
 
         Task<NodeReply>  PatchNode  <T>(T node, CancellationToken cancelTkn, string revisionLog = null) 

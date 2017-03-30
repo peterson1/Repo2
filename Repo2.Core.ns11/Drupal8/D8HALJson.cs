@@ -9,7 +9,7 @@ namespace Repo2.Core.ns11.Drupal8
 {
     public class D8HALJson
     {
-        public static Dictionary<string, object> GetNodeLinks<T>(T sourceObj, string baseUrl) where T : D8NodeBase
+        public static Dictionary<string, object> GetNodeLinks<T>(T sourceObj, string baseUrl) where T : ID8Node
         {
             var dict = new Dictionary<string, object>();
 
@@ -28,7 +28,7 @@ namespace Repo2.Core.ns11.Drupal8
         }
 
 
-        private static Dictionary<string, object> GetTypeHref<T>(T sourceObj, string baseUrl) where T : D8NodeBase
+        private static Dictionary<string, object> GetTypeHref<T>(T sourceObj, string baseUrl) where T : ID8Node
             => WrapHref($"rest/type/node/{sourceObj.D8TypeName}", baseUrl);
 
 
