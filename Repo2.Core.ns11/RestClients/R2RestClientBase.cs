@@ -96,8 +96,12 @@ namespace Repo2.Core.ns11.RestClients
 
             var offset = itemsPerPage * (pageNumber - 1);
             var url    = AppendPagerArgs<TDto>(itemsPerPage, offset);
-            return (await BasicAuthGET<List<TDto>>(url, cancelTkn))
-                        .Select(x => x as TModel).ToList();
+            var dtos   = await BasicAuthGET<List<TDto>>(url, cancelTkn);
+
+            foreach (var item in dtos)
+                item?.PostProcess();
+
+            return dtos.Select(x => x as TModel).ToList();
         }
 
 

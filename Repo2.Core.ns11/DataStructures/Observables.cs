@@ -46,6 +46,18 @@ namespace Repo2.Core.ns11.DataStructures
         }
 
 
+        //  crashes the app
+        //
+        //public async Task SwapAsync(IEnumerable<T> newItems)
+        //{
+        //    await Task.Run(async () =>
+        //    {
+        //        await Task.Delay(1);
+        //        Swap(newItems);
+        //    });
+        //}
+
+
         public void RaiseSelectionChanged()
             => _selectionChanged.Raise();
     }
