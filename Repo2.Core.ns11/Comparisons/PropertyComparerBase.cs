@@ -174,8 +174,8 @@ namespace Repo2.Core.ns11.Comparisons
 
 
         protected virtual bool CompareString(object value1, object value2)
-            => value1.ToString().Trim().ToLower()
-            == value2.ToString().Trim().ToLower();
+            => value1?.ToString()?.Trim()?.ToLower()
+            == value2?.ToString()?.Trim()?.ToLower();
 
 
         protected virtual bool CompareInt(object value1, object value2)
