@@ -207,6 +207,21 @@ namespace Repo2.Core.ns11.RestClients
         }
 
 
+        public async Task<NodeReply> SilentPost<T>(T node, CancellationToken cancelTkn) 
+            where T : ID8Node
+        {
+            try
+            {
+                return await PostNode(node, cancelTkn);
+            }
+            catch (Exception ex)
+            {
+                return NodeReply.Fail(ex);
+            }
+        }
+
+
+
         public async Task<NodeReply> PatchNode<T>(T node, CancellationToken cancelTkn, string revisionLog) 
             where T : D8NodeBase
         {

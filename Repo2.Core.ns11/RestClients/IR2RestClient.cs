@@ -66,6 +66,10 @@ namespace Repo2.Core.ns11.RestClients
             where T : ID8Node;
 
 
+        Task<NodeReply> SilentPost<T>(T node, CancellationToken cancelTkn) 
+            where T : ID8Node;
+
+
         Task<NodeReply>  PatchNode  <T>(T node, CancellationToken cancelTkn, string revisionLog = null) 
             where T : D8NodeBase;
 
