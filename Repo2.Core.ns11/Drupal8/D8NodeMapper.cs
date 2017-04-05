@@ -16,6 +16,8 @@ namespace Repo2.Core.ns11.Drupal8
             foreach (var field in _Attribute.FindInPropertiesOf(sourceObj))
                 dict.Add(field.Key, field.Value);
 
+            //dict.Add("status", D8HALJson.ValueField(0));//requires "Administer content" permission
+
             return dict;
         }
     }
