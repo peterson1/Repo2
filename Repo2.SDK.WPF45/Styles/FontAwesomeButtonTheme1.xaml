@@ -53,6 +53,13 @@
         <Setter Property="Foreground" Value="Black" />
     </Style>
 
+    <Style x:Key="nextBtn" TargetType="Button"
+           BasedOn="{StaticResource awesomeBtn}">
+        <Setter Property="fa:Awesome.Content" Value="ArrowCircleRight" />
+        <Setter Property="ToolTip" Value="Back" />
+        <Setter Property="Foreground" Value="Black" />
+    </Style>
+
     <Style x:Key="addBtn" TargetType="Button"
            BasedOn="{StaticResource awesomeBtn}">
         <Setter Property="fa:Awesome.Content" Value="PlusSquare" />
