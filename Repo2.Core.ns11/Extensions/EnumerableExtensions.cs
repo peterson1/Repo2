@@ -20,8 +20,9 @@ namespace Repo2.Core.ns11.Extensions
         public static T SingleOrDefault<T>(this IEnumerable<T> items,
             Func<T, bool> predicate, string key, object value, string operatr = "==")
         {
-            var matches = items.Where(predicate);
+            var matches = items?.Where(predicate);
 
+            if (matches      == null) return default(T);
             if (matches.Count() == 0) return default(T);
             if (matches.Count() == 1) return matches.First();
 
