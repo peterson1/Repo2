@@ -223,7 +223,7 @@ namespace Repo2.Core.ns11.RestClients
 
 
         public async Task<NodeReply> PatchNode<T>(T node, CancellationToken cancelTkn, string revisionLog) 
-            where T : D8NodeBase
+            where T : ID8Node
         {
             var url  = string.Format(D8.NODE_X_FORMAT_HAL, node.nid);
             //var url  = string.Format(D8.NODE_X_REV_Y_FMT_HAL, node.nid, node.vid);
