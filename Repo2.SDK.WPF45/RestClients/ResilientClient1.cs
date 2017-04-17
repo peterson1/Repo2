@@ -43,9 +43,13 @@ namespace Repo2.SDK.WPF45.RestClients
 
 
         protected override Task<T> BasicAuthPATCH<T>(string resourceUrl, object patchBody, CancellationToken cancelTkn)
-            => Retry.Forever<T>(resourceUrl, (url, ct) =>
+        {
+            Console.WriteLine(Json.Serialize(patchBody));
+
+            return Retry.Forever<T>(resourceUrl, (url, ct) =>
                  url.PatchStringToUrlAsync(Json.Serialize(patchBody),
                     D8.CONTENT_TYPE_HAL, D8.CONTENT_TYPE_HAL, SetBasicAuthRequest), cancelTkn);
+        }
 
 
         protected override Task<T> BasicAuthDELETE<T>(string resourceUrl, CancellationToken cancelTkn)
