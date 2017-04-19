@@ -1,11 +1,28 @@
 ﻿using System;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using ServiceStack.Text;
+using System.Text;
 
 namespace Repo2.SDK.WPF45.Serialization
 {
     public class Json
     {
+        public static T DeserializeB64<T>(string jsonUtf8Base64)
+        {
+            var byts = Convert.FromBase64String(jsonUtf8Base64);
+            var json = Encoding.UTF8.GetString(byts);
+            return Json.Deserialize<T>(json);
+        }
+
+
+        public static string SerializeToB64<T>(T obj)
+        {
+            var json = Json.Serialize(obj);
+            var byts = Encoding.UTF8.GetBytes(json);
+            return Convert.ToBase64String(byts);
+        }
+
+
         public static T Deserialize<T>(string json)
             => JsonSerializer.DeserializeFromString<T>(json);
 
