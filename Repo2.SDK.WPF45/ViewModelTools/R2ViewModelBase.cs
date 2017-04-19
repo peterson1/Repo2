@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
+using Repo2.Core.ns11.ChangeNotification;
 using System.Threading;
 using PropertyChanged;
+using System;
 
 namespace Repo2.SDK.WPF45.ViewModelTools
 {
@@ -12,6 +14,13 @@ namespace Repo2.SDK.WPF45.ViewModelTools
         {
             add    { _propertyChanged -= value; _propertyChanged += value; }
             remove { _propertyChanged -= value; }
+        }
+
+        protected    EventHandler _activateRequested;
+        public event EventHandler  ActivateRequested
+        {
+            add    { _activateRequested -= value; _activateRequested += value; }
+            remove { _activateRequested -= value; }
         }
 
         private SynchronizationContext _ui;
@@ -27,6 +36,10 @@ namespace Repo2.SDK.WPF45.ViewModelTools
 
 
         protected void UpdateTitle(string text) => Title = text;
+
+
+        public void Activate() 
+            => AsUI(_ => _activateRequested.Raise());
 
 
         protected void AsUI(SendOrPostCallback action)
