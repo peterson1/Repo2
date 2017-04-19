@@ -65,6 +65,17 @@ namespace Repo2.Core.ns11.Drupal8.Attributes
             => attr.ConstructorArguments.Single().Value.ToString();
 
         private static string ToD8Date(object obj)
-            => obj == null ? null : ((DateTime)obj).ToString("yyyy-MM-dd H:mm:ss");
+        {
+            if (obj == null) return null;
+
+            var asDate = (DateTime)obj;
+
+            if (asDate.Hour == 0 
+             && asDate.Minute == 0 
+             && asDate.Second == 0)
+                return asDate.ToString("yyyy-MM-dd");
+            else
+                return asDate.ToString("yyyy-MM-dd H:mm:ss");
+        }
     }
 }
