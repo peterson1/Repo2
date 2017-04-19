@@ -18,6 +18,7 @@ namespace Repo2.Core.ns11.RestClients
         void          StopEnablingWriteAccess ();
         Task<bool>    DisableWriteAccess      ();
         bool          IsEnablingWriteAccess   { get; }
+        string        BaseURL                 { get; }
 
 
         Task<List<TModel>> Paged<TModel, TDto>(

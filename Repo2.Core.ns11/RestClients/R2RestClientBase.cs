@@ -185,6 +185,7 @@ namespace Repo2.Core.ns11.RestClients
 
 
 
+        public string BaseURL => _auth?.Creds?.BaseURL;
 
 
 
@@ -199,7 +200,7 @@ namespace Repo2.Core.ns11.RestClients
             where T : ID8Node
         {
             var url  = D8.NODE_FORMAT_HAL;
-            var mapd = D8NodeMapper.Cast(node, _auth.Creds.BaseURL);
+            var mapd = D8NodeMapper.Cast(node, BaseURL);
             var dict = await BasicAuthPOST
                         <Dictionary<string, object>>(url, mapd, cancelTkn);
 
@@ -227,7 +228,7 @@ namespace Repo2.Core.ns11.RestClients
         {
             var url  = string.Format(D8.NODE_X_FORMAT_HAL, node.nid);
             //var url  = string.Format(D8.NODE_X_REV_Y_FMT_HAL, node.nid, node.vid);
-            var mapd = D8NodeMapper.Cast(node, _auth.Creds.BaseURL);
+            var mapd = D8NodeMapper.Cast(node, BaseURL);
 
             if (!revisionLog.IsBlank())
             {
