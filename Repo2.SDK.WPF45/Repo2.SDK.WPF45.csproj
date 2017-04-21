@@ -207,6 +207,7 @@
       <DependentUpon>DialogueWindow1.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModelTools\R2ViewModelBase.cs" />
+    <Compile Include="ViewModelTools\TabbedMainWindowBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
