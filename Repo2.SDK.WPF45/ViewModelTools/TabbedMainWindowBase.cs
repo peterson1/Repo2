@@ -3,7 +3,9 @@ using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.InputCommands;
 using Repo2.SDK.WPF45.InputCommands;
+using System.Threading.Tasks;
 using System.Windows;
+using System;
 
 namespace Repo2.SDK.WPF45.ViewModelTools
 {
@@ -15,7 +17,7 @@ namespace Repo2.SDK.WPF45.ViewModelTools
         public TabbedMainWindowBase(IFileSystemAccesor fs)
         {
             _exeVer = fs.CurrentExeVersion;
-            ExitCmd = R2Command.Relay(ExitApp);
+            ExitCmd = R2Command.Async(ExitApp);
             AppendToCaption("...");
         }
         protected abstract string   CaptionPrefix   { get; }
@@ -50,7 +52,18 @@ namespace Repo2.SDK.WPF45.ViewModelTools
             Tabs.Add(tabVM);
         }
 
-        private void ExitApp() => Application.Current.Shutdown();
+
+        private async Task ExitApp()
+        {
+            await BeforeExitApp();
+            Application.Current.Shutdown();
+        }
+
+
+        protected virtual async Task BeforeExitApp()
+        {
+            await Task.Delay(1);
+        }
 
 
         protected virtual void AppendToCaption(string text)
