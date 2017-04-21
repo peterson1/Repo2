@@ -17,6 +17,28 @@ namespace Repo2.Core.ns11.DataStructures
         public string  WarningsText  => Warnings.Join(L.f);
 
         public static Reply Success => new Reply();
+
+        public static Reply Error(string errorMessage)
+        {
+            var rep = new Reply();
+            rep.Errors.Add(errorMessage);
+            return rep;
+        }
+
+
+        public static Reply<T> Error<T>(string errorMessage)
+        {
+            var rep = new Reply<T>(default(T));
+            rep.Errors.Add(errorMessage);
+            return rep;
+        }
+
+        public static Reply Warning(string warningMessage)
+        {
+            var rep = new Reply();
+            rep.Warnings.Add(warningMessage);
+            return rep;
+        }
     }
 
 
