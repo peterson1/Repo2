@@ -65,7 +65,7 @@ namespace Repo2.SDK.WPF45.ViewModelTools
             => AsUI(_ => _activateRequested.Raise());
 
 
-        protected void AsUI(SendOrPostCallback action)
+        public void AsUI(SendOrPostCallback action)
             => _ui.Send(action, null);
 
 
