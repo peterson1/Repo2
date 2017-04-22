@@ -44,10 +44,13 @@
     <Compile Include="ChangeNotification\EventHandlerExtensions.cs" />
     <Compile Include="ChangeNotification\IStatusChanger.cs" />
     <Compile Include="ChangeNotification\PropertyChangedExtensions.cs" />
+    <Compile Include="ChangeNotification\StatusChanger.cs" />
     <Compile Include="ChangeNotification\StatusText.cs" />
     <Compile Include="Comparisons\PropertyComparerBase.cs" />
     <Compile Include="Compression\IFileArchiver.cs" />
     <Compile Include="Databases\ILocalDatabase.cs" />
+    <Compile Include="DataStructures\EventRow.cs" />
+    <Compile Include="DataStructures\EventRows.cs" />
     <Compile Include="DataStructures\IBase64Content.cs" />
     <Compile Include="DataStructures\IRange.cs" />
     <Compile Include="DataStructures\NodeReply.cs" />
