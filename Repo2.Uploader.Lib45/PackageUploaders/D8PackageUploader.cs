@@ -10,18 +10,19 @@ using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.PackageDownloaders;
 using Repo2.Core.ns11.PackageUploaders;
+using Repo2.Core.ns11.ChangeNotification;
 
 namespace Repo2.Uploader.Lib45.PackageUploaders
 {
     [ImplementPropertyChanged]
-    public class D8PackageUploader : IPackageUploader
+    public class D8PackageUploader : StatusChanger, IPackageUploader
     {
-        private      EventHandler<string> _statusChanged;
-        public event EventHandler<string>  StatusChanged
-        {
-            add    { _statusChanged -= value; _statusChanged += value; }
-            remove { _statusChanged -= value; }
-        }
+        //private      EventHandler<string> _statusChanged;
+        //public event EventHandler<string>  StatusChanged
+        //{
+        //    add    { _statusChanged -= value; _statusChanged += value; }
+        //    remove { _statusChanged -= value; }
+        //}
 
         private IFileSystemAccesor       _fileIO;
         private IFileArchiver            _archivr;
@@ -124,7 +125,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
         }
 
 
-        private void SetStatus(string text) 
-            => _statusChanged?.Invoke(this, text);
+        //private void SetStatus(string text) 
+        //    => _statusChanged?.Invoke(this, text);
     }
 }

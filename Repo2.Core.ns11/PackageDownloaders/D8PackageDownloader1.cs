@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 using Repo2.Core.ns11.Compression;
 using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.NodeManagers;
+using Repo2.Core.ns11.ChangeNotification;
 
 namespace Repo2.Core.ns11.PackageDownloaders
 {
-    public class D8PackageDownloader1 : IPackageDownloader
+    public class D8PackageDownloader1 : StatusChanger, IPackageDownloader
     {
-        private      EventHandler<string> _statusChanged;
-        public event EventHandler<string>  StatusChanged
-        {
-            add    { _statusChanged -= value; _statusChanged += value; }
-            remove { _statusChanged -= value; }
-        }
+        //private      EventHandler<string> _statusChanged;
+        //public event EventHandler<string>  StatusChanged
+        //{
+        //    add    { _statusChanged -= value; _statusChanged += value; }
+        //    remove { _statusChanged -= value; }
+        //}
 
         private IPackagePartManager _parts;
         private IFileArchiver       _archivr;
@@ -53,7 +54,7 @@ namespace Repo2.Core.ns11.PackageDownloaders
         }
 
 
-        private void SetStatus(string text)
-            => _statusChanged?.Invoke(this, text);
+        //private void SetStatus(string text)
+        //    => _statusChanged?.Invoke(this, text);
     }
 }

@@ -9,11 +9,11 @@ using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.RestClients;
-
+using Repo2.Core.ns11.ChangeNotification;
 
 namespace Repo2.Core.ns11.PackageDownloaders
 {
-    public class LocalPackageFileUpdater1 : ILocalPackageFileUpdater
+    public class LocalPackageFileUpdater1 : StatusChanger, ILocalPackageFileUpdater
     {
         private      EventHandler<string> _targetUpdated;
         public event EventHandler<string>  TargetUpdated
@@ -22,12 +22,12 @@ namespace Repo2.Core.ns11.PackageDownloaders
             remove { _targetUpdated -= value; }
         }
 
-        private      EventHandler<string> _statusChanged;
-        public event EventHandler<string>  StatusChanged
-        {
-            add    { _statusChanged -= value; _statusChanged += value; }
-            remove { _statusChanged -= value; }
-        }
+        //private      EventHandler<string> _statusChanged;
+        //public event EventHandler<string>  StatusChanged
+        //{
+        //    add    { _statusChanged -= value; _statusChanged += value; }
+        //    remove { _statusChanged -= value; }
+        //}
 
 
         private IRemotePackageManager   _remote;
@@ -194,8 +194,8 @@ namespace Repo2.Core.ns11.PackageDownloaders
             => _targetUpdated?.Invoke(this, TargetPath);
 
 
-        private void SetStatus(string text)
-            => _statusChanged?.Invoke(this, text);
+        //private void SetStatus(string text)
+        //    => _statusChanged?.Invoke(this, text);
 
 
         public void SetTargetFile(string targetFilePath)

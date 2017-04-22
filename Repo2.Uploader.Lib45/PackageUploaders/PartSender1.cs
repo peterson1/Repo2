@@ -12,15 +12,8 @@ using Repo2.SDK.WPF45.Extensions.FileInfoExtensions;
 
 namespace Repo2.Uploader.Lib45.PackageUploaders
 {
-    public class PartSender1 : IPartSender
+    public class PartSender1 : StatusChanger, IPartSender
     {
-        private      EventHandler<string> _statusChanged;
-        public event EventHandler<string>  StatusChanged
-        {
-            add    { _statusChanged -= value; _statusChanged += value; }
-            remove { _statusChanged -= value; }
-        }
-
         private IPackagePartManager _partMgr;
         private IFileSystemAccesor  _fileIO;
 
@@ -52,9 +45,5 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
                     throw new Exception(reply.ErrorsText);
             }
         }
-
-
-        private void SetStatus(string text)
-            => _statusChanged?.Invoke(this, text);
     }
 }
