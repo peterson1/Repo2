@@ -209,7 +209,7 @@ namespace Repo2.SDK.WPF45.FileSystems
             => Chain(DesktopDir, filename);
 
         public string GetBesideExeFilePath(string filename)
-            => Chain(BesideExeDir, filename);
+            => Chain(CurrentExeDir, filename);
 
         public string GetAppDataFilePath(string subFoldername, string filename, string parentDir)
             => Chain(AppDataDir, parentDir, subFoldername, filename);
@@ -217,8 +217,9 @@ namespace Repo2.SDK.WPF45.FileSystems
 
         public string AppDataDir        => GetFolderPath(SpecialFolder.LocalApplicationData);
         public string DesktopDir        => GetFolderPath(SpecialFolder.DesktopDirectory);
-        public string BesideExeDir      => GetBesideExeFileDir();
+        //public string BesideExeDir      => GetBesideExeFileDir();
         public string CurrentExeFile    => Assembly.GetEntryAssembly()?.Location;
+        public string CurrentExeDir     => GetBesideExeFileDir();
         public string CurrentExeVersion => GetFileVersion(CurrentExeFile);
 
         private string GetBesideExeFileDir()
