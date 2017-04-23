@@ -49,8 +49,8 @@
     <Compile Include="Comparisons\PropertyComparerBase.cs" />
     <Compile Include="Compression\IFileArchiver.cs" />
     <Compile Include="Databases\ILocalDatabase.cs" />
-    <Compile Include="DataStructures\EventRow.cs" />
-    <Compile Include="DataStructures\EventRows.cs" />
+    <Compile Include="DataStructures\SubjectValueMod.cs" />
+    <Compile Include="DataStructures\SubjectAlterations.cs" />
     <Compile Include="DataStructures\IBase64Content.cs" />
     <Compile Include="DataStructures\IRange.cs" />
     <Compile Include="DataStructures\NodeReply.cs" />
@@ -134,6 +134,7 @@
     <Compile Include="RestExportViews\PartsByPkgName1.cs" />
     <Compile Include="RestExportViews\PingsForCurrentUser1.cs" />
     <Compile Include="Serialization\IR2Serializer.cs" />
+    <Compile Include="Threads\NewThread.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data">
