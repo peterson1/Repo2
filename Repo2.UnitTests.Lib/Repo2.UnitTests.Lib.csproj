@@ -108,6 +108,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="SDK.WPF45.Tests\Compression\sample_4.6mb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

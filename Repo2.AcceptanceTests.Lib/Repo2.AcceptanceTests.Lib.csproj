@@ -100,6 +100,7 @@
     <Compile Include="UploaderRestrictionsSuite\GetValidUploaderCredentials.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="FitNesse\FitNesseRoot\properties" />
     <None Include="FitNesse\start_server.bat" />
     <None Include="packages.config" />
