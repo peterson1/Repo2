@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Repo2.Core.ns11.DomainModels;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Repo2.Core.ns11.DomainModels;
 
 namespace Repo2.Core.ns11.FileSystems
 {
@@ -34,6 +34,7 @@ namespace Repo2.Core.ns11.FileSystems
         string       GetAppDataFilePath      (string subFoldername, string filename, string parentDir = "Repo2");
 
         string       CurrentExeFile      { get; }
+        string       CurrentExeDir       { get; }
         string       CurrentExeVersion   { get; }
 
         string       ReadBase64    (string filePath);
