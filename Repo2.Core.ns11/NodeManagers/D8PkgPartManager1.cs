@@ -91,7 +91,7 @@ namespace Repo2.Core.ns11.NodeManagers
                 var reply = await _client.DeleteNode(item.nid, cancelTkn);
                 if (reply.Failed) return reply;
             }
-            return Reply.Success;
+            return Reply.Success();
         }
 
 
