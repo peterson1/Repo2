@@ -16,7 +16,9 @@ namespace Repo2.Core.ns11.DataStructures
         public string  ErrorsText    => Errors.Join(L.f);
         public string  WarningsText  => Warnings.Join(L.f);
 
-        public static Reply Success => new Reply();
+        public static Reply Success() => new Reply();
+
+        public static Reply<T> Success<T>(T result) => new Reply<T>(result);
 
         public static Reply Error(string errorMessage)
         {
