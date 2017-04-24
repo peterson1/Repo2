@@ -167,17 +167,17 @@ namespace Repo2.Core.ns11.RestClients
 
         #region Authentication
 
-        public bool          IsEnablingWriteAccess          => _auth.IsEnablingWriteAccess;
-        protected string        CsrfToken                      => _auth.CsrfToken;
-        protected R2Credentials Creds                          => _auth.Creds;
-        public    void          StopEnablingWriteAccess()      => _auth.StopEnablingWriteAccess();
-        protected string        ToAbsolute(string resourceURL) => _auth.ToAbsolute(resourceURL);
-        public    Task<bool>    DisableWriteAccess()           => _auth.DisableWriteAccess();
+        public bool              IsEnablingWriteAccess          => _auth.IsEnablingWriteAccess;
+        protected string         CsrfToken                      => _auth.CsrfToken;
+        protected IR2Credentials Creds                          => _auth.Creds;
+        public    void           StopEnablingWriteAccess()      => _auth.StopEnablingWriteAccess();
+        protected string         ToAbsolute(string resourceURL) => _auth.ToAbsolute(resourceURL);
+        public    Task<bool>     DisableWriteAccess()           => _auth.DisableWriteAccess();
 
-        public void SetCredentials(R2Credentials credentials, bool addCertToWhiteList)
+        public void SetCredentials(IR2Credentials credentials, bool addCertToWhiteList)
             => _auth.SetCredentials(credentials, addCertToWhiteList);
 
-        public Task<bool> EnableWriteAccess(R2Credentials credentials, bool addCertToWhiteList)
+        public Task<bool> EnableWriteAccess(IR2Credentials credentials, bool addCertToWhiteList)
             => _auth.EnableWriteAccess(credentials, addCertToWhiteList);
 
 

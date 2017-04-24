@@ -16,9 +16,9 @@ namespace Repo2.Core.ns11.Authentication
         private CancellationTokenSource _cancelr;
         private D8Cookie _cookie;
 
-        internal string         CsrfToken                { get; private set; }
-        internal R2Credentials  Creds                    { get; private set; }
-        internal bool           IsEnablingWriteAccess    { get; private set; }
+        internal string          CsrfToken                { get; private set; }
+        internal IR2Credentials  Creds                    { get; private set; }
+        internal bool            IsEnablingWriteAccess    { get; private set; }
 
 
         public R2RestClientAuthenticator(R2RestClientBase r2RestClientBase)
@@ -27,7 +27,7 @@ namespace Repo2.Core.ns11.Authentication
         }
 
 
-        internal void SetCredentials(R2Credentials credentials, bool addCertToWhiteList)
+        internal void SetCredentials(IR2Credentials credentials, bool addCertToWhiteList)
         {
             if (credentials != null)
                 Creds = credentials;
@@ -37,7 +37,7 @@ namespace Repo2.Core.ns11.Authentication
         }
 
 
-        internal async Task<bool> EnableWriteAccess(R2Credentials credentials, bool addCertToWhiteList)
+        internal async Task<bool> EnableWriteAccess(IR2Credentials credentials, bool addCertToWhiteList)
         {
             _cancelr = new CancellationTokenSource();
             IsEnablingWriteAccess = true;
@@ -56,7 +56,7 @@ namespace Repo2.Core.ns11.Authentication
         }
 
 
-        private async Task<bool> RequestWriteAccess(R2Credentials credentials, 
+        private async Task<bool> RequestWriteAccess(IR2Credentials credentials, 
             CancellationToken cancelTkn, bool addCertToWhiteList)
         {
             CsrfToken = string.Empty;

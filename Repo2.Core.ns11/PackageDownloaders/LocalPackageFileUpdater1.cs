@@ -210,7 +210,7 @@ namespace Repo2.Core.ns11.PackageDownloaders
         }
 
 
-        public void SetCredentials(R2Credentials credentials, bool addCertToWhiteList)
+        public void SetCredentials(IR2Credentials credentials, bool addCertToWhiteList)
         {
             SetStatus($"Using credentials for “{credentials.Username}”");
             _client.SetCredentials(credentials, addCertToWhiteList);

@@ -2,7 +2,7 @@
 
 namespace Repo2.Core.ns11.Authentication
 {
-    public class R2Credentials
+    public class R2Credentials : IR2Credentials
     {
         public string  Username             { get; set; }
         public string  Password             { get; set; }
