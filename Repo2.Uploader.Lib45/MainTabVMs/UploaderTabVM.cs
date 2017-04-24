@@ -14,7 +14,7 @@ namespace Repo2.Uploader.Lib45.MainTabVMs
     [ImplementPropertyChanged]
     public class UploaderTabVM
     {
-        private string _pkgPath;
+        //private string _pkgPath;
 
         public UploaderTabVM(IR2RestClient restClient,
                              IPackageUploader packageUploader,

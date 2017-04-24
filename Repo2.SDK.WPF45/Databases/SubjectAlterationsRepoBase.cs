@@ -1,12 +1,16 @@
 ﻿using LiteDB;
+using Repo2.Core.ns11.Databases;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.FileSystems;
+using Repo2.Core.ns11.Threads;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Repo2.SDK.WPF45.Databases
 {
-    public abstract class ChangesRepoWriterBase
+    public abstract class SubjectAlterationsRepoBase : ISubjectAlterationsDB
     {
         private string _dbPath;
 
@@ -14,7 +18,7 @@ namespace Repo2.SDK.WPF45.Databases
         protected abstract string  CollectionName  { get; }
 
 
-        public ChangesRepoWriterBase(IFileSystemAccesor fs)
+        public SubjectAlterationsRepoBase(IFileSystemAccesor fs)
         {
             _dbPath = Path.Combine(fs.CurrentExeDir, DbFileName);
         }
@@ -24,7 +28,7 @@ namespace Repo2.SDK.WPF45.Databases
         {
             var newId = InsertSeedRow(mods);
 
-            await Task.Run(() =>
+            await NewThread.WaitFor(() =>
             {
                 using (var db = new LiteDatabase(_dbPath))
                 {
@@ -41,11 +45,30 @@ namespace Repo2.SDK.WPF45.Databases
                         trans.Commit();
                     }
                 }
-            }
-            ).ConfigureAwait(false);
+            });
 
             return newId;
         }
+
+
+
+        public async Task<IEnumerable<SubjectValueMod>> GetAllMods(int subjectId)
+        {
+            using (var db = new LiteDatabase(_dbPath))
+            {
+                var col = db.GetCollection<SubjectValueMod>(CollectionName);
+
+                await NewThread.WaitFor(()
+                    => col.EnsureIndex(m => m.SubjectID));
+
+                var mods = await NewThread.WaitFor(()
+                    => col.Find(_ => _.SubjectID == subjectId));
+
+                return mods.OrderBy(x => x.Timestamp).ToList();
+            }
+        }
+
+
 
         /// <summary>
         /// Stores just one (1) row from the list.

@@ -146,9 +146,10 @@
     <Compile Include="Converters\VisibleIfNullConverter.cs" />
     <Compile Include="Converters\VisibleIfTrueConverter.cs" />
     <Compile Include="Converters\ZeroToVisibleConverterBase.cs" />
-    <Compile Include="Databases\ChangesRepoWriterBase.cs" />
+    <Compile Include="Databases\SubjectAlterationsRepoBase.cs" />
     <Compile Include="Databases\LocalDatabase1.cs" />
     <Compile Include="Databases\MariaDbRecovery.cs" />
+    <Compile Include="Databases\SubjectSnapshotsRepoBase.cs" />
     <Compile Include="EmbeddedResources\EmbeddedResrc.cs" />
     <Compile Include="Encryption\AESThenHMAC.cs" />
     <Compile Include="ExcelTools\BorderWriter1.cs" />
