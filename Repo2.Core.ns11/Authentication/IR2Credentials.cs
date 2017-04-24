@@ -10,6 +10,6 @@ namespace Repo2.Core.ns11.Authentication
         string   CertificateThumb     { get; }
         int      CheckIntervalSeconds { get; }
 
-        TimeSpan CheckInterval        { get; }
+        //TimeSpan CheckInterval        { get; }
     }
 }

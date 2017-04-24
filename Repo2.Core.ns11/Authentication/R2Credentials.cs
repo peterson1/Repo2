@@ -10,7 +10,7 @@ namespace Repo2.Core.ns11.Authentication
         public string  CertificateThumb     { get; set; }
         public int     CheckIntervalSeconds { get; set; }
 
-        public TimeSpan CheckInterval 
-            => TimeSpan.FromSeconds(CheckIntervalSeconds);
+        //public TimeSpan CheckInterval 
+        //    => TimeSpan.FromSeconds(CheckIntervalSeconds);
     }
 }
