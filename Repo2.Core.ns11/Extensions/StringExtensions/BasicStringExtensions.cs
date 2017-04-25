@@ -221,5 +221,12 @@ namespace Repo2.Core.ns11.Extensions.StringExtensions
                 return source;
             return source.Substring(source.Length - tail_length);
         }
+
+
+        public static List<string> SplitTrim(this string text, string separator)
+        {
+            var split = text.Split(new string[] { separator }, StringSplitOptions.RemoveEmptyEntries);
+            return split.Select(x => x.Trim()).ToList();
+        }
     }
 }
