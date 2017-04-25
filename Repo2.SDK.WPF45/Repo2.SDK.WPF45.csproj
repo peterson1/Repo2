@@ -260,6 +260,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\DatagridTheme2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\FontAwesomeButtonTheme1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
