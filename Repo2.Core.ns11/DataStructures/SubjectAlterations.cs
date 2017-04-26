@@ -17,7 +17,7 @@ namespace Repo2.Core.ns11.DataStructures
             Add(new SubjectValueMod
             {
                 Timestamp  = DateTime.Now,
-                UserID     = this.UserID,
+                ActorID     = this.UserID,
                 SubjectID  = this.SubjectID,
                 FieldName  = fieldName,
                 NewValue   = newValue
