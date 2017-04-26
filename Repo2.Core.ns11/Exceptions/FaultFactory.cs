@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Repo2.Core.ns11.Extensions.StringExtensions;
+using System.Runtime.CompilerServices;
 
 namespace Repo2.Core.ns11.Exceptions
 {
@@ -34,6 +35,11 @@ namespace Repo2.Core.ns11.Exceptions
         public static InvalidOperationException BadCall(string requiredMethod, string attemptedMethod)
             => new InvalidOperationException(
                 $"Please call [{requiredMethod}()] before calling [{attemptedMethod}()].");
+
+
+        public static ArgumentException BadArg(string parameterName, string reasonPhrase, [CallerMemberName] string caller = "")
+            => new ArgumentException(
+                $"Method “{caller}()” expects parameter “{parameterName}” to {reasonPhrase}.");
 
 
         public static FileNotFoundException Missing(string fileDescription, string filePath)
