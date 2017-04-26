@@ -137,7 +137,6 @@
     <Compile Include="RestExportViews\PartsByPkgHash1.cs" />
     <Compile Include="RestExportViews\PartsByPkgName1.cs" />
     <Compile Include="RestExportViews\PingsForCurrentUser1.cs" />
-    <Compile Include="RestExportViews\UserInfoByAuthToken.cs" />
     <Compile Include="Serialization\IR2Serializer.cs" />
     <Compile Include="Threads\NewThread.cs" />
   </ItemGroup>
