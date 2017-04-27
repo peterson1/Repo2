@@ -12,6 +12,8 @@ namespace Repo2.SDK.WPF45.Databases
     {
         private string                _snapsDbPath;
         private ISubjectAlterationsDB _modsDB;
+        private BsonMapper            _mapr;
+
 
         protected abstract string  DbFileName      { get; }
         protected abstract string  CollectionName  { get; }
@@ -20,6 +22,7 @@ namespace Repo2.SDK.WPF45.Databases
         public SubjectSnapshotsRepoBase(IFileSystemAccesor fs, 
                                         ISubjectAlterationsDB subjectAlterationsDB)
         {
+            _mapr        = BsonMapper.Global;
             _modsDB      = subjectAlterationsDB;
             _snapsDbPath = Path.Combine(fs.CurrentExeDir, DbFileName);
         }
@@ -50,7 +53,7 @@ namespace Repo2.SDK.WPF45.Databases
 
         private void AddToCache<T>(T snapshot) where T : ISubjectSnapshot, new()
         {
-            using (var db = new LiteDatabase(_snapsDbPath))
+            using (var db = new LiteDatabase(_snapsDbPath, _mapr))
             {
                 var col = db.GetCollection<T>(CollectionName);
                 col.Insert(snapshot.SubjectId, snapshot);
@@ -61,7 +64,7 @@ namespace Repo2.SDK.WPF45.Databases
         private bool TryGetCached<T>(int subjectId, out T snapshot) 
             where T : ISubjectSnapshot, new()
         {
-            using (var db = new LiteDatabase(_snapsDbPath))
+            using (var db = new LiteDatabase(_snapsDbPath, _mapr))
             {
                 var col   = db.GetCollection<T>(CollectionName);
                 col.EnsureIndex(s => s.SubjectId, true);

@@ -12,7 +12,8 @@ namespace Repo2.SDK.WPF45.Databases
 {
     public abstract class SubjectAlterationsRepoBase : ISubjectAlterationsDB
     {
-        private string _dbPath;
+        private string     _dbPath;
+        private BsonMapper _mapr;
 
         protected abstract string  DbFileName      { get; }
         protected abstract string  CollectionName  { get; }
@@ -21,6 +22,7 @@ namespace Repo2.SDK.WPF45.Databases
         public SubjectAlterationsRepoBase(IFileSystemAccesor fs)
         {
             _dbPath = Path.Combine(fs.CurrentExeDir, DbFileName);
+            _mapr   = BsonMapper.Global;
         }
 
 
@@ -30,7 +32,7 @@ namespace Repo2.SDK.WPF45.Databases
 
             await NewThread.WaitFor(() =>
             {
-                using (var db = new LiteDatabase(_dbPath))
+                using (var db = new LiteDatabase(_dbPath, _mapr))
                 {
                     var col = db.GetCollection<SubjectValueMod>(CollectionName);
 
@@ -54,7 +56,7 @@ namespace Repo2.SDK.WPF45.Databases
 
         public async Task<IEnumerable<SubjectValueMod>> GetAllMods(int subjectId)
         {
-            using (var db = new LiteDatabase(_dbPath))
+            using (var db = new LiteDatabase(_dbPath, _mapr))
             {
                 var col = db.GetCollection<SubjectValueMod>(CollectionName);
 
@@ -89,7 +91,7 @@ namespace Repo2.SDK.WPF45.Databases
 
         private void InsertSolo(SubjectValueMod eventRow)
         {
-            using (var db = new LiteDatabase(_dbPath))
+            using (var db = new LiteDatabase(_dbPath, _mapr))
             {
                 var col = db.GetCollection<SubjectValueMod>(CollectionName);
                 col.Insert(eventRow);
@@ -99,7 +101,7 @@ namespace Repo2.SDK.WPF45.Databases
 
         private int GetNextSubjectId()
         {
-            using (var db = new LiteDatabase(_dbPath))
+            using (var db = new LiteDatabase(_dbPath, _mapr))
             {
                 var col = db.GetCollection<SubjectValueMod>(CollectionName);
                 if (col.Count() == 0) return 1;
