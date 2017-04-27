@@ -32,7 +32,7 @@ namespace Repo2.Core.ns11.Exceptions
                 $"Expected list of {listDescription} to contain a SINGLE item, but found [{actualItemCount}].");
 
 
-        public static InvalidOperationException BadCall(string requiredMethod, string attemptedMethod)
+        public static InvalidOperationException BadCall(string requiredMethod, [CallerMemberName] string attemptedMethod = "")
             => new InvalidOperationException(
                 $"Please call [{requiredMethod}()] before calling [{attemptedMethod}()].");
 
