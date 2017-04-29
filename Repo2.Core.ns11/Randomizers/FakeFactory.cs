@@ -194,6 +194,10 @@ namespace Repo2.Core.ns11.Randomizers
         public string Text => this.Word + " " + this.Word + " " + this.Word;
 
         public string Email => this.Word + "@" + this.Word + "." + this.Syllable;
+
+
+
+
         public string Street => "#" + this.Int(1, 999) + " " + this.ProperNoun + " St.";
 
         public string School
@@ -217,6 +221,9 @@ namespace Repo2.Core.ns11.Randomizers
                 return propr + " " + suffixes.RandomItem();
             }
         }
+
+        public string Address()
+            => $"{Street}, {ProperNoun} Village,{L.f}{ProperNoun}, {ProperNoun}";
 
 
 
