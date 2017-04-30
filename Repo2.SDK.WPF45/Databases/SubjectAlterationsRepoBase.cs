@@ -1,8 +1,10 @@
 ﻿using LiteDB;
+using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.Databases;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.Threads;
+using Repo2.SDK.WPF45.ChangeNotification;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Repo2.SDK.WPF45.Databases
 {
-    public abstract class SubjectAlterationsRepoBase : ISubjectAlterationsDB
+    public abstract class SubjectAlterationsRepoBase : StatusChangerN45, ISubjectAlterationsDB
     {
         private string     _dbPath;
         private BsonMapper _mapr;

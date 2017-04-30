@@ -1,14 +1,15 @@
-﻿using Repo2.Core.ns11.Databases;
+﻿using LiteDB;
+using Repo2.Core.ns11.ChangeNotification;
+using Repo2.Core.ns11.Databases;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.FileSystems;
+using Repo2.SDK.WPF45.ChangeNotification;
 using System.IO;
 using System.Threading.Tasks;
-using System;
-using LiteDB;
 
 namespace Repo2.SDK.WPF45.Databases
 {
-    public abstract class SubjectSnapshotsRepoBase : ISubjectSnapshotsDB
+    public abstract class SubjectSnapshotsRepoBase : StatusChangerN45, ISubjectSnapshotsDB
     {
         private string                _snapsDbPath;
         private ISubjectAlterationsDB _modsDB;
