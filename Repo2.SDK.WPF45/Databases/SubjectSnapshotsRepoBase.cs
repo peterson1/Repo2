@@ -1,15 +1,13 @@
 ﻿using LiteDB;
-using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.Databases;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.SDK.WPF45.ChangeNotification;
-using System.IO;
-using System.Threading.Tasks;
-using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Repo2.SDK.WPF45.Databases
 {
@@ -40,7 +38,7 @@ namespace Repo2.SDK.WPF45.Databases
             if (_snapsDbPath.IsBlank())
                 _snapsDbPath = LocateDatabaseFile();
 
-            return new LiteDatabase(_snapsDbPath);
+            return new LiteDatabase(ConnectString.LiteDB(_snapsDbPath));
         }
 
 

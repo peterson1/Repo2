@@ -49,6 +49,7 @@
     <Compile Include="ChangeNotification\StatusText.cs" />
     <Compile Include="Comparisons\PropertyComparerBase.cs" />
     <Compile Include="Compression\IFileArchiver.cs" />
+    <Compile Include="Databases\ConnectString.cs" />
     <Compile Include="Databases\ILocalDatabase.cs" />
     <Compile Include="Databases\ISubjectAlterationsDB.cs" />
     <Compile Include="Databases\ISubjectSnapshotsDB.cs" />

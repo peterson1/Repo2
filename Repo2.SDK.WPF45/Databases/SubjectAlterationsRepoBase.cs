@@ -5,7 +5,6 @@ using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.Threads;
 using Repo2.SDK.WPF45.ChangeNotification;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -33,7 +32,7 @@ namespace Repo2.SDK.WPF45.Databases
             if (_dbPath.IsBlank())
                 _dbPath = LocateDatabaseFile();
 
-            return new LiteDatabase(_dbPath);
+            return new LiteDatabase(ConnectString.LiteDB(_dbPath));
         }
 
 
