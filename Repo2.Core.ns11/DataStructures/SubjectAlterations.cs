@@ -16,11 +16,11 @@ namespace Repo2.Core.ns11.DataStructures
         {
             Add(new SubjectValueMod
             {
-                Timestamp  = DateTime.Now,
-                ActorID    = this.ActorID,
-                SubjectID  = this.SubjectID,
-                FieldName  = fieldName,
-                NewValue   = newValue
+                Timestamp = DateTime.Now,
+                ActorID   = this.ActorID,
+                SubjectID = this.SubjectID,
+                FieldName = fieldName,
+                NewValue  = newValue
             });
         }
 

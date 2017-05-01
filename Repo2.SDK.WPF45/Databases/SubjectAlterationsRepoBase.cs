@@ -1,10 +1,11 @@
 ﻿using LiteDB;
-using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.Databases;
 using Repo2.Core.ns11.DataStructures;
+using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.Threads;
 using Repo2.SDK.WPF45.ChangeNotification;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,17 +15,33 @@ namespace Repo2.SDK.WPF45.Databases
 {
     public abstract class SubjectAlterationsRepoBase : StatusChangerN45, ISubjectAlterationsDB
     {
-        private string     _dbPath;
-        private BsonMapper _mapr;
+        private string             _dbPath;
+        private IFileSystemAccesor _fs;
 
         protected abstract string  DbFileName      { get; }
         protected abstract string  CollectionName  { get; }
 
 
-        public SubjectAlterationsRepoBase(IFileSystemAccesor fs)
+        public SubjectAlterationsRepoBase(IFileSystemAccesor fileSystemAccesor)
         {
-            _dbPath = Path.Combine(fs.CurrentExeDir, DbFileName);
-            _mapr   = BsonMapper.Global;
+            _fs = fileSystemAccesor;
+        }
+
+
+        private LiteDatabase CreateConnection()
+        {
+            if (_dbPath.IsBlank())
+                _dbPath = LocateDatabaseFile();
+
+            return new LiteDatabase(_dbPath);
+        }
+
+
+        private string LocateDatabaseFile()
+        {
+            var path = Path.Combine(_fs.CurrentExeDir, DbFileName);
+            _fs.CreateDir(Path.GetDirectoryName(path));
+            return path;
         }
 
 
@@ -34,7 +51,7 @@ namespace Repo2.SDK.WPF45.Databases
 
             await NewThread.WaitFor(() =>
             {
-                using (var db = new LiteDatabase(_dbPath, _mapr))
+                using (var db = CreateConnection())
                 {
                     var col = db.GetCollection<SubjectValueMod>(CollectionName);
 
@@ -58,7 +75,7 @@ namespace Repo2.SDK.WPF45.Databases
 
         public async Task<IEnumerable<SubjectValueMod>> GetAllMods(int subjectId)
         {
-            using (var db = new LiteDatabase(_dbPath, _mapr))
+            using (var db = CreateConnection())
             {
                 var col = db.GetCollection<SubjectValueMod>(CollectionName);
 
@@ -67,6 +84,9 @@ namespace Repo2.SDK.WPF45.Databases
 
                 var mods = await NewThread.WaitFor(()
                     => col.Find(_ => _.SubjectID == subjectId));
+
+                if (mods == null || !mods.Any())
+                    return new List<SubjectValueMod>();
 
                 return mods.OrderBy(x => x.Timestamp).ToList();
             }
@@ -93,7 +113,7 @@ namespace Repo2.SDK.WPF45.Databases
 
         private void InsertSolo(SubjectValueMod eventRow)
         {
-            using (var db = new LiteDatabase(_dbPath, _mapr))
+            using (var db = CreateConnection())
             {
                 var col = db.GetCollection<SubjectValueMod>(CollectionName);
                 col.Insert(eventRow);
@@ -101,9 +121,9 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        private int GetNextSubjectId()
+        public int GetNextSubjectId()
         {
-            using (var db = new LiteDatabase(_dbPath, _mapr))
+            using (var db = CreateConnection())
             {
                 var col = db.GetCollection<SubjectValueMod>(CollectionName);
                 if (col.Count() == 0) return 1;

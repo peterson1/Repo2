@@ -9,5 +9,6 @@ namespace Repo2.Core.ns11.Databases
     {
         Task<int>                           CreateNewSubject (SubjectAlterations mods);
         Task<IEnumerable<SubjectValueMod>>  GetAllMods       (int subjectId);
+        int                                 GetNextSubjectId ();
     }
 }
