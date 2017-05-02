@@ -9,6 +9,7 @@ namespace Repo2.Core.ns11.DataStructures
 
         public abstract void ApplyAlterations(IEnumerable<SubjectValueMod> mods);
 
+        public abstract SubjectAlterations ListAlterations(int actorId);
 
         protected T Last<T>(string fieldName, List<IGrouping<string, SubjectValueMod>> grpd)
         {
