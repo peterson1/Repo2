@@ -15,7 +15,12 @@ namespace Repo2.Core.ns11.DataStructures
         {
             var fGrp = grpd.SingleOrDefault(x => x.Key == fieldName);
             if (fGrp == null) return default(T);
-            return (T)fGrp.Last().NewValue;
+            var objVal = fGrp.Last().NewValue;
+
+            if (typeof(T) == typeof(ulong))
+                return (T)((object)ulong.Parse(objVal.ToString()));
+            else
+                return (T)objVal;
         }
     }
 }
