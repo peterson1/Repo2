@@ -44,7 +44,7 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        public async Task<int> CreateNewSubject(SubjectAlterations mods)
+        public async Task<uint> CreateNewSubject(SubjectAlterations mods)
         {
             var newId = InsertSeedRow(mods);
 
@@ -72,7 +72,7 @@ namespace Repo2.SDK.WPF45.Databases
 
 
 
-        public async Task<IEnumerable<SubjectValueMod>> GetAllMods(int subjectId)
+        public async Task<IEnumerable<SubjectValueMod>> GetAllMods(uint subjectId)
         {
             using (var db = CreateConnection())
             {
@@ -100,7 +100,7 @@ namespace Repo2.SDK.WPF45.Databases
         /// <param name="mods"></param>
         /// <param name="rowIndexForSeed"></param>
         /// <returns></returns>
-        private int InsertSeedRow(SubjectAlterations mods, int rowIndexForSeed = 0)
+        private uint InsertSeedRow(SubjectAlterations mods, int rowIndexForSeed = 0)
         {
             var newId      = GetNextSubjectId();
             var seed       = mods[rowIndexForSeed];
@@ -120,7 +120,7 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        public int GetNextSubjectId()
+        public uint GetNextSubjectId()
         {
             using (var db = CreateConnection())
             {
@@ -128,7 +128,8 @@ namespace Repo2.SDK.WPF45.Databases
                 if (col.Count() == 0) return 1;
 
                 col.EnsureIndex(e => e.SubjectID, false);
-                return col.Max(e => e.SubjectID) + 1;
+                var bsonVal = col.Max(e => e.SubjectID);
+                return (uint)(bsonVal.AsInt64 + 1);
             }
         }
     }

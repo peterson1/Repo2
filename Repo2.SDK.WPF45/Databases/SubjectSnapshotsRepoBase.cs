@@ -50,7 +50,7 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        public async Task<T> GetLatestSnapshot<T>(int subjectId)
+        public async Task<T> GetLatestSnapshot<T>(uint subjectId)
             where T : ISubjectSnapshot, new()
         {
             if (TryGetCached(subjectId, out T snapshot))
@@ -64,7 +64,7 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        private async Task<T> QueryAndComposeLatestSnapshot<T>(int subjectId) where T : ISubjectSnapshot, new()
+        private async Task<T> QueryAndComposeLatestSnapshot<T>(uint subjectId) where T : ISubjectSnapshot, new()
         {
             var allMods = await _modsDB.GetAllMods(subjectId);
             if (allMods == null || !allMods.Any()) return default(T);
@@ -79,19 +79,19 @@ namespace Repo2.SDK.WPF45.Databases
             using (var db = CreateConnection())
             {
                 var col = db.GetCollection<T>(CollectionName);
-                col.Insert(snapshot.SubjectId, snapshot);
+                col.Insert((long)snapshot.SubjectId, snapshot);
             }
         }
 
 
-        private bool TryGetCached<T>(int subjectId, out T snapshot) 
+        private bool TryGetCached<T>(uint subjectId, out T snapshot) 
             where T : ISubjectSnapshot, new()
         {
             using (var db = CreateConnection())
             {
                 var col   = db.GetCollection<T>(CollectionName);
                 col.EnsureIndex(s => s.SubjectId, true);
-                var match = col.FindById(subjectId);
+                var match = col.FindById((long)subjectId);
                 snapshot  = match;
                 return snapshot != null;
             }
@@ -104,7 +104,7 @@ namespace Repo2.SDK.WPF45.Databases
             var nextId = _modsDB.GetNextSubjectId();
             if (nextId == 1) return list;
 
-            for (int i = 1; i < nextId; i++)
+            for (uint i = 1; i < nextId; i++)
             {
                 var item = await this.GetLatestSnapshot<T>(i);
                 if (item != null) list.Add(item);

@@ -5,7 +5,7 @@ namespace Repo2.Core.ns11.DataStructures
 {
     public class SubjectAlterations : List<SubjectValueMod>
     {
-        public SubjectAlterations(int actorId, int subjectId)
+        public SubjectAlterations(int actorId, uint subjectId)
         {
             ActorID   = actorId;
             SubjectID = subjectId;
@@ -25,7 +25,7 @@ namespace Repo2.Core.ns11.DataStructures
         }
 
 
-        public int  ActorID    { get; }
-        public int  SubjectID  { get; }
+        public int   ActorID    { get; }
+        public uint  SubjectID  { get; }
     }
 }

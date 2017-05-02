@@ -5,7 +5,7 @@ namespace Repo2.Core.ns11.DataStructures
 {
     public abstract class SubjectSnapshotBase : ISubjectSnapshot
     {
-        public abstract int SubjectId { get; }
+        public abstract uint SubjectId { get; }
 
         public abstract void ApplyAlterations(IEnumerable<SubjectValueMod> mods);
 

@@ -7,7 +7,7 @@ namespace Repo2.Core.ns11.Databases
 {
     public interface ISubjectSnapshotsDB : IStatusChanger
     {
-        Task<T> GetLatestSnapshot<T>(int subjectId)
+        Task<T> GetLatestSnapshot<T>(uint subjectId)
             where T : ISubjectSnapshot, new();
 
         Task<List<T>> GetAll<T>()
