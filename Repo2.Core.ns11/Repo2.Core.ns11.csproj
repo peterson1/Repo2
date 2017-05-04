@@ -54,7 +54,6 @@
     <Compile Include="Databases\ISubjectAlterationsDB.cs" />
     <Compile Include="Databases\ISubjectSnapshotsDB.cs" />
     <Compile Include="DataStructures\ISubjectSnapshot.cs" />
-    <Compile Include="DataStructures\SubjectSnapshotBase.cs" />
     <Compile Include="DataStructures\SubjectValueMod.cs" />
     <Compile Include="DataStructures\SubjectAlterations.cs" />
     <Compile Include="DataStructures\IBase64Content.cs" />
@@ -88,6 +87,7 @@
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions\BasicStringExtensions.cs" />
     <Compile Include="Extensions\StringExtensions\HashExtensions.cs" />
+    <Compile Include="Extensions\SubjectSnapshotExtensions\SubjectValueModExtensions.cs" />
     <Compile Include="Extensions\SystemDataExtensions.cs" />
     <Compile Include="FileSystems\IFileSystemAccesor.cs" />
     <Compile Include="HashLib\Crypto\SHA0.cs" />

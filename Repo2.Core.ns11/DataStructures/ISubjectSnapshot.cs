@@ -4,8 +4,9 @@ namespace Repo2.Core.ns11.DataStructures
 {
     public interface ISubjectSnapshot
     {
-        uint SubjectId { get; }
+        uint Id { get; }
 
-        void ApplyAlterations(IEnumerable<SubjectValueMod> mods);
+        void                ApplyAlterations  (IEnumerable<SubjectValueMod> mods);
+        SubjectAlterations  ListAlterations   (int actorId);
     }
 }
