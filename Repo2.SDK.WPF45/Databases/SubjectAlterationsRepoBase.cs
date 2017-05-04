@@ -51,7 +51,7 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        public async Task<uint> CreateNewSubject(SubjectAlterations mods)
+        public uint CreateNewSubject(SubjectAlterations mods)
         {
             var withValues = mods.Where(x => HasValue(x)).ToList();
             if (!withValues.Any())
@@ -59,25 +59,21 @@ namespace Repo2.SDK.WPF45.Databases
 
             var newId = InsertSeedRow(withValues);
 
-            await NewThread.WaitFor(() =>
+            using (var db = CreateConnection())
             {
-                using (var db = CreateConnection())
+                var col = db.GetCollection<SubjectValueMod>(CollectionName);
+
+                using (var trans = db.BeginTrans())
                 {
-                    var col = db.GetCollection<SubjectValueMod>(CollectionName);
-
-                    using (var trans = db.BeginTrans())
+                    for (int i = 1; i < withValues.Count; i++)
                     {
-                        for (int i = 1; i < withValues.Count; i++)
-                        {
-                            var row = withValues[i];
-                            row.SubjectID = newId;
-                            col.Insert(row);
-                        }
-                        trans.Commit();
+                        var row = withValues[i];
+                        row.SubjectID = newId;
+                        col.Insert(row);
                     }
+                    trans.Commit();
                 }
-            });
-
+            }
             return newId;
         }
 
@@ -90,24 +86,24 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        public async Task<IEnumerable<SubjectValueMod>> GetAllModsAsync(uint subjectId)
-        {
-            using (var db = CreateConnection())
-            {
-                var col = db.GetCollection<SubjectValueMod>(CollectionName);
+        //public async Task<IEnumerable<SubjectValueMod>> GetAllModsAsync(uint subjectId)
+        //{
+        //    using (var db = CreateConnection())
+        //    {
+        //        var col = db.GetCollection<SubjectValueMod>(CollectionName);
 
-                await NewThread.WaitFor(()
-                    => col.EnsureIndex(m => m.SubjectID));
+        //        await NewThread.WaitFor(()
+        //            => col.EnsureIndex(m => m.SubjectID));
 
-                var mods = await NewThread.WaitFor(()
-                    => col.Find(_ => _.SubjectID == subjectId));
+        //        var mods = await NewThread.WaitFor(()
+        //            => col.Find(_ => _.SubjectID == subjectId));
 
-                if (mods == null || !mods.Any())
-                    return new List<SubjectValueMod>();
+        //        if (mods == null || !mods.Any())
+        //            return new List<SubjectValueMod>();
 
-                return mods.OrderBy(x => x.Timestamp).ToList();
-            }
-        }
+        //        return mods.OrderBy(x => x.Timestamp).ToList();
+        //    }
+        //}
 
 
         public List<SubjectValueMod> GetAllMods(uint subjectId)

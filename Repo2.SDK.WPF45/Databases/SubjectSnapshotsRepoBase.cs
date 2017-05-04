@@ -49,13 +49,13 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        public async Task<T> GetLatestSnapshot<T>(uint subjectId)
+        public T GetLatestSnapshot<T>(uint subjectId)
             where T : ISubjectSnapshot, new()
         {
             if (TryGetCached(subjectId, out T snapshot))
                 return snapshot;
 
-            snapshot = await QueryAndComposeLatestSnapshotAsync<T>(subjectId);
+            snapshot = QueryAndComposeLatestSnapshot<T>(subjectId);
 
             if (snapshot != null) AddToCache(snapshot);
 
@@ -63,14 +63,14 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        private async Task<T> QueryAndComposeLatestSnapshotAsync<T>(uint subjectId) where T : ISubjectSnapshot, new()
-        {
-            var allMods = await _modsDB.GetAllModsAsync(subjectId);
-            if (allMods == null || !allMods.Any()) return default(T);
-            var subj    = new T();
-            subj.ApplyAlterations(allMods);
-            return subj;
-        }
+        //private async Task<T> QueryAndComposeLatestSnapshotAsync<T>(uint subjectId) where T : ISubjectSnapshot, new()
+        //{
+        //    var allMods = await _modsDB.GetAllModsAsync(subjectId);
+        //    if (allMods == null || !allMods.Any()) return default(T);
+        //    var subj    = new T();
+        //    subj.ApplyAlterations(allMods);
+        //    return subj;
+        //}
 
 
         private T QueryAndComposeLatestSnapshot<T>(uint subjectId) where T : ISubjectSnapshot, new()

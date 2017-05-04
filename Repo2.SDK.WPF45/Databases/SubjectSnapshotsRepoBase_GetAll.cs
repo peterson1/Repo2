@@ -13,9 +13,8 @@ namespace Repo2.SDK.WPF45.Databases
 {
     public abstract partial class SubjectSnapshotsRepoBase : StatusChangerN45, ISubjectSnapshotsDB
     {
-        public async Task<List<T>> GetAll<T>() where T : ISubjectSnapshot, new()
+        public List<T> GetAll<T>() where T : ISubjectSnapshot, new()
         {
-            await Task.Delay(0);
             var list   = new List<T>();
             var nextId = _modsDB.GetNextSubjectId();
             if (nextId == 1) return list;
