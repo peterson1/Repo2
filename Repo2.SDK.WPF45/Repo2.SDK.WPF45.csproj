@@ -153,7 +153,6 @@
     <Compile Include="Databases\LocalDatabase1.cs" />
     <Compile Include="Databases\MariaDbRecovery.cs" />
     <Compile Include="Databases\SubjectSnapshotsRepoBase.cs" />
-    <Compile Include="Databases\SubjectSnapshotsRepoBase_GetAll.cs" />
     <Compile Include="EmbeddedResources\EmbeddedResrc.cs" />
     <Compile Include="Encryption\AESThenHMAC.cs" />
     <Compile Include="ExcelTools\BorderWriter1.cs" />

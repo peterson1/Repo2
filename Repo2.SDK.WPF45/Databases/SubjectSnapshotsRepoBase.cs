@@ -4,14 +4,15 @@ using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.SDK.WPF45.ChangeNotification;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Repo2.SDK.WPF45.Databases
 {
-    public abstract partial class SubjectSnapshotsRepoBase : StatusChangerN45, ISubjectSnapshotsDB
+    public abstract class SubjectSnapshotsRepoBase<T> : StatusChangerN45, ISubjectSnapshotsDB<T>
+        where T : ISubjectSnapshot, new()
     {
         private IFileSystemAccesor    _fs;
         private ISubjectAlterationsDB _modsDB;
@@ -27,8 +28,9 @@ namespace Repo2.SDK.WPF45.Databases
                                         ISubjectAlterationsDB subjectAlterationsDB)
         {
             _fs     = fileSystemAccessor;
-            _modsDB = subjectAlterationsDB;
             _bMapr  = new BsonMapper();
+            _modsDB = subjectAlterationsDB;
+            _modsDB.SubjectCreated += (s, e) => CreateSnapshot(e);
         }
 
 
@@ -49,74 +51,63 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        public T GetLatestSnapshot<T>(uint subjectId)
-            where T : ISubjectSnapshot, new()
+        private void CreateSnapshot(Tuple<SubjectAlterations, uint> tuple)
         {
-            if (TryGetCached(subjectId, out T snapshot))
-                return snapshot;
-
-            snapshot = QueryAndComposeLatestSnapshot<T>(subjectId);
-
-            if (snapshot != null) AddToCache(snapshot);
-
-            return snapshot;
+            var subj = new T();
+            subj.ApplyAlterations(tuple.Item1);
+            using (var db = CreateConnection())
+            {
+                var col = db.GetCollection<T>(CollectionName);
+                col.Insert((long)tuple.Item2, subj);
+            }
         }
 
 
-        //private async Task<T> QueryAndComposeLatestSnapshotAsync<T>(uint subjectId) where T : ISubjectSnapshot, new()
+
+        public List<T> GetAll()
+        {
+            using (var db = CreateConnection())
+            {
+                var col = db.GetCollection<T>(CollectionName);
+                return col.FindAll().ToList();
+            }
+        }
+
+
+        //private T QueryAndComposeLatestSnapshot(uint subjectId)
         //{
-        //    var allMods = await _modsDB.GetAllModsAsync(subjectId);
+        //    var allMods = _modsDB.GetAllMods(subjectId);
         //    if (allMods == null || !allMods.Any()) return default(T);
-        //    var subj    = new T();
+        //    var subj = new T();
         //    subj.ApplyAlterations(allMods);
         //    return subj;
         //}
 
 
-        private T QueryAndComposeLatestSnapshot<T>(uint subjectId) where T : ISubjectSnapshot, new()
-        {
-            var allMods = _modsDB.GetAllMods(subjectId);
-            if (allMods == null || !allMods.Any()) return default(T);
-            var subj = new T();
-            subj.ApplyAlterations(allMods);
-            return subj;
-        }
-
-
-        private void AddToCache<T>(T snapshot) where T : ISubjectSnapshot, new()
-        {
-            using (var db = CreateConnection())
-            {
-                var col = db.GetCollection<T>(CollectionName);
-                col.Insert((long)snapshot.Id, snapshot);
-            }
-        }
-
-
-        private bool TryGetCached<T>(uint subjectId, out T snapshot) 
-            where T : ISubjectSnapshot, new()
-        {
-            using (var db = CreateConnection())
-            {
-                var col   = db.GetCollection<T>(CollectionName);
-                //col.EnsureIndex(s => s.Id, true);
-                var match = col.FindById((long)subjectId);
-                snapshot  = match;
-                return snapshot != null;
-            }
-        }
-
-
-        //public async Task<List<T>> GetAll<T>() where T : ISubjectSnapshot, new()
+        //public List<T> GetAll()
         //{
         //    var list   = new List<T>();
         //    var nextId = _modsDB.GetNextSubjectId();
         //    if (nextId == 1) return list;
 
-        //    for (uint i = 1; i < nextId; i++)
+        //    using (var db = CreateConnection())
         //    {
-        //        var item = await this.GetLatestSnapshot<T>(i);
-        //        if (item != null) list.Add(item);
+        //        var col = db.GetCollection<T>(CollectionName);
+
+        //        using (var trans = db.BeginTrans())
+        //        {
+        //            for (uint i = 1; i < nextId; i++)
+        //            {
+        //                var snapshot = col.FindById((long)i);
+        //                if (snapshot == null)
+        //                {
+        //                    snapshot = QueryAndComposeLatestSnapshot(i);
+        //                    if (snapshot != null) col.Insert((long)i, snapshot);
+        //                }
+        //                if (snapshot != null) list.Add(snapshot);
+        //            }
+        //            trans.Commit();
+        //        }
         //    }
         //    return list;
         //}

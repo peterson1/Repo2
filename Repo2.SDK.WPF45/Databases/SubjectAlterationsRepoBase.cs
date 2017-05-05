@@ -1,27 +1,40 @@
 ﻿using LiteDB;
+using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.Databases;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
-using Repo2.Core.ns11.Threads;
 using Repo2.SDK.WPF45.ChangeNotification;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Repo2.SDK.WPF45.Databases
 {
     public abstract class SubjectAlterationsRepoBase : StatusChangerN45, ISubjectAlterationsDB
     {
+        private      EventHandler<Tuple<SubjectAlterations, uint>> _subjectCreated;
+        public event EventHandler<Tuple<SubjectAlterations, uint>>  SubjectCreated
+        {
+            add
+            {
+                value.TryRemoveFrom(ref _subjectCreated);
+                _subjectCreated += value;
+            }
+            remove { _subjectCreated -= value; }
+        }
+
         private string             _dbPath;
         private IFileSystemAccesor _fs;
         private BsonMapper         _bMapr;
 
         protected abstract string  DbFileName      { get; }
         protected abstract string  CollectionName  { get; }
+
+
+        //public Func<SubjectAlterations, uint, Reply> PostCreateValidator { get; set; }
 
 
         public SubjectAlterationsRepoBase(IFileSystemAccesor fileSystemAccesor)
@@ -57,7 +70,7 @@ namespace Repo2.SDK.WPF45.Databases
             if (!withValues.Any())
                 throw Fault.BadData(mods, "No non-NULL values in list.");
 
-            var newId = InsertSeedRow(withValues);
+            var newId = InsertSeedRow(withValues, 0);
 
             using (var db = CreateConnection())
             {
@@ -74,8 +87,10 @@ namespace Repo2.SDK.WPF45.Databases
                     trans.Commit();
                 }
             }
+            _subjectCreated.Raise(Tuple.Create(mods, newId));
             return newId;
         }
+
 
 
         private bool HasValue(SubjectValueMod mod)
@@ -83,44 +98,6 @@ namespace Repo2.SDK.WPF45.Databases
             if (mod.NewValue == null) return false;
             if (mod.NewValue.ToString().Trim().IsBlank()) return false;
             return true;
-        }
-
-
-        //public async Task<IEnumerable<SubjectValueMod>> GetAllModsAsync(uint subjectId)
-        //{
-        //    using (var db = CreateConnection())
-        //    {
-        //        var col = db.GetCollection<SubjectValueMod>(CollectionName);
-
-        //        await NewThread.WaitFor(()
-        //            => col.EnsureIndex(m => m.SubjectID));
-
-        //        var mods = await NewThread.WaitFor(()
-        //            => col.Find(_ => _.SubjectID == subjectId));
-
-        //        if (mods == null || !mods.Any())
-        //            return new List<SubjectValueMod>();
-
-        //        return mods.OrderBy(x => x.Timestamp).ToList();
-        //    }
-        //}
-
-
-        public List<SubjectValueMod> GetAllMods(uint subjectId)
-        {
-            using (var db = CreateConnection())
-            {
-                var col = db.GetCollection<SubjectValueMod>(CollectionName);
-
-                col.EnsureIndex(m => m.SubjectID);
-
-                var mods = col.Find(_ => _.SubjectID == subjectId);
-
-                if (mods == null || !mods.Any())
-                    return new List<SubjectValueMod>();
-
-                return mods.OrderBy(x => x.Timestamp).ToList();
-            }
         }
 
 
@@ -132,37 +109,24 @@ namespace Repo2.SDK.WPF45.Databases
         /// <param name="mods"></param>
         /// <param name="rowIndexForSeed"></param>
         /// <returns></returns>
-        private uint InsertSeedRow(List<SubjectValueMod> mods, int rowIndexForSeed = 0)
+        private uint InsertSeedRow(List<SubjectValueMod> mods, int rowIndexForSeed)
         {
-            var newId      = GetNextSubjectId();
-            var seed       = mods[rowIndexForSeed];
-            seed.SubjectID = newId;
-            InsertSolo(seed);
-            return newId;
-        }
+            var seed = mods[rowIndexForSeed];
 
-
-        private void InsertSolo(SubjectValueMod eventRow)
-        {
             using (var db = CreateConnection())
             {
                 var col = db.GetCollection<SubjectValueMod>(CollectionName);
-                col.Insert(eventRow);
+                if (col.Count() == 0)
+                    seed.SubjectID = 1;
+                else
+                {
+                    col.EnsureIndex(e => e.SubjectID, false);
+                    var bsonVal = col.Max(e => e.SubjectID);
+                    seed.SubjectID = (uint)(bsonVal.AsInt64 + 1);
+                }
+                col.Insert(seed);
             }
-        }
-
-
-        public uint GetNextSubjectId()
-        {
-            using (var db = CreateConnection())
-            {
-                var col = db.GetCollection<SubjectValueMod>(CollectionName);
-                if (col.Count() == 0) return 1;
-
-                col.EnsureIndex(e => e.SubjectID, false);
-                var bsonVal = col.Max(e => e.SubjectID);
-                return (uint)(bsonVal.AsInt64 + 1);
-            }
+            return seed.SubjectID;
         }
     }
 }
