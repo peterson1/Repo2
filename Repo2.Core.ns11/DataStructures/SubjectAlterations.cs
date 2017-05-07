@@ -12,11 +12,11 @@ namespace Repo2.Core.ns11.DataStructures
         }
 
 
-        public void Add (string fieldName, object newValue)
+        public void Add (string fieldName, object newValue, DateTime? timestamp = null)
         {
             Add(new SubjectValueMod
             {
-                Timestamp = DateTime.Now,
+                Timestamp = timestamp ?? DateTime.Now,
                 ActorID   = this.ActorID,
                 SubjectID = this.SubjectID,
                 FieldName = fieldName,

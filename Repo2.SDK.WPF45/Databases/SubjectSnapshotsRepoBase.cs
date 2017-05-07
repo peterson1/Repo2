@@ -23,6 +23,8 @@ namespace Repo2.SDK.WPF45.Databases
         protected abstract string  DbFileName      { get; }
         protected abstract string  CollectionName  { get; }
 
+        protected virtual  string  GetActorName    (int actorID) => string.Empty;
+
 
         public SubjectSnapshotsRepoBase(IFileSystemAccesor fileSystemAccessor, 
                                         ISubjectAlterationsDB subjectAlterationsDB)
@@ -53,15 +55,20 @@ namespace Repo2.SDK.WPF45.Databases
 
         private void CreateSnapshot(Tuple<SubjectAlterations, uint> tuple)
         {
-            var subj = new T();
-            subj.ApplyAlterations(tuple.Item1);
+            var mods          = tuple.Item1;
+            var subj          = new T();
+            subj.Id           = mods.First().SubjectID;
+            subj.DateModified = mods.Last().Timestamp;
+            subj.ModifiedBy   = GetActorName(mods.Last().ActorID);
+
+            subj.ApplyAlterations(mods);
+
             using (var db = CreateConnection())
             {
                 var col = db.GetCollection<T>(CollectionName);
                 col.Insert((long)tuple.Item2, subj);
             }
         }
-
 
 
         public List<T> GetAll()
