@@ -231,6 +231,9 @@ namespace Repo2.SDK.WPF45.FileSystems
             return Directory.GetParent(dir).FullName;
         }
 
+        public string ParentDir(string path) 
+            => Directory.GetParent(path).FullName;
+
         public string TempDir      => Chain(Path.GetTempPath(), GetType().Name);
 
 
