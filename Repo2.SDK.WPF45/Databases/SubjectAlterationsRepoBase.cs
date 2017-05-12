@@ -26,6 +26,17 @@ namespace Repo2.SDK.WPF45.Databases
             remove { _subjectCreated -= value; }
         }
 
+        private      EventHandler<List<SubjectValueMod>> _subjectUpdated;
+        public event EventHandler<List<SubjectValueMod>>  SubjectUpdated
+        {
+            add
+            {
+                value.TryRemoveFrom(ref _subjectUpdated);
+                _subjectUpdated += value;
+            }
+            remove { _subjectUpdated -= value; }
+        }
+
         private string             _dbPath;
         private IFileSystemAccesor _fs;
         private BsonMapper         _bMapr;
@@ -47,23 +58,6 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        private LiteDatabase CreateConnection()
-        {
-            if (_dbPath.IsBlank())
-                _dbPath = LocateDatabaseFile();
-
-            return new LiteDatabase(ConnectString.LiteDB(_dbPath), _bMapr);
-        }
-
-
-        private string LocateDatabaseFile()
-        {
-            var path = Path.Combine(_fs.CurrentExeDir, DbFileName);
-            _fs.CreateDir(Path.GetDirectoryName(path));
-            return path;
-        }
-
-
         public uint CreateNewSubject(SubjectAlterations mods)
         {
             var withValues = mods.Where(x => HasValue(x)).ToList();
@@ -72,10 +66,8 @@ namespace Repo2.SDK.WPF45.Databases
 
             var newId = InsertSeedRow(withValues, 0);
 
-            using (var db = CreateConnection())
+            using (var db = ConnectToDB(out LiteCollection<SubjectValueMod> col))
             {
-                var col = db.GetCollection<SubjectValueMod>(CollectionName);
-
                 using (var trans = db.BeginTrans())
                 {
                     for (int i = 1; i < withValues.Count; i++)
@@ -91,6 +83,35 @@ namespace Repo2.SDK.WPF45.Databases
             return newId;
         }
 
+
+        public bool UpdateSubject(SubjectAlterations newValues)
+        {
+            if (newValues == null) return false;
+            if (!newValues.Any()) return false;
+
+            using (var db = ConnectToDB(out LiteCollection<SubjectValueMod> col))
+            {
+                var oldValues = FindMods(col, newValues.SubjectID);
+                var changes   = newValues.GetChanges(oldValues);
+                if (!changes.Any()) return false;
+
+                col.Insert(changes);
+
+                var mergd = oldValues.Concat(changes).ToList();
+                _subjectUpdated.Raise(mergd);
+            }
+            return true;
+        }
+
+
+
+        private List<SubjectValueMod> FindMods(LiteCollection<SubjectValueMod> col, uint subjectId)
+        {
+            col.EnsureIndex(x => x.SubjectID);
+            return col.Find    (x => x.SubjectID == subjectId)
+                      .OrderBy (x => x.Timestamp)
+                      .ToList  ();
+        }
 
 
         private bool HasValue(SubjectValueMod mod)
@@ -113,9 +134,8 @@ namespace Repo2.SDK.WPF45.Databases
         {
             var seed = mods[rowIndexForSeed];
 
-            using (var db = CreateConnection())
+            using (var db = ConnectToDB(out LiteCollection<SubjectValueMod> col))
             {
-                var col = db.GetCollection<SubjectValueMod>(CollectionName);
                 if (col.Count() == 0)
                     seed.SubjectID = 1;
                 else
@@ -128,5 +148,27 @@ namespace Repo2.SDK.WPF45.Databases
             }
             return seed.SubjectID;
         }
+
+
+
+
+        private LiteDatabase ConnectToDB(out LiteCollection<SubjectValueMod> col)
+        {
+            if (_dbPath.IsBlank())
+                _dbPath = LocateDatabaseFile();
+
+            var db = new LiteDatabase(ConnectString.LiteDB(_dbPath), _bMapr);
+            col    = db.GetCollection<SubjectValueMod>(CollectionName);
+            return db;
+        }
+
+
+        private string LocateDatabaseFile()
+        {
+            var path = Path.Combine(_fs.CurrentExeDir, DbFileName);
+            _fs.CreateDir(Path.GetDirectoryName(path));
+            return path;
+        }
+
     }
 }

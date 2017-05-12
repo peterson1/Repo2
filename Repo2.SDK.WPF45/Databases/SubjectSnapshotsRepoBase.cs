@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using Repo2.Core.ns11.Databases;
 using Repo2.Core.ns11.DataStructures;
+using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.SDK.WPF45.ChangeNotification;
@@ -33,15 +34,7 @@ namespace Repo2.SDK.WPF45.Databases
             _bMapr  = new BsonMapper();
             _modsDB = subjectAlterationsDB;
             _modsDB.SubjectCreated += (s, e) => CreateSnapshot(e);
-        }
-
-
-        private LiteDatabase CreateConnection()
-        {
-            if (_snapsDbPath.IsBlank())
-                _snapsDbPath = LocateDatabaseFile();
-
-            return new LiteDatabase(ConnectString.LiteDB(_snapsDbPath), _bMapr);
+            _modsDB.SubjectUpdated += (s, e) => UpdateSnapshot(e);
         }
 
 
@@ -53,70 +46,65 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        private void CreateSnapshot(Tuple<SubjectAlterations, uint> tuple)
+        private T ComposeSubject(IEnumerable<SubjectValueMod> mods, uint subjectId)
         {
-            var mods          = tuple.Item1;
             var subj          = new T();
-            subj.Id           = mods.First().SubjectID;
+            //subj.Id           = mods.First().SubjectID;
+            subj.Id           = subjectId;
             subj.DateModified = mods.Last().Timestamp;
             subj.ModifiedBy   = GetActorName(mods.Last().ActorID);
 
             subj.ApplyAlterations(mods);
 
-            using (var db = CreateConnection())
+            return subj;
+        }
+
+
+        private void CreateSnapshot(Tuple<SubjectAlterations, uint> tuple)
+        {
+            //var mods          = tuple.Item1;
+            //var subj          = new T();
+            //subj.Id           = mods.First().SubjectID;
+            //subj.DateModified = mods.Last().Timestamp;
+            //subj.ModifiedBy   = GetActorName(mods.Last().ActorID);
+            //subj.ApplyAlterations(mods);
+            var subj = ComposeSubject(tuple.Item1, tuple.Item2);
+
+            using (var db = CreateConnection(out LiteCollection<T> col))
             {
-                var col = db.GetCollection<T>(CollectionName);
-                col.Insert((long)tuple.Item2, subj);
+                //col.Insert((long)tuple.Item2, subj);
+                col.Insert((long)subj.Id, subj);
+            }
+        }
+
+
+        private void UpdateSnapshot(List<SubjectValueMod> mods)
+        {
+            var subjId = mods.Last().SubjectID;
+            var subj   = ComposeSubject(mods, subjId);
+            using (var db = CreateConnection(out LiteCollection<T> col))
+            {
+                if (!col.Update((long)subjId, subj))
+                    throw Fault.Failed($"Update failed. Id not found: [{subjId}].");
             }
         }
 
 
         public List<T> GetAll()
         {
-            using (var db = CreateConnection())
-            {
-                var col = db.GetCollection<T>(CollectionName);
+            using (var db = CreateConnection(out LiteCollection<T> col))
                 return col.FindAll().ToList();
-            }
         }
 
 
-        //private T QueryAndComposeLatestSnapshot(uint subjectId)
-        //{
-        //    var allMods = _modsDB.GetAllMods(subjectId);
-        //    if (allMods == null || !allMods.Any()) return default(T);
-        //    var subj = new T();
-        //    subj.ApplyAlterations(allMods);
-        //    return subj;
-        //}
+        private LiteDatabase CreateConnection(out LiteCollection<T> col)
+        {
+            if (_snapsDbPath.IsBlank())
+                _snapsDbPath = LocateDatabaseFile();
 
-
-        //public List<T> GetAll()
-        //{
-        //    var list   = new List<T>();
-        //    var nextId = _modsDB.GetNextSubjectId();
-        //    if (nextId == 1) return list;
-
-        //    using (var db = CreateConnection())
-        //    {
-        //        var col = db.GetCollection<T>(CollectionName);
-
-        //        using (var trans = db.BeginTrans())
-        //        {
-        //            for (uint i = 1; i < nextId; i++)
-        //            {
-        //                var snapshot = col.FindById((long)i);
-        //                if (snapshot == null)
-        //                {
-        //                    snapshot = QueryAndComposeLatestSnapshot(i);
-        //                    if (snapshot != null) col.Insert((long)i, snapshot);
-        //                }
-        //                if (snapshot != null) list.Add(snapshot);
-        //            }
-        //            trans.Commit();
-        //        }
-        //    }
-        //    return list;
-        //}
+            var db = new LiteDatabase(ConnectString.LiteDB(_snapsDbPath), _bMapr);
+            col    = db.GetCollection<T>(CollectionName);
+            return db;
+        }
     }
 }
