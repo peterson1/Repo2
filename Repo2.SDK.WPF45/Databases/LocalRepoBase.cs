@@ -1,31 +1,40 @@
 ﻿using LiteDB;
 using Repo2.Core.ns11.Databases;
+using Repo2.Core.ns11.Exceptions;
+using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.SDK.WPF45.ChangeNotification;
 using Repo2.SDK.WPF45.Serialization;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Repo2.SDK.WPF45.Databases
 {
     public abstract class LocalRepoBase<T> : StatusChangerN45
     {
+        private MemoryStream       _memStream;
         private BsonMapper         _bMapr;
         private IFileSystemAccesor _fs;
         private bool               _isSeeded;
 
         public LocalRepoBase(IFileSystemAccesor fileSystemAccessor)
         {
-            _fs              = fileSystemAccessor;
             _bMapr           = new BsonMapper();
             TypeName         = typeof(T).Name;
             CollectionName   = GetCollectionName();
-
-            DatabaseFilename = GetDatabaseFilename();
-            DatabaseFullPath = LocateDatabaseFile(_fs, DatabaseFilename);
-            JsonSeedFilename = GetJsonSeedFilename();
-            JsonSeedFullPath = LocateJsonSeedFile(_fs, DatabaseFullPath, JsonSeedFilename);
+            _fs              = fileSystemAccessor;
+            if (_fs != null)
+            {
+                DatabaseFilename = GetDatabaseFilename();
+                DatabaseFullPath = LocateDatabaseFile(_fs, DatabaseFilename);
+                JsonSeedFilename = GetJsonSeedFilename();
+                JsonSeedFullPath = LocateJsonSeedFile(_fs, DatabaseFullPath, JsonSeedFilename);
+            }
+            else
+                _memStream = new MemoryStream();
 
             _bMapr.RegisterAutoId<uint>(v => v == 0,
                 (db, col) => (uint)db.Count(col) + 1);
@@ -39,14 +48,54 @@ namespace Repo2.SDK.WPF45.Databases
         public string   CollectionName     { get; }
         public bool     IsSeedEnabled      { get; protected set; }
 
+        public bool IsInMemory => _memStream != null;
+
 
         public uint Insert(T newRecord)
         {
+            if (newRecord == null)
+                throw Fault.NullRef<T>("record to insert");
+
             using (var db = ConnectToDB(out LiteCollection<T> col))
             {
                 var bVal = col.Insert(newRecord);
                 return (uint)bVal.AsInt64;
             }
+        }
+
+
+        protected void EnsureIndex<K>(Expression<Func<T, K>> indexExpression, bool isUnique)
+        {
+            using (var db = ConnectToDB(out LiteCollection<T> col))
+            {
+                col.EnsureIndex<K>(indexExpression, isUnique);
+            }
+        }
+
+
+        public List<T> Find (Expression<Func<T, bool>> predicate)
+        {
+            using (var db = ConnectToDB(out LiteCollection<T> col))
+            {
+                return col.Find(predicate).ToList();
+            }
+        }
+
+
+        public void Insert (IEnumerable<T> newRecords)
+        {
+            SetStatus($"Inserting {newRecords.Count()} ‹{TypeName}› records ...");
+            using (var db = ConnectToDB(out LiteCollection<T> col))
+            {
+                using (var trans = db.BeginTrans())
+                {
+                    foreach (var rec in newRecords)
+                        col.Insert(rec);
+
+                    trans.Commit();
+                }
+            }
+            SetStatus($"Successfully inserted {newRecords.Count()} ‹{TypeName}› records.");
         }
 
 
@@ -75,6 +124,8 @@ namespace Repo2.SDK.WPF45.Databases
 
         protected virtual string LocateDatabaseFile(IFileSystemAccesor fs, string filename)
         {
+            if (filename.IsBlank()) return string.Empty;
+
             var path = Path.Combine(fs.CurrentExeDir, filename);
             fs.CreateDir(Path.GetDirectoryName(path));
             return path;
@@ -85,6 +136,8 @@ namespace Repo2.SDK.WPF45.Databases
 
         protected virtual string LocateJsonSeedFile(IFileSystemAccesor fs, string dbFullPath, string jsonFilename)
         {
+            if (dbFullPath.IsBlank()) return string.Empty;
+
             var path = Path.Combine(fs.ParentDir(dbFullPath), jsonFilename);
             fs.CreateDir(Path.GetDirectoryName(path));
             return path;
@@ -96,7 +149,7 @@ namespace Repo2.SDK.WPF45.Databases
             var seedRecs = Json.Deserialize<List<T>>(jsonStr);
 
             SetStatus($"Seeding {seedRecs.Count:N0} ‹{TypeName}› records from [{JsonSeedFilename}] ...");
-            using (var db = new LiteDatabase(ConnectString.LiteDB(DatabaseFullPath), _bMapr))
+            using (var db = CreateLiteDatabase())
             {
                 var col = db.GetCollection<T>(CollectionName);
                 using (var trans = db.BeginTrans())
@@ -115,6 +168,15 @@ namespace Repo2.SDK.WPF45.Databases
 
 
 
+        protected virtual LiteDatabase CreateLiteDatabase()
+        {
+            if (IsInMemory)
+                return new LiteDatabase(_memStream, _bMapr);
+            else
+                return new LiteDatabase(ConnectString.LiteDB(DatabaseFullPath), _bMapr);
+        }
+
+
         protected LiteDatabase ConnectToDB(out LiteCollection<T> collection)
         {
             if (IsSeedEnabled && !_isSeeded)
@@ -125,7 +187,7 @@ namespace Repo2.SDK.WPF45.Databases
 
                 _isSeeded = true;
             }
-            var db     = new LiteDatabase(ConnectString.LiteDB(DatabaseFullPath), _bMapr);
+            var db     = CreateLiteDatabase();
             collection = db.GetCollection<T>(CollectionName);
             return db;
         }
