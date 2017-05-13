@@ -37,6 +37,7 @@ namespace Repo2.SDK.WPF45.Databases
         public string   JsonSeedFilename   { get; }
         public string   JsonSeedFullPath   { get; }
         public string   CollectionName     { get; }
+        public bool     IsSeedEnabled      { get; protected set; }
 
 
         public uint Insert(T newRecord)
@@ -116,7 +117,7 @@ namespace Repo2.SDK.WPF45.Databases
 
         protected LiteDatabase ConnectToDB(out LiteCollection<T> collection)
         {
-            if (!_isSeeded)
+            if (IsSeedEnabled && !_isSeeded)
             {
                 if (!_fs.Found(DatabaseFullPath) 
                   && _fs.Found(JsonSeedFullPath))
