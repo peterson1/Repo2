@@ -82,6 +82,16 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
+
+        public List<T> Find(Query query)
+        {
+            using (var db = ConnectToDB(out LiteCollection<T> col))
+            {
+                return col.Find(query).ToList();
+            }
+        }
+
+
         public void Insert (IEnumerable<T> newRecords)
         {
             SetStatus($"Inserting {newRecords.Count()} ‹{TypeName}› records ...");
@@ -97,6 +107,7 @@ namespace Repo2.SDK.WPF45.Databases
             }
             SetStatus($"Successfully inserted {newRecords.Count()} ‹{TypeName}› records.");
         }
+
 
 
         public List<T> FindAll()
@@ -177,7 +188,7 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        protected LiteDatabase ConnectToDB(out LiteCollection<T> collection)
+        public LiteDatabase ConnectToDB(out LiteCollection<T> collection)
         {
             if (IsSeedEnabled && !_isSeeded)
             {
