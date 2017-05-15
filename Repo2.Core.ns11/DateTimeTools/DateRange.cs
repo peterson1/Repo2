@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Repo2.Core.ns11.DataStructures;
+using System.Linq;
 
 namespace Repo2.Core.ns11.DateTimeTools
 {
@@ -25,6 +26,21 @@ namespace Repo2.Core.ns11.DateTimeTools
             => (Start <= value) && (value <= End);
 
 
+        public List<DateTime> GroupByMonthAndYear()
+        {
+            var list   = new List<DateTime>();
+            var byMoYr = this.GroupBy(x => $"{x.Month}-{x.Year}");
+
+            foreach (var grp in byMoYr)
+            {
+                var d    = grp.First();
+                var day1 = new DateTime(d.Year, d.Month, 1);
+                list.Add(day1);
+            }
+            return list;
+        }
+
+
         public override string ToString()
             => $"{Start:d MMM yyyy} to {End:d MMM yyyy}";
 
@@ -37,5 +53,6 @@ namespace Repo2.Core.ns11.DateTimeTools
         {
             throw new NotImplementedException();
         }
+
     }
 }

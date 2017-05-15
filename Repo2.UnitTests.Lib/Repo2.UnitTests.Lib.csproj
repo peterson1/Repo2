@@ -82,6 +82,7 @@
     <Compile Include="Core.ns11.Tests\ChangeNotification\StatusChangerFacts.cs" />
     <Compile Include="Core.ns11.Tests\Comparisons\PropertyComparerFacts.cs" />
     <Compile Include="Core.ns11.Tests\DateTimeExtensions\DateTimeExtensionsFacts.cs" />
+    <Compile Include="Core.ns11.Tests\DateTimeTools\DateRangeFacts.cs" />
     <Compile Include="Core.ns11.Tests\DomainModels\R2PackagePartValidations.cs" />
     <Compile Include="Core.ns11.Tests\Drupal8\D8NodeMapperFacts.cs" />
     <Compile Include="Core.ns11.Tests\Drupal8\MappedNodeExtensions.cs" />
