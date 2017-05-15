@@ -44,7 +44,8 @@ namespace Repo2.SDK.WPF45.ViewModelTools
         public string   BusyText  { get; private set; }
         public string   Status    { get; private set; }
 
-        protected void UpdateTitle(string text) => Title = text;
+
+        protected virtual void UpdateTitle(string text) => Title = text;
 
 
         protected void SetStatus(string status)
