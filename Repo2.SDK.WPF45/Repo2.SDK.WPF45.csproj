@@ -149,7 +149,9 @@
     <Compile Include="Converters\VisibleIfNullConverter.cs" />
     <Compile Include="Converters\VisibleIfTrueConverter.cs" />
     <Compile Include="Converters\ZeroToVisibleConverterBase.cs" />
-    <Compile Include="Databases\LocalRepoBase.cs" />
+    <Compile Include="Databases\LocalRepoBase_Connect.cs" />
+    <Compile Include="Databases\LocalRepoBase_Read.cs" />
+    <Compile Include="Databases\LocalRepoBase_Write.cs" />
     <Compile Include="Databases\SubjectAlterationsRepoBase.cs" />
     <Compile Include="Databases\LocalDatabase1.cs" />
     <Compile Include="Databases\MariaDbRecovery.cs" />
