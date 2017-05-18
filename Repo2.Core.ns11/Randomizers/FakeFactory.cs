@@ -332,7 +332,10 @@ namespace Repo2.Core.ns11.Randomizers
 
 
         public static T RandomItem<T>(this IEnumerable<T> list)
-            => list.ElementAt(LocalRandom.Next(list.Count() - 1));
+        {
+            if (list == null) return default(T);
+            return list.ElementAt(LocalRandom.Next(list.Count() - 1));
+        }
 
 
         public static void Shuffle<T>(this IList<T> list)
