@@ -52,7 +52,7 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        public void Insert(IEnumerable<T> newRecords)
+        public uint BatchInsert(IEnumerable<T> newRecords)
         {
             SetStatus($"Inserting {newRecords.Count()} ‹{TypeName}› records ...");
             using (var db = ConnectToDB(out LiteCollection<T> col))
@@ -65,7 +65,22 @@ namespace Repo2.SDK.WPF45.Databases
                     trans.Commit();
                 }
             }
-            SetStatus($"Successfully inserted {newRecords.Count()} ‹{TypeName}› records.");
+            var newCount = CountAll();
+            SetStatus($"Successfully inserted {newRecords.Count()} ‹{TypeName}› records. New record count: [{newCount:N0}]");
+            return newCount;
+        }
+
+
+        public uint DeleteAll()
+        {
+            SetStatus($"Deleting all [{CountAll():N0}] ‹{TypeName}› records ...");
+            using (var db = ConnectToDB(out LiteCollection<T> col))
+            {
+                db.DropCollection(col.Name);
+            }
+            var newCount = CountAll();
+            SetStatus($"DeleteAll ‹{TypeName}› completed. New record count: [{newCount:N0}].");
+            return newCount;
         }
 
 

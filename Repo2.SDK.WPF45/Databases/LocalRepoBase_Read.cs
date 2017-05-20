@@ -56,5 +56,12 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
+        public uint CountAll()
+        {
+            using (var db = ConnectToDB(out LiteCollection<T> col))
+            {
+                return (uint)col.LongCount();
+            }
+        }
     }
 }
