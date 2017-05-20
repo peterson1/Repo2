@@ -123,6 +123,7 @@
     <Compile Include="Authentication\Certificator.cs" />
     <Compile Include="ChangeNotification\EventHandlerExtensions.cs" />
     <Compile Include="ChangeNotification\StatusChangerN45.cs" />
+    <Compile Include="ComponentRegistry\ComponentRegistryBase.cs" />
     <Compile Include="ComponentRegistry\Repo2IoC.cs" />
     <Compile Include="Compression\FileArchiver1.cs" />
     <Compile Include="Compression\FileChunker1.cs" />
