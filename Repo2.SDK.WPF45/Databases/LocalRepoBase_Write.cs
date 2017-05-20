@@ -60,7 +60,10 @@ namespace Repo2.SDK.WPF45.Databases
                 using (var trans = db.BeginTrans())
                 {
                     foreach (var rec in newRecords)
-                        col.Insert(rec);
+                    {
+                        if (rec != null)
+                            col.Insert(rec);
+                    }
 
                     trans.Commit();
                 }
