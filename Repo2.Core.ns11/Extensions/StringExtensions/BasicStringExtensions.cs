@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Repo2.Core.ns11.Extensions.StringExtensions
 {
@@ -68,6 +66,11 @@ namespace Repo2.Core.ns11.Extensions.StringExtensions
             if (text == null) return true;
             return string.IsNullOrWhiteSpace(text);
         }
+
+
+        //http://stackoverflow.com/a/16168103
+        public static bool IsValidEmail(this string email)
+            => Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
 
 
         public static string ToTitle(this string text)
