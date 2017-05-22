@@ -42,7 +42,7 @@ namespace Repo2.SDK.WPF45.ViewModelTools
 
 
 
-        protected void AddAsTab(R2ViewModelBase tabVM)
+        protected virtual void AddAsTab(R2ViewModelBase tabVM)
         {
             var tabIndx = Tabs.Count;
 
