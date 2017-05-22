@@ -1,8 +1,5 @@
 ﻿using LiteDB;
-using Repo2.Core.ns11.Databases;
 using Repo2.Core.ns11.Exceptions;
-using Repo2.Core.ns11.Extensions.StringExtensions;
-using Repo2.Core.ns11.FileSystems;
 using Repo2.SDK.WPF45.ChangeNotification;
 using Repo2.SDK.WPF45.Serialization;
 using System;
@@ -36,23 +33,24 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        public uint Insert(T newRecord)
+        public virtual uint Insert(T newRecord)
         {
             if (newRecord == null)
                 throw Fault.NullRef<T>("record to insert");
 
             SetStatus($"Inserting new ‹{TypeName}› record ...");
+            BsonValue bVal;
             using (var db = ConnectToDB(out LiteCollection<T> col))
             {
-                var bVal = col.Insert(newRecord);
-                var id = (uint)bVal.AsInt64;
-                SetStatus($"Sucessfully inserted ‹{TypeName}› (id: {id}).");
-                return id;
+                bVal = col.Insert(newRecord);
             }
+            var id = (uint)bVal.AsInt64;
+            SetStatus($"Sucessfully inserted ‹{TypeName}› (id: {id}).");
+            return id;
         }
 
 
-        public uint BatchInsert(IEnumerable<T> newRecords)
+        public virtual uint BatchInsert(IEnumerable<T> newRecords)
         {
             SetStatus($"Inserting {newRecords.Count()} ‹{TypeName}› records ...");
             using (var db = ConnectToDB(out LiteCollection<T> col))
@@ -74,7 +72,7 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        public uint DeleteAll()
+        public virtual uint DeleteAll()
         {
             SetStatus($"Deleting all [{CountAll():N0}] ‹{TypeName}› records ...");
             using (var db = ConnectToDB(out LiteCollection<T> col))

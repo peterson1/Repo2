@@ -9,7 +9,7 @@ namespace Repo2.SDK.WPF45.Databases
 {
     public abstract partial class LocalRepoBase<T> : StatusChangerN45
     {
-        public List<T> Find(Expression<Func<T, bool>> predicate)
+        public virtual List<T> Find(Expression<Func<T, bool>> predicate)
         {
             using (var db = ConnectToDB(out LiteCollection<T> col))
             {
@@ -19,7 +19,7 @@ namespace Repo2.SDK.WPF45.Databases
 
 
 
-        public List<T> Find(Query query)
+        public virtual List<T> Find(Query query)
         {
             using (var db = ConnectToDB(out LiteCollection<T> col))
             {
@@ -29,7 +29,7 @@ namespace Repo2.SDK.WPF45.Databases
 
 
 
-        public List<T> FindAll()
+        public virtual List<T> FindAll()
         {
             List<T> list;
             SetStatus($"Querying ALL ‹{TypeName}› records ...");
@@ -42,7 +42,7 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        public T FindById(uint id)
+        public virtual T FindById(uint id)
         {
             using (var db = ConnectToDB(out LiteCollection<T> col))
             {
@@ -56,12 +56,18 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        public uint CountAll()
+        public virtual uint CountAll()
         {
             using (var db = ConnectToDB(out LiteCollection<T> col))
             {
                 return (uint)col.LongCount();
             }
+        }
+
+
+        public virtual List<T> FindByDates(DateTime startDate, DateTime endDate)
+        {
+            throw new NotImplementedException();
         }
     }
 }
