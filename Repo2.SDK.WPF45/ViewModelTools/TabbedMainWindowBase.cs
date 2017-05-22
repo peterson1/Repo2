@@ -1,4 +1,5 @@
 ﻿using PropertyChanged;
+using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.InputCommands;
@@ -6,19 +7,36 @@ using Repo2.SDK.WPF45.InputCommands;
 using System.Threading.Tasks;
 using System.Windows;
 using System;
+using System.ComponentModel;
 
 namespace Repo2.SDK.WPF45.ViewModelTools
 {
     [ImplementPropertyChanged]
-    public abstract class TabbedMainWindowBase
+    public abstract class TabbedMainWindowBase : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+        private      EventHandler<int> _selectedTabChanged;
+        public event EventHandler<int>  SelectedTabChanged
+        {
+            add    { _selectedTabChanged -= value; _selectedTabChanged += value; }
+            remove { _selectedTabChanged -= value; }
+        }
+
         protected string _exeVer;
+
 
         public TabbedMainWindowBase(IFileSystemAccesor fs)
         {
             _exeVer = fs.CurrentExeVersion;
             ExitCmd = R2Command.Async(ExitApp);
             AppendToCaption("...");
+
+            PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(SelectedTabIndex))
+                    _selectedTabChanged.Raise(SelectedTabIndex);
+            };
         }
         protected abstract string   CaptionPrefix   { get; }
 
