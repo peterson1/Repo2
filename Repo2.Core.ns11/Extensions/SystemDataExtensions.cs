@@ -100,6 +100,7 @@ namespace Repo2.Core.ns11.Extensions
             => ToDecimal_(rec, i) ?? defaultVal;
 
 
+
         public static bool? ToBool_(this IDataRecord rec, int i)
         {
             if (rec.IsDBNull(i)) return null;
@@ -119,6 +120,10 @@ namespace Repo2.Core.ns11.Extensions
                     return null;
             }
         }
+
+
+        public static bool ToBool(this IDataRecord rec, int i, bool defaultValue = false)
+            => rec.ToBool_(i) ?? defaultValue;
 
 
         public static short? ToShort_(this IDataRecord rec, int i)
