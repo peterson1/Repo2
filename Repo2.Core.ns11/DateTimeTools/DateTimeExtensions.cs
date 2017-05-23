@@ -49,5 +49,12 @@ namespace Repo2.Core.ns11.DateTimeTools
 
         public static IEnumerable<int> EachYearUpToLastYear(this DateTime start)
             => start.EachYearUpTo(DateTime.Now.Year - 1);
+
+
+        public static DateTime StartOfMonth(this DateTime date)
+            => new DateTime(date.Year, date.Month, 1);
+
+        public static DateTime EndOfMonth(this DateTime date)
+            => date.StartOfMonth().AddMonths(1).AddDays(-1);
     }
 }
