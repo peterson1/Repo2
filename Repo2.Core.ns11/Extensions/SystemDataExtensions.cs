@@ -147,6 +147,10 @@ namespace Repo2.Core.ns11.Extensions
         }
 
 
+        public static short ToShort(this IDataRecord rec, int i, short defaultVal = 0)
+            => rec.ToShort_(i) ?? defaultVal;
+
+
         public static char? ToChar_(this IDataRecord rec, int i)
         {
             if (rec.IsDBNull(i)) return null;
