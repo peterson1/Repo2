@@ -45,7 +45,7 @@ namespace Repo2.Core.ns11.Comparisons
         public bool BothAreNull    => (_1 == null) && (_2 == null);
 
 
-        public bool CompareValues(out string diffText)
+        public virtual bool CompareValues(out string diffText)
         {
             _diff.Clear();
             if (BothAreNull) goto Return;
