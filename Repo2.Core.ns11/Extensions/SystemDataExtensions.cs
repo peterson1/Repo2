@@ -50,9 +50,9 @@ namespace Repo2.Core.ns11.Extensions
             }
         }
 
-
         public static long ToLong(this IDataRecord rec, int i, long defaultVal = 0)
             => ToLong_(rec, i) ?? defaultVal;
+
 
 
         public static double? ToDouble_(this IDataRecord rec, int i)
@@ -74,6 +74,9 @@ namespace Repo2.Core.ns11.Extensions
                     return null;
             }
         }
+
+        public static double ToDouble(this IDataRecord rec, int i, double defaultVal = 0)
+            => rec.ToDouble_(i) ?? defaultVal;
 
 
         public static decimal? ToDecimal_(this IDataRecord rec, int i)
