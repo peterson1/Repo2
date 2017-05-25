@@ -91,6 +91,7 @@
     <Compile Include="Core.ns11.Tests\ReflectionTools\AssemblyReflectorFacts.cs" />
     <Compile Include="Core.ns11.Tests\ReflectionTools\NestedPropertyFinderFacts.cs" />
     <Compile Include="Core.ns11.Tests\ReflectionTools\PropertyValueCopierFacts.cs" />
+    <Compile Include="Core.ns11.Tests\StringExtensions\BasicStringExtensionsFacts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SDK.WPF45.Tests\ChangeNotification\StatusChangerN45Facts.cs" />
     <Compile Include="SDK.WPF45.Tests\Compression\SevenZipper2Facts.cs" />

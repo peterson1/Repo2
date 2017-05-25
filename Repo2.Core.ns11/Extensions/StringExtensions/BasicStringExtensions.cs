@@ -174,6 +174,13 @@ namespace Repo2.Core.ns11.Extensions.StringExtensions
         }
 
 
+        public static string TrimEnd(this string fullStr, string subStr)
+        {
+            if (!fullStr.EndsWith(subStr)) return fullStr;
+            return fullStr.Substring(0, fullStr.Length - subStr.Length);
+        }
+
+
         /// <summary>
         /// Appends sub URL to base URL adding slashes as needed.
         /// </summary>
