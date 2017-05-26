@@ -208,6 +208,16 @@ namespace Repo2.Core.ns11.Extensions.StringExtensions
 
 
 
+        public static bool HasText(this string lookInHere, string findThis)
+        {
+            var allLength = lookInHere.Length;
+            var subLength = findThis.Length;
+            var difLength = lookInHere.Replace(findThis, String.Empty).Length;
+            return (allLength - difLength) / subLength > 0;
+        }
+
+
+
         public static string Join(this IEnumerable<string> list, string delimeter)
             => string.Join(delimeter, list);
 

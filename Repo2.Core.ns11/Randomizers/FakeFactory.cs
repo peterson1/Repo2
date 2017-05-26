@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Repo2.Core.ns11.Extensions.StringExtensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Repo2.Core.ns11.Extensions.StringExtensions;
 
 namespace Repo2.Core.ns11.Randomizers
 {
+    //todo: rename class so we can use Some.Text(), Some.FullName()
     public class FakeFactory
     {
         private Random _random;
