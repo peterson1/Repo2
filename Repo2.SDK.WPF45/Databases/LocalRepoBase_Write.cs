@@ -42,7 +42,13 @@ namespace Repo2.SDK.WPF45.Databases
             BsonValue bVal;
             using (var db = ConnectToDB(out LiteCollection<T> col))
             {
-                bVal = col.Insert(newRecord);
+                using (var trans = db.BeginTrans())
+                {
+                    bVal = col.Insert(newRecord);
+
+                    EnsureIndeces(col);
+                    trans.Commit();
+                }
             }
             var id = (uint)bVal.AsInt64;
             SetStatus($"Sucessfully inserted ‹{TypeName}› (id: {id}).");
@@ -62,7 +68,7 @@ namespace Repo2.SDK.WPF45.Databases
                         if (rec != null)
                             col.Insert(rec);
                     }
-
+                    EnsureIndeces(col);
                     trans.Commit();
                 }
             }
@@ -85,12 +91,17 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
-        protected void EnsureIndex<K>(Expression<Func<T, K>> indexExpression, bool isUnique)
+        //protected void EnsureIndex<K>(Expression<Func<T, K>> indexExpression, bool isUnique)
+        //{
+        //    using (var db = ConnectToDB(out LiteCollection<T> col))
+        //    {
+        //        col.EnsureIndex<K>(indexExpression, isUnique);
+        //    }
+        //}
+
+
+        public virtual void EnsureIndeces(LiteCollection<T> col)
         {
-            using (var db = ConnectToDB(out LiteCollection<T> col))
-            {
-                col.EnsureIndex<K>(indexExpression, isUnique);
-            }
         }
     }
 }

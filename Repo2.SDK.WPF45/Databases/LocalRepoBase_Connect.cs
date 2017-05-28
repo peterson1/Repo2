@@ -94,7 +94,5 @@ namespace Repo2.SDK.WPF45.Databases
             else
                 return new LiteDatabase(ConnectString.LiteDB(DatabaseFullPath), _bMapr);
         }
-
-
     }
 }
