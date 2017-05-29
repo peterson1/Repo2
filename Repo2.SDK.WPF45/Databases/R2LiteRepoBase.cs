@@ -7,14 +7,14 @@ using System.IO;
 
 namespace Repo2.SDK.WPF45.Databases
 {
-    public class R2LiteDB : StatusChangerN45
+    public abstract class R2LiteRepoBase : StatusChangerN45
     {
         private   MemoryStream       _memStream;
         private   BsonMapper         _bMapr;
         protected IFileSystemAccesor _fs;
 
 
-        public R2LiteDB(IFileSystemAccesor fileSystemAccessor)
+        public R2LiteRepoBase(IFileSystemAccesor fileSystemAccessor)
         {
             _fs = fileSystemAccessor;
             _bMapr = new BsonMapper();
@@ -31,7 +31,8 @@ namespace Repo2.SDK.WPF45.Databases
 
         public bool IsInMemory => _memStream != null;
 
-        protected virtual string GetDatabaseFilename() => $"R2Database.LiteDB3";
+
+        protected abstract string GetDatabaseFilename();
 
 
         protected virtual string LocateDatabaseFile(IFileSystemAccesor fs, string filename)

@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace Repo2.SDK.WPF45.Databases
 {
-    public abstract partial class LocalRepoBase<T> : R2LiteDB
+    public abstract partial class LocalRepoBase<T> : R2LiteRepoBase
     {
         protected virtual void InsertSeedRecordsFromFile()
         {

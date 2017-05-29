@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Repo2.SDK.WPF45.Databases
 {
-    public abstract partial class LocalRepoBase<T> : R2LiteDB
+    public abstract partial class LocalRepoBase<T> : R2LiteRepoBase
     {
         private bool _isSeeded;
 

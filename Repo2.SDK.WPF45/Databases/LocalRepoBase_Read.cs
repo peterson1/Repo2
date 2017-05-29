@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace Repo2.SDK.WPF45.Databases
 {
-    public abstract partial class LocalRepoBase<T> : R2LiteDB
+    public abstract partial class LocalRepoBase<T> : R2LiteRepoBase
     {
         public virtual List<T> Find(Expression<Func<T, bool>> predicate)
         {
