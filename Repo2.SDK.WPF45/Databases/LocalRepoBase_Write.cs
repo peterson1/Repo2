@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace Repo2.SDK.WPF45.Databases
 {
-    public abstract partial class LocalRepoBase<T> : StatusChangerN45
+    public abstract partial class LocalRepoBase<T> : R2LiteDB
     {
         protected virtual void InsertSeedRecordsFromFile()
         {
@@ -42,6 +42,9 @@ namespace Repo2.SDK.WPF45.Databases
             BsonValue bVal;
             using (var db = ConnectToDB(out LiteCollection<T> col))
             {
+                if (!PreInsertValidate(newRecord, col, out string msg))
+                    throw new InvalidDataException(msg);
+
                 using (var trans = db.BeginTrans())
                 {
                     bVal = col.Insert(newRecord);
@@ -56,6 +59,13 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
+        protected virtual bool PreInsertValidate(T newRecord, LiteCollection<T> col, out string msg)
+        {
+            msg = string.Empty;
+            return true;
+        }
+
+
         public virtual uint BatchInsert(IEnumerable<T> newRecords)
         {
             SetStatus($"Inserting {newRecords.Count()} ‹{TypeName}› records ...");
@@ -65,8 +75,12 @@ namespace Repo2.SDK.WPF45.Databases
                 {
                     foreach (var rec in newRecords)
                     {
-                        if (rec != null)
-                            col.Insert(rec);
+                        if (rec == null) continue;
+
+                        if (!PreInsertValidate(rec, col, out string msg))
+                            throw new InvalidDataException(msg);
+
+                        col.Insert(rec);
                     }
                     EnsureIndeces(col);
                     trans.Commit();
