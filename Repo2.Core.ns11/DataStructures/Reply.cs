@@ -22,8 +22,7 @@ namespace Repo2.Core.ns11.DataStructures
         public static Reply<T> Success<T>(T result) => new Reply<T>(result);
 
 
-        public static Reply Error<T>(T exception)
-            where T : Exception
+        public static Reply Error(Exception exception)
         {
             var rep = new Reply();
             rep.Errors.Add(exception.Info());
@@ -31,10 +30,9 @@ namespace Repo2.Core.ns11.DataStructures
             return rep;
         }
 
-        public static Reply<TOut> Error<TOut, TEx>(TEx exception)
-            where TEx : Exception
+        public static Reply<T> Error<T>(Exception exception)
         {
-            var rep = new Reply<TOut>();
+            var rep = new Reply<T>();
             rep.Errors.Add(exception.Info());
             rep.DetailedError = exception.Info(true, true);
             return rep;
