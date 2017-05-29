@@ -7,8 +7,9 @@ namespace Repo2.Core.ns11.DataStructures
 {
     public class Reply
     {
-        public List<string>   Errors    { get; set; } = new List<string>();
-        public List<string>   Warnings  { get; set; } = new List<string>();
+        public List<string>   Errors         { get; set; } = new List<string>();
+        public List<string>   Warnings       { get; set; } = new List<string>();
+        public string         DetailedError  { get; private set; }
 
         public bool    IsSuccessful  => Errors.Count == 0;
         public bool    HasWarnings   => Warnings.Count != 0;
@@ -19,6 +20,26 @@ namespace Repo2.Core.ns11.DataStructures
         public static Reply Success() => new Reply();
 
         public static Reply<T> Success<T>(T result) => new Reply<T>(result);
+
+
+        public static Reply Error<T>(T exception)
+            where T : Exception
+        {
+            var rep = new Reply();
+            rep.Errors.Add(exception.Info());
+            rep.DetailedError = exception.Info(true, true);
+            return rep;
+        }
+
+        public static Reply<TOut> Error<TOut, TEx>(TEx exception)
+            where TEx : Exception
+        {
+            var rep = new Reply<TOut>();
+            rep.Errors.Add(exception.Info());
+            rep.DetailedError = exception.Info(true, true);
+            return rep;
+        }
+
 
         public static Reply Error(string errorMessage)
         {
