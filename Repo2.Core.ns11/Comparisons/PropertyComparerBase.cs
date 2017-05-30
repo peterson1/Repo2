@@ -18,6 +18,7 @@ namespace Repo2.Core.ns11.Comparisons
             {
                 { typeof(string   ), (b1, b2) => CompareString  (b1, b2) },
                 { typeof(int      ), (b1, b2) => CompareInt     (b1, b2) },
+                { typeof(int?     ), (b1, b2) => CompareInt_    (b1, b2) },
                 { typeof(DateTime ), (b1, b2) => CompareDate    (b1, b2) },
                 { typeof(DateTime?), (b1, b2) => CompareDate_   (b1, b2) },
                 { typeof(decimal  ), (b1, b2) => CompareDecimal (b1, b2) },
@@ -182,6 +183,10 @@ namespace Repo2.Core.ns11.Comparisons
 
         protected virtual bool CompareInt(object value1, object value2)
             => (int)value1 == (int)value2;
+
+
+        protected virtual bool CompareInt_(object value1, object value2)
+            => (int?)value1 == (int?)value2;
 
 
         protected virtual bool CompareDate(object value1, object value2)
