@@ -9,7 +9,7 @@ namespace Repo2.Core.ns11.DataStructures
     {
         public List<string>   Errors         { get; set; } = new List<string>();
         public List<string>   Warnings       { get; set; } = new List<string>();
-        public string         DetailedError  { get; private set; }
+        public string         DetailedError  { get; set; }
 
         public bool    IsSuccessful  => Errors.Count == 0;
         public bool    HasWarnings   => Warnings.Count != 0;
