@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Repo2.SDK.WPF45.Databases
 {
-    public abstract class R2LiteRepoBase : StatusChangerN45
+    public abstract partial class R2LiteRepoBase : StatusChangerN45
     {
         private   MemoryStream       _memStream;
         private   BsonMapper         _bMapr;
@@ -67,19 +67,6 @@ namespace Repo2.SDK.WPF45.Databases
             var db     = CreateLiteDatabase();
             collection = db.GetCollection<T>(collectionName ?? typeof(T).Name);
             return db;
-        }
-
-
-        public virtual List<T> FindAll<T>()
-        {
-            List<T> list;
-            SetStatus($"Querying ALL ‹{typeof(T).Name}› records ...");
-
-            using (var db = ConnectToDB(out LiteCollection<T> col))
-                list = col.FindAll().ToList();
-
-            SetStatus($"Query returned {list.Count:N0} ‹{typeof(T).Name}› records.");
-            return list;
         }
     }
 }

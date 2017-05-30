@@ -153,7 +153,9 @@
     <Compile Include="Databases\LocalRepoBase_Connect.cs" />
     <Compile Include="Databases\LocalRepoBase_Read.cs" />
     <Compile Include="Databases\LocalRepoBase_Write.cs" />
-    <Compile Include="Databases\R2LiteRepoBase.cs" />
+    <Compile Include="Databases\R2LiteRepoBase_Connect.cs" />
+    <Compile Include="Databases\R2LiteRepoBase_Read.cs" />
+    <Compile Include="Databases\R2LiteRepoBase_Write.cs" />
     <Compile Include="Databases\SubjectAlterationsRepoBase.cs" />
     <Compile Include="Databases\LocalDatabase1.cs" />
     <Compile Include="Databases\MariaDbRecovery.cs" />
