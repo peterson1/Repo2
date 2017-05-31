@@ -206,6 +206,7 @@
     </Compile>
     <Compile Include="ViewModelTools\R2ViewModelBase.cs" />
     <Compile Include="ViewModelTools\TabbedMainWindowBase.cs" />
+    <Compile Include="ViewModelTools\TextFilterBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
