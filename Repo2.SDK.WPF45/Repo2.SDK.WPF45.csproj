@@ -194,7 +194,6 @@
     </Compile>
     <Compile Include="RestClients\ResilientClient1.cs" />
     <Compile Include="Serialization\Json.cs" />
-    <Compile Include="Styles\Class1.cs" />
     <Compile Include="TaskResilience\CrappyConnectionRetryer.cs" />
     <Compile Include="UserControls\DualText.xaml.cs">
       <DependentUpon>DualText.xaml</DependentUpon>

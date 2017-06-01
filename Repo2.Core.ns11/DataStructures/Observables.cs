@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Repo2.Core.ns11.ChangeNotification;
+using System.ComponentModel;
 
 namespace Repo2.Core.ns11.DataStructures
 {
@@ -14,6 +15,13 @@ namespace Repo2.Core.ns11.DataStructures
             remove { _selectionChanged -= value; }
         }
 
+        private      EventHandler<T> _selectedItemChanged;
+        public event EventHandler<T>  SelectedItemChanged
+        {
+            add    { _selectedItemChanged -= value; _selectedItemChanged += value; }
+            remove { _selectedItemChanged -= value; }
+        }
+
         private      EventHandler _contentSwapped;
         public event EventHandler  ContentSwapped
         {
@@ -21,18 +29,29 @@ namespace Repo2.Core.ns11.DataStructures
             remove { _contentSwapped -= value; }
         }
 
+        private T _selectedItem;
+
 
         public Observables() : base()
         {
+            //this.PropertyChanged += Observables_PropertyChanged;
         }
 
 
         public Observables(IEnumerable<T> collection) : base(collection)
         {
+            //this.PropertyChanged += Observables_PropertyChanged;
         }
 
 
-        public double? ManualTotal { get; set; }
+
+        public double?   ManualTotal    { get; set; }
+
+        public T         SelectedItem
+        {
+            get => _selectedItem;
+            set =>_selectedItemChanged.Raise(_selectedItem = value);
+        }
 
 
         public void Swap(IEnumerable<T> newItems)
@@ -55,6 +74,13 @@ namespace Repo2.Core.ns11.DataStructures
         //        await Task.Delay(1);
         //        Swap(newItems);
         //    });
+        //}
+
+
+        //private void Observables_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName == nameof(SelectedItem))
+        //        _selectedItemChanged.Raise(SelectedItem);
         //}
 
 
