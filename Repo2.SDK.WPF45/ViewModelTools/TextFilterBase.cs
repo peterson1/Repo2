@@ -12,10 +12,10 @@ namespace Repo2.SDK.WPF45.ViewModelTools
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
-        private EventHandler _textFilterChanged;
-        public event EventHandler TextFilterChanged
+        private      EventHandler _textFilterChanged;
+        public event EventHandler  TextFilterChanged
         {
-            add { _textFilterChanged -= value; _textFilterChanged += value; }
+            add    { _textFilterChanged -= value; _textFilterChanged += value; }
             remove { _textFilterChanged -= value; }
         }
 
@@ -55,7 +55,7 @@ namespace Repo2.SDK.WPF45.ViewModelTools
 
             try
             {
-                list.RemoveAll(x => !propertyGetter(x).ToLower().Contains(findThis));
+                list.RemoveAll(x => !propertyGetter(x).ToLower().HasText(findThis));
             }
             catch { }
         }
