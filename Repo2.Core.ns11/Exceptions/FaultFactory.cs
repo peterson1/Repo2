@@ -2,6 +2,7 @@
 using System.IO;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using System.Runtime.CompilerServices;
+using Repo2.Core.ns11.DataStructures;
 
 namespace Repo2.Core.ns11.Exceptions
 {
@@ -80,6 +81,10 @@ namespace Repo2.Core.ns11.Exceptions
         public static InvalidOperationException Failed (string operationDesc)
             => new InvalidOperationException(
                 $"Operaion “{operationDesc}” failed.");
+
+        public static InvalidOperationException Failed(string operationDesc, Reply reply)
+            => new InvalidOperationException(
+                $"Operaion “{operationDesc}” failed.{L.F}{reply.ErrorsText}");
 
 
         public static NotSupportedException Unsupported(object unsupportedValue)
