@@ -55,8 +55,11 @@ namespace Repo2.SDK.WPF45.ViewModelTools
 
         protected void StartBeingBusy(string message)
         {
-            IsBusy = true;
-            BusyText = message;
+            AsUI(_ =>
+            {
+                IsBusy = true;
+                BusyText = message;
+            });
         }
 
 
