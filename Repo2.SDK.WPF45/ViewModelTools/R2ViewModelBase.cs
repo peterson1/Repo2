@@ -3,6 +3,7 @@ using Repo2.Core.ns11.ChangeNotification;
 using System.Threading;
 using PropertyChanged;
 using System;
+using System.Threading.Tasks;
 
 namespace Repo2.SDK.WPF45.ViewModelTools
 {
@@ -56,6 +57,14 @@ namespace Repo2.SDK.WPF45.ViewModelTools
         {
             IsBusy = true;
             BusyText = message;
+        }
+
+
+        protected async Task StartBeingBusyAsync(string message)
+        {
+            await Task.Delay(1);
+            StartBeingBusy(message);
+            await Task.Delay(1);
         }
 
         protected void StopBeingBusy() => IsBusy = false;
