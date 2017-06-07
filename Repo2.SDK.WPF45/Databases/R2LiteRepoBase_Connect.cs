@@ -6,6 +6,7 @@ using Repo2.SDK.WPF45.ChangeNotification;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System;
 
 namespace Repo2.SDK.WPF45.Databases
 {
@@ -56,9 +57,15 @@ namespace Repo2.SDK.WPF45.Databases
             {
                 DatabaseFilename = GetDatabaseFilename();
                 DatabaseFullPath = LocateDatabaseFile(_fs, DatabaseFilename);
+                OnDBFileLocated(DatabaseFullPath);
             }
 
             return new LiteDatabase(ConnectString.LiteDB(DatabaseFullPath), _bMapr);
+        }
+
+
+        protected virtual void OnDBFileLocated(string databaseFullPath)
+        {
         }
 
 

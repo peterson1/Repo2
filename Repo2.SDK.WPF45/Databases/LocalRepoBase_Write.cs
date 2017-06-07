@@ -7,17 +7,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 
 namespace Repo2.SDK.WPF45.Databases
 {
     public abstract partial class LocalRepoBase<T> : R2LiteRepoBase
     {
-        protected virtual void InsertSeedRecordsFromFile()
+        protected virtual void InsertSeedRecordsFromFile(string jsonFilename, string jsonFilePath)
         {
-            var jsonStr = File.ReadAllText(JsonSeedFullPath);
+            var jsonStr  = File.ReadAllText(jsonFilePath, Encoding.UTF8);
             var seedRecs = Json.Deserialize<List<T>>(jsonStr);
 
-            SetStatus($"Seeding {seedRecs.Count:N0} ‹{TypeName}› records from [{JsonSeedFilename}] ...");
+            SetStatus($"Seeding {seedRecs.Count:N0} ‹{TypeName}› records from [{jsonFilename}] ...");
             using (var db = CreateLiteDatabase())
             {
                 var col = db.GetCollection<T>(CollectionName);

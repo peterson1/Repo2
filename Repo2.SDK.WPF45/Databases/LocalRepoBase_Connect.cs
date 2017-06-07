@@ -13,16 +13,11 @@ namespace Repo2.SDK.WPF45.Databases
         {
             TypeName         = typeof(T).Name;
             CollectionName   = GetCollectionName();
-            if (_fs != null)
-            {
-                JsonSeedFilename = GetJsonSeedFilename();
-                JsonSeedFullPath = LocateJsonSeedFile(_fs, DatabaseFullPath, JsonSeedFilename);
-            }
         }
 
         public string   TypeName           { get; }
-        public string   JsonSeedFilename   { get; }
-        public string   JsonSeedFullPath   { get; }
+        //public string   JsonSeedFilename   { get; private set; }
+        //public string   JsonSeedFullPath   { get; private set; }
         public string   CollectionName     { get; }
         public bool     IsSeedEnabled      { get; protected set; }
 
@@ -33,16 +28,27 @@ namespace Repo2.SDK.WPF45.Databases
 
 
         public override LiteDatabase ConnectToDB<TCol>(out LiteCollection<TCol> collection, string collectionName = null)
+            => base.ConnectToDB(out collection, CollectionName);
+
+
+        protected override void OnDBFileLocated(string databaseFullPath)
         {
+            if (_fs == null) return;
+
+            var jsonFilename = GetJsonSeedFilename();
+            var jsonFullPath = LocateJsonSeedFile(_fs, DatabaseFullPath, jsonFilename);
+
             if (IsSeedEnabled && !_isSeeded)
             {
+                //SetStatus($"DatabaseFullPath: {DatabaseFullPath} :  {_fs.Found(DatabaseFullPath)}");
+                //SetStatus($"JsonSeedFullPath: {JsonSeedFullPath} :  {_fs.Found(JsonSeedFullPath)}");
+
                 if (!_fs.Found(DatabaseFullPath)
-                  && _fs.Found(JsonSeedFullPath))
-                    InsertSeedRecordsFromFile();
+                  && _fs.Found(jsonFullPath))
+                    InsertSeedRecordsFromFile(jsonFilename, jsonFullPath);
 
                 _isSeeded = true;
             }
-            return base.ConnectToDB(out collection, CollectionName);
         }
 
 
