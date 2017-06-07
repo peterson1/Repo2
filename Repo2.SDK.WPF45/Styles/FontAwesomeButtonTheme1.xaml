@@ -56,7 +56,7 @@
     <Style x:Key="nextBtn" TargetType="Button"
            BasedOn="{StaticResource awesomeBtn}">
         <Setter Property="fa:Awesome.Content" Value="ArrowCircleRight" />
-        <Setter Property="ToolTip" Value="Back" />
+        <Setter Property="ToolTip" Value="Next" />
         <Setter Property="Foreground" Value="Black" />
     </Style>
 
