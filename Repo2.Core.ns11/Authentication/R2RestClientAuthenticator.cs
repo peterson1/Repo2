@@ -6,15 +6,19 @@ using Repo2.Core.ns11.Drupal8;
 using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.RestClients;
+using System.ComponentModel;
 
 namespace Repo2.Core.ns11.Authentication
 {
-    [ImplementPropertyChanged]
-    internal class R2RestClientAuthenticator
+    //[ImplementPropertyChanged]
+    internal class R2RestClientAuthenticator : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
         private R2RestClientBase        _client;
         private CancellationTokenSource _cancelr;
         private D8Cookie _cookie;
+
 
         internal string          CsrfToken                { get; private set; }
         internal IR2Credentials  Creds                    { get; private set; }

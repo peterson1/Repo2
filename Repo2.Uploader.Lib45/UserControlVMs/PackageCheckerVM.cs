@@ -8,12 +8,15 @@ using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.PackageRegistration;
 using Repo2.SDK.WPF45.InputCommands;
+using System.ComponentModel;
 
 namespace Repo2.Uploader.Lib45.UserControlVMs
 {
-    [ImplementPropertyChanged]
-    public class PackageCheckerVM
+    //[ImplementPropertyChanged]
+    public class PackageCheckerVM : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
         public event EventHandler<R2Package> PackageVerified = delegate { };
 
         private IR2PreUploadChecker _preCheckr;

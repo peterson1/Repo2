@@ -5,15 +5,19 @@ using PropertyChanged;
 using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.InputCommands;
 using Repo2.SDK.WPF45.Exceptions;
+using System.ComponentModel;
 
 namespace Repo2.SDK.WPF45.InputCommands
 {
-    [ImplementPropertyChanged]
-    public class R2AsyncCommandWPF : IR2Command
+    //[ImplementPropertyChanged]
+    public class R2AsyncCommandWPF : IR2Command, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
         private   string                 _origLabel;
         private   bool                   _origOverride;
         protected Predicate<object>      _canExecute;
+
 
         internal R2AsyncCommandWPF(Func<object, Task> task, Predicate<object> canExecute, string buttonLabel)
         {

@@ -11,12 +11,15 @@ using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.PackageDownloaders;
 using Repo2.Core.ns11.PackageUploaders;
 using Repo2.Core.ns11.ChangeNotification;
+using Repo2.SDK.WPF45.ChangeNotification;
+using System.ComponentModel;
 
 namespace Repo2.Uploader.Lib45.PackageUploaders
 {
-    [ImplementPropertyChanged]
-    public class D8PackageUploader : StatusChanger, IPackageUploader
+    //[ImplementPropertyChanged]
+    public class D8PackageUploader : StatusChangerN45, IPackageUploader, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
         //private      EventHandler<string> _statusChanged;
         //public event EventHandler<string>  StatusChanged
         //{

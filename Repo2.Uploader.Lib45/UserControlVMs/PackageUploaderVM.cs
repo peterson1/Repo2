@@ -13,7 +13,7 @@ using Repo2.SDK.WPF45.InputCommands;
 
 namespace Repo2.Uploader.Lib45.UserControlVMs
 {
-    [ImplementPropertyChanged]
+    //[ImplementPropertyChanged]
     public class PackageUploaderVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };

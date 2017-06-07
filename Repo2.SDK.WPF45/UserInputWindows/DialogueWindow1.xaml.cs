@@ -1,13 +1,9 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
-using System.Windows.Data;
-using AutoDependencyPropertyMarker;
-using Xceed.Wpf.Toolkit;
 
 namespace Repo2.SDK.WPF45.UserInputWindows
 {
-    [AutoDependencyProperty]
+    //[AutoDependencyProperty]
     public partial class DialogueWindow1 : Window
     {
         public DialogueWindow1()

@@ -8,12 +8,15 @@ using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.SDK.WPF45.InputCommands;
+using System.ComponentModel;
 
 namespace Repo2.Uploader.Lib45.UserControlVMs
 {
-    [ImplementPropertyChanged]
-    public class PackageVersionRowVM
+    //[ImplementPropertyChanged]
+    public class PackageVersionRowVM : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
         private List<R2PackagePart> _parts;
         private IPackagePartManager _partsMgr;
 

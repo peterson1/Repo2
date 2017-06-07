@@ -11,7 +11,7 @@ using Repo2.SDK.WPF45.ViewModelTools;
 
 namespace Repo2.Uploader.Lib45.Configuration
 {
-    [ImplementPropertyChanged]
+    //[ImplementPropertyChanged]
     public class ConfigLoaderVM : R2ViewModelBase
     {
         public event EventHandler<UploaderConfigFile> ConfigLoaded = delegate { };

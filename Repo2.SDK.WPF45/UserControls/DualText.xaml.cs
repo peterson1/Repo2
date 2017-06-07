@@ -3,11 +3,10 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using AutoDependencyPropertyMarker;
 
 namespace Repo2.SDK.WPF45.UserControls
 {
-    [AutoDependencyProperty]
+    //[AutoDependencyProperty]
     public partial class DualText : UserControl
     {
         public DualText()
@@ -62,33 +61,33 @@ namespace Repo2.SDK.WPF45.UserControls
         }
 
 
-        public string          Text1             { get; set; }
-        public string          Text2             { get; set; }
+        //public string          Text1             { get; set; }
+        //public string          Text2             { get; set; }
                                                  
-        public GridLength?     Text1Width        { get; set; }
-        public GridLength?     GapWidth          { get; set; }
-        public GridLength?     Text2Width        { get; set; }
+        //public GridLength?     Text1Width        { get; set; }
+        //public GridLength?     GapWidth          { get; set; }
+        //public GridLength?     Text2Width        { get; set; }
                                                  
-        public TextAlignment?  Text1Alignment    { get; set; }
-        public TextAlignment?  Text2Alignment    { get; set; }
+        //public TextAlignment?  Text1Alignment    { get; set; }
+        //public TextAlignment?  Text2Alignment    { get; set; }
                                                  
-        public TextWrapping    Text1Wrapping     { get; set; }
-        public TextWrapping    Text2Wrapping     { get; set; }
+        //public TextWrapping    Text1Wrapping     { get; set; }
+        //public TextWrapping    Text2Wrapping     { get; set; }
                                                  
-        public Brush           Text1Brush        { get; set; }
-        public Brush           Text2Brush        { get; set; }
+        //public Brush           Text1Brush        { get; set; }
+        //public Brush           Text2Brush        { get; set; }
                                                  
-        public FontWeight?     Text1Weight       { get; set; }
-        public FontWeight?     Text2Weight       { get; set; }
+        //public FontWeight?     Text1Weight       { get; set; }
+        //public FontWeight?     Text2Weight       { get; set; }
                                                  
-        public FontStyle       Text1FontStyle    { get; set; }
-        public FontStyle       Text2FontStyle    { get; set; }
+        //public FontStyle       Text1FontStyle    { get; set; }
+        //public FontStyle       Text2FontStyle    { get; set; }
                                                  
-        public double?         Text1Size         { get; set; }
-        public double?         Text2Size         { get; set; }
+        //public double?         Text1Size         { get; set; }
+        //public double?         Text2Size         { get; set; }
                                                  
-        public Visibility      Text1Ellipsis     { get; set; }
-        public Visibility      Text2Ellipsis     { get; set; }
+        //public Visibility      Text1Ellipsis     { get; set; }
+        //public Visibility      Text2Ellipsis     { get; set; }
     }
 
 

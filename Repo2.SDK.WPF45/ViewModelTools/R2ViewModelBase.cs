@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repo2.SDK.WPF45.ViewModelTools
 {
-    [ImplementPropertyChanged]
+    //[ImplementPropertyChanged]
     public class R2ViewModelBase : INotifyPropertyChanged
     {
         private      EventHandler<string> _statusChanged;

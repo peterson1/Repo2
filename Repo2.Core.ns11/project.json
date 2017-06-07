@@ -4,7 +4,7 @@
     "Autofac": "4.5.0",
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.1",
-    "PropertyChanged.Fody": "1.52.1"
+    "PropertyChanged.Fody": "2.1.1"
   },
   "frameworks": {
     "netstandard1.1": {}

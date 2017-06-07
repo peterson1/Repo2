@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Repo2.SDK.WPF45.ViewModelTools
 {
-    [ImplementPropertyChanged]
+    //[ImplementPropertyChanged]
     public abstract class TextFilterBase<T> : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };

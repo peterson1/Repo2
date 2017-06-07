@@ -11,7 +11,7 @@ using System.ComponentModel;
 
 namespace Repo2.SDK.WPF45.ViewModelTools
 {
-    [ImplementPropertyChanged]
+    //[ImplementPropertyChanged]
     public abstract class TabbedMainWindowBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };

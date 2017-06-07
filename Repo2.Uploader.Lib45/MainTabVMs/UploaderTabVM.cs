@@ -8,12 +8,14 @@ using Repo2.SDK.WPF45.Exceptions;
 using Repo2.Uploader.Lib45.Configuration;
 using Repo2.Uploader.Lib45.PopupVMs;
 using Repo2.Uploader.Lib45.UserControlVMs;
+using System.ComponentModel;
 
 namespace Repo2.Uploader.Lib45.MainTabVMs
 {
-    [ImplementPropertyChanged]
-    public class UploaderTabVM
+    //[ImplementPropertyChanged]
+    public class UploaderTabVM : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
         //private string _pkgPath;
 
         public UploaderTabVM(IR2RestClient restClient,

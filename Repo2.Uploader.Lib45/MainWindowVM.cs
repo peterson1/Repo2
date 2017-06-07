@@ -2,12 +2,16 @@
 using Repo2.Core.ns11.DataStructures;
 using Repo2.Uploader.Lib45.Configuration;
 using Repo2.Uploader.Lib45.MainTabVMs;
+using System.ComponentModel;
 
 namespace Repo2.Uploader.Lib45
 {
-    [ImplementPropertyChanged]
-    public class MainWindowVM
+    //[ImplementPropertyChanged]
+    public class MainWindowVM : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+
         public MainWindowVM(ConfigLoaderVM configLoaderVM,
                             UploaderTabVM uploaderTabVM,
                             PreviousVerTabVM previousVerTabVM)

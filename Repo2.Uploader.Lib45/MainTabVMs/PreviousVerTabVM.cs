@@ -12,12 +12,15 @@ using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.SDK.WPF45.InputCommands;
 using Repo2.Uploader.Lib45.UserControlVMs;
+using System.ComponentModel;
 
 namespace Repo2.Uploader.Lib45.MainTabVMs
 {
-    [ImplementPropertyChanged]
-    public class PreviousVerTabVM
+    //[ImplementPropertyChanged]
+    public class PreviousVerTabVM : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
         private IPackagePartManager _partsMgr;
 
         public PreviousVerTabVM(IPackagePartManager packagePartManager)

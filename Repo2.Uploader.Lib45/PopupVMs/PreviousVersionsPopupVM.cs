@@ -8,12 +8,15 @@ using Repo2.Core.ns11.DomainModels;
 using Repo2.Core.ns11.Exceptions;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Uploader.Lib45.UserControlVMs;
+using System.ComponentModel;
 
 namespace Repo2.Uploader.Lib45.PopupVMs
 {
-    [ImplementPropertyChanged]
-    public class PreviousVersionsPopupVM
+    //[ImplementPropertyChanged]
+    public class PreviousVersionsPopupVM : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
         private IPackagePartManager _partsMgr;
 
         public PreviousVersionsPopupVM(IPackagePartManager packagePartManager)

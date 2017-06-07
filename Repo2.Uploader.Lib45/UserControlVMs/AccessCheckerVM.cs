@@ -11,7 +11,7 @@ using Repo2.Uploader.Lib45.Configuration;
 
 namespace Repo2.Uploader.Lib45.UserControlVMs
 {
-    [ImplementPropertyChanged]
+    //[ImplementPropertyChanged]
     public class AccessCheckerVM : R2ViewModelBase
     {
         public event EventHandler WriteAccessEnabled = delegate { };
