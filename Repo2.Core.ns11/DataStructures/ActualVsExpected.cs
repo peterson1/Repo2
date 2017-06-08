@@ -1,4 +1,5 @@
 ﻿using Repo2.Core.ns11.Exceptions;
+using Repo2.Core.ns11.Extensions.DecimalExtensions;
 using System;
 using System.Collections.Generic;
 
@@ -77,7 +78,7 @@ namespace Repo2.Core.ns11.DataStructures
 
 
         protected virtual bool CompareDouble(object value1, object value2)
-            => (double)value1 == (double)value2;
+            => ((double)value1).AlmostEqualTo((double)value2);
 
 
         protected virtual bool CompareBool(object value1, object value2)
