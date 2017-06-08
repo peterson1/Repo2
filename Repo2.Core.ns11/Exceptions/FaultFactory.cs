@@ -80,11 +80,11 @@ namespace Repo2.Core.ns11.Exceptions
 
         public static InvalidOperationException Failed (string operationDesc)
             => new InvalidOperationException(
-                $"Operaion “{operationDesc}” failed.");
+                $"Operation “{operationDesc}” failed.");
 
         public static InvalidOperationException Failed(string operationDesc, Reply reply)
             => new InvalidOperationException(
-                $"Operaion “{operationDesc}” failed.{L.F}{reply.ErrorsText}");
+                $"Operation “{operationDesc}” failed.{L.F}{reply.ErrorsText}");
 
 
         public static NotSupportedException Unsupported(object unsupportedValue)
