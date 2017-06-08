@@ -66,7 +66,7 @@ namespace Repo2.Core.ns11.DataStructures
 
 
         protected virtual bool CompareDecimal(object value1, object value2)
-            => (decimal)value1 == (decimal)value2;
+            => ((decimal)value1).AlmostEqualTo((decimal)value2);
 
 
         protected virtual bool CompareUInt(object value1, object value2)
