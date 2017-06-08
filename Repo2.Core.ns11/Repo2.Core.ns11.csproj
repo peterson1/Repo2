@@ -53,6 +53,7 @@
     <Compile Include="Databases\ILocalDatabase.cs" />
     <Compile Include="Databases\ISubjectAlterationsDB.cs" />
     <Compile Include="Databases\ISubjectSnapshotsDB.cs" />
+    <Compile Include="DataStructures\ActualVsExpected.cs" />
     <Compile Include="DataStructures\ISubjectSnapshot.cs" />
     <Compile Include="DataStructures\SubjectValueMod.cs" />
     <Compile Include="DataStructures\SubjectAlterations.cs" />
