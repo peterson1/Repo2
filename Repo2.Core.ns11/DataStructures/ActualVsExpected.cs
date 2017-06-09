@@ -15,9 +15,19 @@ namespace Repo2.Core.ns11.DataStructures
         }
 
 
-        public T      Actual     { get; }
-        public T      Expected   { get; }
-        public bool   IsSame     { get; }
+        public ActualVsExpected(T actual, T expected, decimal decimalTolerance)
+        {
+            Actual    = actual;
+            Expected  = expected;
+            Tolerance = decimalTolerance;
+            IsSame    = Compare(actual, expected);
+        }
+
+
+        public T         Actual     { get; }
+        public T         Expected   { get; }
+        public bool      IsSame     { get; }
+        public decimal   Tolerance  { get; } = 0.0000001M;
 
 
         private bool Compare(T actual, T expected)
@@ -66,7 +76,7 @@ namespace Repo2.Core.ns11.DataStructures
 
 
         protected virtual bool CompareDecimal(object value1, object value2)
-            => ((decimal)value1).AlmostEqualTo((decimal)value2);
+            => ((decimal)value1).AlmostEqualTo((decimal)value2, Tolerance);
 
 
         protected virtual bool CompareUInt(object value1, object value2)
@@ -78,7 +88,7 @@ namespace Repo2.Core.ns11.DataStructures
 
 
         protected virtual bool CompareDouble(object value1, object value2)
-            => ((double)value1).AlmostEqualTo((double)value2);
+            => ((double)value1).AlmostEqualTo((double)value2, Tolerance);
 
 
         protected virtual bool CompareBool(object value1, object value2)
