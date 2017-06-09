@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Repo2.Core.ns11.ChangeNotification;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Repo2.Core.ns11.ChangeNotification;
-using System.ComponentModel;
 
 namespace Repo2.Core.ns11.DataStructures
 {
@@ -58,8 +57,11 @@ namespace Repo2.Core.ns11.DataStructures
         {
             this.ClearItems();
 
-            foreach (var item in newItems)
-                this.Add(item);
+            if (newItems != null)
+            {
+                foreach (var item in newItems)
+                    this.Add(item);
+            }
 
             _contentSwapped.Raise();
         }
