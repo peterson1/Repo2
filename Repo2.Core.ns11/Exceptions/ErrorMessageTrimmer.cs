@@ -55,13 +55,20 @@ namespace Repo2.Core.ns11.Exceptions
             if (stackTrace == null) return "";
             if (stackTrace.IsBlank()) return "";
 
-            var ss = stackTrace.Split('\n');
+            var ss = stackTrace.Split('\n').ToList();
 
-            for (int i = 0; i < ss.Length; i++)
+            ss.RemoveAll(x => x.HasText("--- End of stack trace from previous location where exception was thrown ---"));
+            ss.RemoveAll(x => x.HasText("at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)"));
+            ss.RemoveAll(x => x.HasText("at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)"));
+            ss.RemoveAll(x => x.HasText("at Repo2.SDK.WPF45.InputCommands.R2AsyncCommandWPF.<SafeRun>d__48.MoveNext()"));
+
+            for (int i = 0; i < ss.Count; i++)
             {
                 var dropTxt = ss[i].Between(" in ", "\\", true);
                 if (dropTxt != ss[i])
                     ss[i] = ss[i].Replace(dropTxt, "");
+
+                ss[i] = ss[i].Replace(".MoveNext() in ", "");
             }
 
             return string.Join("\n", ss);
