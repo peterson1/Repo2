@@ -59,6 +59,7 @@ namespace Repo2.Core.ns11.Exceptions
 
             ss.RemoveAll(x => x.HasText("--- End of stack trace from previous location where exception was thrown ---"));
             ss.RemoveAll(x => x.HasText("at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)"));
+            ss.RemoveAll(x => x.HasText("at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()"));
             ss.RemoveAll(x => x.HasText("at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)"));
             ss.RemoveAll(x => x.HasText("at Repo2.SDK.WPF45.InputCommands.R2AsyncCommandWPF.<SafeRun>d__48.MoveNext()"));
 
