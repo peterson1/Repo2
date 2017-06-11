@@ -39,6 +39,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppUpdates\IAppUpdater.cs" />
     <Compile Include="Authentication\IR2Credentials.cs" />
     <Compile Include="Authentication\R2Credentials.cs" />
     <Compile Include="Authentication\R2RestClientAuthenticator.cs" />
