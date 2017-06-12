@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace Repo2.Core.ns11.DataStructures
 {
@@ -33,18 +34,18 @@ namespace Repo2.Core.ns11.DataStructures
 
         public Observables() : base()
         {
-            //this.PropertyChanged += Observables_PropertyChanged;
         }
 
 
         public Observables(IEnumerable<T> collection) : base(collection)
         {
-            //this.PropertyChanged += Observables_PropertyChanged;
         }
 
 
 
         public double?   ManualTotal    { get; set; }
+        public uint?     MaxCount       { get; set; }
+
 
         public T         SelectedItem
         {
@@ -64,6 +65,20 @@ namespace Repo2.Core.ns11.DataStructures
             }
 
             _contentSwapped.Raise();
+        }
+
+
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            base.OnCollectionChanged(e);
+
+            if (MaxCount.HasValue)
+            {
+                while (Count > MaxCount)
+                {
+                    RemoveAt(0);
+                }
+            }
         }
 
 
