@@ -1,20 +1,25 @@
 ﻿using Repo2.Core.ns11.AppUpdates;
 using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.ChangeNotification;
+using Repo2.Core.ns11.DataStructures;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.PackageDownloaders;
 using Repo2.SDK.WPF45.ChangeNotification;
+using Repo2.SDK.WPF45.Exceptions;
 using Repo2.SDK.WPF45.Extensions.ApplicationExtensions;
 using Repo2.SDK.WPF45.InputCommands;
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Repo2.SDK.WPF45.AppUpdates
 {
-    public abstract class R2AppUpdaterBase : StatusChangerN45, IAppUpdater
+    public abstract class R2AppUpdaterBase : StatusChangerN45, IAppUpdater, INotifyPropertyChanged
     {
+        //public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
         private      EventHandler  _updatesInstalled;
         public event EventHandler   UpdatesInstalled
         {
@@ -25,7 +30,6 @@ namespace Repo2.SDK.WPF45.AppUpdates
 
         private ILocalPackageFileUpdater _r2Upd8r;
         private IFileSystemAccesor       _fs;
-
 
         public R2AppUpdaterBase(ILocalPackageFileUpdater localPackageFileUpdater,
                                 IFileSystemAccesor fileSystemAccesor)
@@ -40,6 +44,9 @@ namespace Repo2.SDK.WPF45.AppUpdates
             RelaunchCmd = R2Command.Relay(RelaunchApp);
             RelaunchCmd.OverrideEnabled = false;
 
+            StatusChanged += (s, e) => Logs.Add(e);
+            Logs.MaxCount = 50;
+
             UpdatesInstalled += (s, e) =>
             {
                 RelaunchCmd.OverrideEnabled = true;
@@ -50,6 +57,8 @@ namespace Repo2.SDK.WPF45.AppUpdates
 
         public IR2Command RelaunchCmd { get; }
 
+        public Observables<string> Logs { get; } = new Observables<string>();
+
 
         protected abstract IR2Credentials GetCredentials();
 
@@ -57,7 +66,6 @@ namespace Repo2.SDK.WPF45.AppUpdates
         public void StartCheckingForUpdates()
         {
             if (_r2Upd8r.IsChecking) return;
-
 
             var creds = GetCredentials();
             if (creds == null) return;
