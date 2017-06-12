@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Repo2.Core.ns11.Extensions.StringExtensions;
+using System;
 using System.Linq;
-using Repo2.Core.ns11.Extensions.StringExtensions;
 
 namespace Repo2.Core.ns11.Exceptions
 {
@@ -58,10 +58,14 @@ namespace Repo2.Core.ns11.Exceptions
             var ss = stackTrace.Split('\n').ToList();
 
             ss.RemoveAll(x => x.HasText("--- End of stack trace from previous location where exception was thrown ---"));
-            ss.RemoveAll(x => x.HasText("at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)"));
-            ss.RemoveAll(x => x.HasText("at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()"));
-            ss.RemoveAll(x => x.HasText("at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)"));
             ss.RemoveAll(x => x.HasText("at Repo2.SDK.WPF45.InputCommands.R2AsyncCommandWPF.<SafeRun>d__48.MoveNext()"));
+            ss.RemoveAll(x => x.HasText("at System.Collections.Generic.Dictionary`2.Insert(TKey key, TValue value, Boolean add)"));
+            ss.RemoveAll(x => x.HasText("at System.Collections.Generic.Dictionary`2.Add(TKey key, TValue value)"));
+            ss.RemoveAll(x => x.HasText("at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()"));
+            ss.RemoveAll(x => x.HasText("at System.Runtime.CompilerServices.TaskAwaiter.GetResult()"));
+            ss.RemoveAll(x => x.HasText("at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)"));
+            ss.RemoveAll(x => x.HasText("at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)"));
+            ss.RemoveAll(x => x.HasText("at System.ThrowHelper.ThrowArgumentException(ExceptionResource resource)"));
 
             for (int i = 0; i < ss.Count; i++)
             {
