@@ -2,6 +2,7 @@
 using Repo2.Core.ns11.Authentication;
 using Repo2.Core.ns11.ChangeNotification;
 using Repo2.Core.ns11.DataStructures;
+using Repo2.Core.ns11.Extensions.StringExtensions;
 using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.InputCommands;
 using Repo2.Core.ns11.PackageDownloaders;
@@ -18,8 +19,6 @@ namespace Repo2.SDK.WPF45.AppUpdates
 {
     public abstract class R2AppUpdaterBase : StatusChangerN45, IAppUpdater, INotifyPropertyChanged
     {
-        //public event PropertyChangedEventHandler PropertyChanged = delegate { };
-
         private      EventHandler  _updatesInstalled;
         public event EventHandler   UpdatesInstalled
         {
@@ -44,8 +43,13 @@ namespace Repo2.SDK.WPF45.AppUpdates
             RelaunchCmd = R2Command.Relay(RelaunchApp);
             RelaunchCmd.OverrideEnabled = false;
 
-            StatusChanged += (s, e) => Logs.Add(e);
-            Logs.MaxCount = 50;
+            StatusChanged += (s, e) =>
+            {
+                Logs.Add(e);
+                LogText = string.Join(L.f, Logs);
+            };
+
+            Logs.MaxCount = 20;
 
             UpdatesInstalled += (s, e) =>
             {
@@ -55,9 +59,9 @@ namespace Repo2.SDK.WPF45.AppUpdates
         }
 
 
-        public IR2Command RelaunchCmd { get; }
-
-        public Observables<string> Logs { get; } = new Observables<string>();
+        public IR2Command           RelaunchCmd  { get; }
+        public string               LogText      { get; private set; }
+        public Observables<string>  Logs         { get; } = new Observables<string>();
 
 
         protected abstract IR2Credentials GetCredentials();
