@@ -19,7 +19,7 @@ namespace Repo2.Uploader.Lib45.PackageUploaders
     //[ImplementPropertyChanged]
     public class D8PackageUploader : StatusChangerN45, IPackageUploader, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        //public event PropertyChangedEventHandler PropertyChanged = delegate { };
         //private      EventHandler<string> _statusChanged;
         //public event EventHandler<string>  StatusChanged
         //{

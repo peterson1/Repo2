@@ -62,11 +62,12 @@ namespace Repo2.Core.ns11.PackageDownloaders
 
             _cancelr = new CancellationTokenSource();
             var tkn  = _cancelr.Token;
+            var mins = checkInterval.TotalMinutes;
 
             SetStatus("Started checking for updates.");
             while (IsChecking)
             {
-                SetStatus($"Delaying for {checkInterval.TotalMinutes:n0} minutes ...");
+                SetStatus($"Delaying for {mins:n0} minute{(mins > 1 ? "s" : "")} ...");
                 try
                 {
                     await Task.Delay(checkInterval, tkn);
