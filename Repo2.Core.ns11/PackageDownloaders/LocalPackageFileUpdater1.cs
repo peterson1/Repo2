@@ -22,14 +22,6 @@ namespace Repo2.Core.ns11.PackageDownloaders
             remove { _targetUpdated -= value; }
         }
 
-        //private      EventHandler<string> _statusChanged;
-        //public event EventHandler<string>  StatusChanged
-        //{
-        //    add    { _statusChanged -= value; _statusChanged += value; }
-        //    remove { _statusChanged -= value; }
-        //}
-
-
         private IRemotePackageManager   _remote;
         private IFileSystemAccesor      _file;
         private IPackageDownloader      _downloadr;
@@ -140,7 +132,11 @@ namespace Repo2.Core.ns11.PackageDownloaders
             if (unpackd.IsBlank()) return;
             CheckHash(unpackd, "downloaded-unpacked package");
 
-            await RetireCurrentPackage();
+            if (!(await RetireCurrentPackage()))
+            {
+                StopCheckingForUpdates();
+                return;
+            }
 
             await PromoteNewerPackage(unpackd);
 
@@ -150,11 +146,19 @@ namespace Repo2.Core.ns11.PackageDownloaders
             RaiseTargetUpdated();
         }
 
-        private async Task RetireCurrentPackage()
+        private async Task<bool> RetireCurrentPackage()
         {
             var retirement = _file.GetTempFilePath();
             var success    = await _file.Move(TargetPath, retirement);
             if (!success) throw Fault.CantMove(TargetPath, retirement);
+
+            if (_file.Found(TargetPath))
+            {
+                //throw Fault.CantMove(TargetPath, retirement);
+                SetStatus("Failed to retire current package.");
+                return false;
+            }
+            return true;
         }
 
         private async Task PromoteNewerPackage(string unpackdPath)
