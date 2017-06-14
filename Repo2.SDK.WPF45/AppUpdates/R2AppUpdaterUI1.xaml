@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Repo2.SDK.WPF45.AppUpdates.R2AppUpdaterUI1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cnv="clr-namespace:Repo2.SDK.WPF45.Converters"
+             xmlns:local="clr-namespace:Repo2.SDK.WPF45.AppUpdates"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <cnv:VisibleIfTrueConverter x:Key="visIfTrue" />
+        <Style x:Key="statusStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="10" />
+            <Setter Property="Foreground" Value="LightGray" />
+            <Setter Property="ToolTipService.ShowDuration" Value="2147483647" />
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Orientation="Horizontal">
+        <TextBlock Text="{Binding Status}"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource statusStyle}"
+                   ToolTip="{Binding LogText}"
+                   />
+        <Button Command="{Binding RelaunchCmd}" 
+                Content="Updates installed. Relaunch now."
+                Padding="5,2,5,2"
+                Margin="10,0,0,0"
+                Visibility="{Binding RelaunchCmd.OverrideEnabled, Converter={StaticResource visIfTrue}}"
+                />
+    </StackPanel>
+</UserControl>

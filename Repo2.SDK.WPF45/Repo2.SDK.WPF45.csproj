@@ -117,6 +117,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppUpdates\R2AppUpdaterBase.cs" />
+    <Compile Include="AppUpdates\R2AppUpdaterUI1.xaml.cs">
+      <DependentUpon>R2AppUpdaterUI1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Authentication\Certificator.cs" />
     <Compile Include="ChangeNotification\EventHandlerExtensions.cs" />
     <Compile Include="ChangeNotification\StatusChangerN45.cs" />
@@ -246,6 +249,10 @@
     <EmbeddedResource Include="Compression\7zxa.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AppUpdates\R2AppUpdaterUI1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PrintTools\MatelichPaginators\DataGridPaginatorResourceDictionary1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
