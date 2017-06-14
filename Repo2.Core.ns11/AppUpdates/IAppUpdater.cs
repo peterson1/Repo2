@@ -13,6 +13,6 @@ namespace Repo2.Core.ns11.AppUpdates
         string               LogText      { get; }
         Observables<string>  Logs         { get; }
 
-        void StartCheckingForUpdates();
+        void StartCheckingForUpdates(int? overrideIntervalSeconds = null);
     }
 }

@@ -67,7 +67,7 @@ namespace Repo2.SDK.WPF45.AppUpdates
         protected abstract IR2Credentials GetCredentials();
 
 
-        public void StartCheckingForUpdates()
+        public void StartCheckingForUpdates(int? overrideIntervalSeconds = null)
         {
             if (_r2Upd8r.IsChecking) return;
 
@@ -76,7 +76,8 @@ namespace Repo2.SDK.WPF45.AppUpdates
 
             _r2Upd8r.SetCredentials(creds);
 
-            var interval = TimeSpan.FromSeconds(creds.CheckIntervalSeconds);
+            var seconds = overrideIntervalSeconds ?? creds.CheckIntervalSeconds;
+            var interval = TimeSpan.FromSeconds(seconds);
             _r2Upd8r.StartCheckingForUpdates(interval);
         }
 
