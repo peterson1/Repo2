@@ -55,13 +55,15 @@ namespace Repo2.SDK.WPF45.AppUpdates
             {
                 RelaunchCmd.OverrideEnabled = true;
                 CommandManager.InvalidateRequerySuggested();
+                if (AutoRelaunchOnUpdate) RelaunchCmd.ExecuteIfItCan();
             };
         }
 
 
-        public IR2Command           RelaunchCmd  { get; }
-        public string               LogText      { get; private set; }
-        public Observables<string>  Logs         { get; } = new Observables<string>();
+        public IR2Command           RelaunchCmd          { get; }
+        public string               LogText              { get; private set; }
+        public Observables<string>  Logs                 { get; } = new Observables<string>();
+        public bool                 AutoRelaunchOnUpdate { get; set; }
 
 
         protected abstract IR2Credentials GetCredentials();
