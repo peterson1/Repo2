@@ -52,6 +52,7 @@
         <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
         <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel" />
         <Setter Property="SelectionUnit" Value="FullRow" />
+        <Setter Property="ClipboardCopyMode" Value="IncludeHeader" />
         <!--<Setter Property="SelectionUnit" Value="Cell" />-->
         <!--<Setter Property="CellStyle" Value="{StaticResource unselectableCell}" />-->
     </Style>
