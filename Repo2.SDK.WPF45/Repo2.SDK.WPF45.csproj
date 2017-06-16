@@ -179,6 +179,7 @@
     <Compile Include="Extensions\ViewModelExtensions\DataTemplateExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions\SizeAndPositionSetters.cs" />
     <Compile Include="FileSystems\FileSystemAccesor1.cs" />
+    <Compile Include="GlobalHooks\GlobalKeyboardHooker.cs" />
     <Compile Include="InputCommands\R2AsyncCommandWPF.cs" />
     <Compile Include="InputCommands\R2CommandFactoryWPF.cs" />
     <Compile Include="PackageFinders\LocalR2Package.cs" />
