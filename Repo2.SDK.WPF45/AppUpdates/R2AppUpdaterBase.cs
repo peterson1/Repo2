@@ -53,6 +53,7 @@ namespace Repo2.SDK.WPF45.AppUpdates
 
             UpdatesInstalled += (s, e) =>
             {
+                OnUpdateInstalled?.Invoke();
                 RelaunchCmd.OverrideEnabled = true;
                 CommandManager.InvalidateRequerySuggested();
                 if (AutoRelaunchOnUpdate) RelaunchCmd.ExecuteIfItCan();
@@ -60,10 +61,11 @@ namespace Repo2.SDK.WPF45.AppUpdates
         }
 
 
-        public IR2Command           RelaunchCmd          { get; }
-        public string               LogText              { get; private set; }
-        public Observables<string>  Logs                 { get; } = new Observables<string>();
-        public bool                 AutoRelaunchOnUpdate { get; set; }
+        public IR2Command           RelaunchCmd           { get; }
+        public string               LogText               { get; private set; }
+        public Observables<string>  Logs                  { get; } = new Observables<string>();
+        public bool                 AutoRelaunchOnUpdate  { get; set; }
+        public Action               OnUpdateInstalled     { get; set; }
 
 
         protected abstract IR2Credentials GetCredentials();
