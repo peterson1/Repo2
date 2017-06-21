@@ -110,7 +110,7 @@ namespace Repo2.SDK.WPF45.FileSystems
 
         public string WriteJsonFileBesideExe<T>(string filename, T objectToSerialize)
         {
-            var json = Json.Serialize(objectToSerialize);
+            var json = Json.Serialize(objectToSerialize, true);
             return WriteFileBesideExe(filename, json);
         }
 
