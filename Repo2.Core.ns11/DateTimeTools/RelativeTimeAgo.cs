@@ -5,7 +5,7 @@ namespace Repo2.Core.ns11.DateTimeTools
     public static class RelativeTimeAgo
     {
         //https://stackoverflow.com/a/1248/3973863
-        public static string TimeAgo(DateTime previousDate)
+        public static string TimeAgo(this DateTime previousDate)
         {
             const int SECOND = 1;
             const int MINUTE = 60 * SECOND;
