@@ -43,8 +43,9 @@ namespace Repo2.Core.ns11.DataStructures
 
 
 
-        public double?   ManualTotal    { get; set; }
-        public uint?     MaxCount       { get; set; }
+        public double?   ManualTotal      { get; set; }
+        public uint?     MaxCount         { get; set; }
+        public bool      TruncateFromEnd  { get; set; }
 
 
         public T         SelectedItem
@@ -76,7 +77,7 @@ namespace Repo2.Core.ns11.DataStructures
             {
                 while (Count > MaxCount)
                 {
-                    RemoveAt(0);
+                    RemoveAt(TruncateFromEnd ? Count - 1 : 0);
                 }
             }
         }
