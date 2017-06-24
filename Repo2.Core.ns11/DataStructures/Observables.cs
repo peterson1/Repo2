@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 
 namespace Repo2.Core.ns11.DataStructures
 {
@@ -75,31 +76,17 @@ namespace Repo2.Core.ns11.DataStructures
 
             if (MaxCount.HasValue)
             {
-                while (Count > MaxCount)
+                try
                 {
-                    RemoveAt(TruncateFromEnd ? Count - 1 : 0);
+                    while (Count > MaxCount)
+                    {
+                        //RemoveAt(TruncateFromEnd ? Count - 1 : 0);
+                        Remove(TruncateFromEnd ? this.Last() : this.First());
+                    }
                 }
+                catch { }
             }
         }
-
-
-        //  crashes the app
-        //
-        //public async Task SwapAsync(IEnumerable<T> newItems)
-        //{
-        //    await Task.Run(async () =>
-        //    {
-        //        await Task.Delay(1);
-        //        Swap(newItems);
-        //    });
-        //}
-
-
-        //private void Observables_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        //{
-        //    if (e.PropertyName == nameof(SelectedItem))
-        //        _selectedItemChanged.Raise(SelectedItem);
-        //}
 
 
         public void RaiseSelectionChanged()
