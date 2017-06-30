@@ -18,6 +18,16 @@ namespace Repo2.SDK.WPF45.Databases
         }
 
 
+        public virtual List<T> Find(Expression<Func<T, bool>> supportedLinqExpr, Func<T, bool> unsupportedLinqExpr)
+        {
+            using (var db = ConnectToDB(out LiteCollection<T> col))
+            {
+                return col.Find(supportedLinqExpr)
+                          .Where(unsupportedLinqExpr)
+                          .ToList();
+            }
+        }
+
 
         public virtual List<T> Find(Query query)
         {
