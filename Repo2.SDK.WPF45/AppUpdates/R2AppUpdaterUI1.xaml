@@ -20,6 +20,7 @@
                    VerticalAlignment="Center"
                    Style="{StaticResource statusStyle}"
                    ToolTip="{Binding LogText}"
+                   MaxWidth="300"
                    />
         <Button Command="{Binding RelaunchCmd}" 
                 Content="Updates installed. Relaunch now."
