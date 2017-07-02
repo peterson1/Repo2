@@ -136,6 +136,7 @@
     <Compile Include="ControlBehaviors\ListBoxBehaviors\ScrollOnChangeBehavior.cs" />
     <Compile Include="ControlBehaviors\TextBoxBehaviors\ScrollOnChangeBehavior.cs" />
     <Compile Include="ControlBehaviors\WindowBehaviors\DraggableBehavior.cs" />
+    <Compile Include="Converters\EnumBooleanConverter.cs" />
     <Compile Include="Converters\FalseIfHasItemsConverter.cs" />
     <Compile Include="Converters\FalseIfNullConverter.cs" />
     <Compile Include="Converters\OpenIfNotNullConverter.cs" />
