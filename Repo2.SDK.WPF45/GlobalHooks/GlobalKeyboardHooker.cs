@@ -8,7 +8,7 @@ using System.Windows.Input;
 namespace Repo2.SDK.WPF45.GlobalHooks
 {
     //from: https://stackoverflow.com/a/604417/3973863
-    public class GlobalKeyboardHooker : StatusChangerN45, IDisposable
+    public class GlobalKeyboardHooker : StatusChangerN45, IKeyboardListener
     {
         private      EventHandler<Key> _keyPressed;
         public event EventHandler<Key>  KeyPressed
@@ -28,6 +28,10 @@ namespace Repo2.SDK.WPF45.GlobalHooks
         {
             _proc = HookCallback;
         }
+
+
+        public void StartListening () => SetHook();
+        public void StopListening  () => UnsetHook();
 
 
         public void SetHook()
