@@ -34,7 +34,11 @@ namespace Repo2.Core.ns11.Exceptions
         {
             try
             {
-                return TrimPaths(ex.StackTrace);
+                var agEx = ex as AggregateException;
+                if (agEx != null)
+                    return ShortStackTraceFromAggEx(agEx);
+                else
+                    return TrimPaths(ex.StackTrace);
             }
             catch (Exception)
             {
@@ -43,7 +47,7 @@ namespace Repo2.Core.ns11.Exceptions
         }
 
 
-        private static string ShortStackTrace(this AggregateException ex)
+        private static string ShortStackTraceFromAggEx(AggregateException ex)
         {
             return string.Join(L.f,
                 ex.InnerExceptions.Select(x => x.ShortStackTrace()));

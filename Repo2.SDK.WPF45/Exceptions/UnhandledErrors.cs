@@ -11,7 +11,7 @@ using Repo2.SDK.WPF45.Configuration;
 
 namespace Repo2.SDK.WPF45.Exceptions
 {
-    public class UnhandledErrors
+    public static class UnhandledErrors
     {
         private static string _cfgKey;
         private static bool   _addToWhiteList;
@@ -74,6 +74,27 @@ namespace Repo2.SDK.WPF45.Exceptions
             {
                 Alerter.Show(ex, "Failed to Handle Error");
             }
+        }
+
+
+        public static void OnUnhandledErrors(this Application app, Action<Exception> handler)
+        {
+            app.DispatcherUnhandledException += (s, e) =>
+            {
+                e.Handled = true;
+                handler(e.Exception);
+            };
+
+
+            AppDomain.CurrentDomain.UnhandledException += (s, e)
+                => handler(e.ExceptionObject as Exception);
+
+
+            TaskScheduler.UnobservedTaskException += (s, e) =>
+            {
+                e.SetObserved();
+                handler(e.Exception);
+            };
         }
     }
 }
