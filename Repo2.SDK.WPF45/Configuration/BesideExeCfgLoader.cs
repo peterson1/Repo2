@@ -5,7 +5,7 @@ namespace Repo2.SDK.WPF45.Configuration
 {
     public class BesideExeCfgLoader<T> where T : class
     {
-        const string SETTINGS_CFG = "settings.cfg";
+        //const string cfgFilename = "settings.cfg";
 
         private IFileSystemAccesor _fs;
         private T _lastLoaded;
@@ -20,23 +20,23 @@ namespace Repo2.SDK.WPF45.Configuration
             => _lastLoaded ?? (_lastLoaded = ReadBesideExe(defaultCfg));
 
 
-        private T ReadBesideExe(T defaultCfg)
+        private T ReadBesideExe(T defaultCfg, string cfgFilename = "settings.cfg")
         {
-            var p = _fs.GetBesideExeFilePath(SETTINGS_CFG);
+            var p = _fs.GetBesideExeFilePath(cfgFilename);
 
             try
             {
-                return _fs.ReadJsonFileBesideExe<T>(SETTINGS_CFG);
+                return _fs.ReadJsonFileBesideExe<T>(cfgFilename);
             }
             catch (FileNotFoundException)
             {
-                _fs.WriteJsonFileBesideExe(SETTINGS_CFG, defaultCfg);
+                _fs.WriteJsonFileBesideExe(cfgFilename, defaultCfg);
                 return defaultCfg;
             }
         }
 
 
-        public void RewriteFile()
-            => _fs.WriteJsonFileBesideExe(SETTINGS_CFG, _lastLoaded);
+        public void RewriteFile(string cfgFilename = "settings.cfg")
+            => _fs.WriteJsonFileBesideExe(cfgFilename, _lastLoaded);
     }
 }
