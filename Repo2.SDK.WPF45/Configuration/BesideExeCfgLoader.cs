@@ -16,11 +16,11 @@ namespace Repo2.SDK.WPF45.Configuration
         }
 
 
-        public T Load(T defaultCfg)
-            => _lastLoaded ?? (_lastLoaded = ReadBesideExe(defaultCfg));
+        public T Load(T defaultCfg, string cfgFilename = "settings.cfg")
+            => _lastLoaded ?? (_lastLoaded = ReadBesideExe(defaultCfg, cfgFilename));
 
 
-        private T ReadBesideExe(T defaultCfg, string cfgFilename = "settings.cfg")
+        private T ReadBesideExe(T defaultCfg, string cfgFilename)
         {
             var p = _fs.GetBesideExeFilePath(cfgFilename);
 
