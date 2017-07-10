@@ -3,6 +3,7 @@ using Repo2.SDK.WPF45.ChangeNotification;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace Repo2.SDK.WPF45.GlobalHooks
@@ -16,6 +17,14 @@ namespace Repo2.SDK.WPF45.GlobalHooks
             add    { _keyPressed -= value; _keyPressed += value; }
             remove { _keyPressed -= value; }
         }
+
+        private      EventHandler<Key> _ctrlAltKeyPressed;
+        public event EventHandler<Key>  CtrlAltKeyPressed
+        {
+            add    { _ctrlAltKeyPressed -= value; _ctrlAltKeyPressed += value; }
+            remove { _ctrlAltKeyPressed -= value; }
+        }
+
 
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN     = 0x0100;
@@ -70,8 +79,18 @@ namespace Repo2.SDK.WPF45.GlobalHooks
                 var key    = KeyInterop.KeyFromVirtualKey(vkCode);
                 //SetStatus($"{key}");
                 _keyPressed?.Raise(key);
+
+                if (IsControlAltPressed()) _ctrlAltKeyPressed?.Raise(key);
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
+        }
+
+
+
+        private static bool IsControlAltPressed()
+        {
+            var mods = Keys.Control | Keys.Alt;
+            return (Control.ModifierKeys & mods) == mods;
         }
 
 
