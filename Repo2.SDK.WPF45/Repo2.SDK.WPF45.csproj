@@ -180,6 +180,7 @@
     <Compile Include="Extensions\ViewModelExtensions\DataTemplateExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions\SizeAndPositionSetters.cs" />
     <Compile Include="FileSystems\FileSystemAccesor1.cs" />
+    <Compile Include="GlobalHooks\CurrentActiveWindow.cs" />
     <Compile Include="GlobalHooks\GlobalKeyboardHooker.cs" />
     <Compile Include="GlobalHooks\IKeyboardListener.cs" />
     <Compile Include="InputCommands\R2AsyncCommandWPF.cs" />
