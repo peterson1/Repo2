@@ -182,7 +182,9 @@
     <Compile Include="FileSystems\FileSystemAccesor1.cs" />
     <Compile Include="GlobalHooks\CurrentActiveWindow.cs" />
     <Compile Include="GlobalHooks\GlobalKeyboardHooker.cs" />
+    <Compile Include="GlobalHooks\GlobalMouseHooker.cs" />
     <Compile Include="GlobalHooks\IKeyboardListener.cs" />
+    <Compile Include="GlobalHooks\IMouseListener.cs" />
     <Compile Include="GlobalHooks\KeyPressLog.cs" />
     <Compile Include="InputCommands\R2AsyncCommandWPF.cs" />
     <Compile Include="InputCommands\R2CommandFactoryWPF.cs" />
