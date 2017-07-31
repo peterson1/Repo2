@@ -18,5 +18,20 @@ namespace Repo2.Core.ns11.Databases
 
             return cs;
         }
+
+
+        public static string SqlServer(string serverAddress, 
+                                       string databaseName,
+                                       string userId,
+                                       string password)
+        {
+            var url = $"Data Source={serverAddress}";
+            var lib = $"Network Library=DBMSSOCN";
+            var db  = $"Initial Catalog={databaseName}";
+            var usr = $"User id={userId}";
+            var pwd = $"Password={password}";
+
+            return  $"{url};{lib};{db};{usr};{pwd};";
+        }
     }
 }
