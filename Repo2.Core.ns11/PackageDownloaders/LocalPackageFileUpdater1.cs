@@ -10,6 +10,7 @@ using Repo2.Core.ns11.FileSystems;
 using Repo2.Core.ns11.NodeManagers;
 using Repo2.Core.ns11.RestClients;
 using Repo2.Core.ns11.ChangeNotification;
+using System.IO;
 
 namespace Repo2.Core.ns11.PackageDownloaders
 {
@@ -132,10 +133,13 @@ namespace Repo2.Core.ns11.PackageDownloaders
             if (unpackd.IsBlank()) return;
             CheckHash(unpackd, "downloaded-unpacked package");
 
-            if (!(await RetireCurrentPackage()))
+            if (!(await RetireCurrentPackage(true)))
             {
-                StopCheckingForUpdates();
-                return;
+                if (!(await RetireCurrentPackage(false)))
+                {
+                    StopCheckingForUpdates();
+                    return;
+                }
             }
 
             await PromoteNewerPackage(unpackd);
@@ -146,16 +150,16 @@ namespace Repo2.Core.ns11.PackageDownloaders
             RaiseTargetUpdated();
         }
 
-        private async Task<bool> RetireCurrentPackage()
+        private async Task<bool> RetireCurrentPackage(bool useSystemRetirementDir)
         {
-            var retirement = _file.GetTempFilePath();
+            var retirement = useSystemRetirementDir ? _file.GetTempFilePath()
+                                                    : TargetPath + ".retired";
             var success    = await _file.Move(TargetPath, retirement);
             if (!success) throw Fault.CantMove(TargetPath, retirement);
 
             if (_file.Found(TargetPath))
             {
-                //throw Fault.CantMove(TargetPath, retirement);
-                SetStatus("Failed to retire current package.");
+                SetStatus($"Failed to retire current package to “{Path.GetPathRoot(retirement)}”.");
                 return false;
             }
             return true;
