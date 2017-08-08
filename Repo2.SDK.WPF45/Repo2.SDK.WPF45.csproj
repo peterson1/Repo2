@@ -187,6 +187,7 @@
     <Compile Include="GlobalHooks\IKeyboardListener.cs" />
     <Compile Include="GlobalHooks\IMouseListener.cs" />
     <Compile Include="GlobalHooks\KeyPressLog.cs" />
+    <Compile Include="ImagingTools\BitmapTools.cs" />
     <Compile Include="InputCommands\R2AsyncCommandWPF.cs" />
     <Compile Include="InputCommands\R2CommandFactoryWPF.cs" />
     <Compile Include="PackageFinders\LocalR2Package.cs" />
