@@ -13,7 +13,9 @@ namespace Repo2.SDK.WPF45.Converters
             if (targetType != typeof(string))
                 throw new InvalidOperationException("The target must be a String");
 
-            return String.Join(", ", ((List<uint>)value).ToArray());
+            var array = ((List<uint>)value)?.ToArray();
+
+            return array == null ? "null" : String.Join(", ", array);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
