@@ -8,6 +8,8 @@ namespace Repo2.Core.ns11.ReflectionTools
     {
         public static void CopyByNameFrom<TDestination, TSource>(this TDestination targetObj, TSource sourceObj)
         {
+            if (targetObj == null || sourceObj == null) return;
+
             var writableProps = typeof(TDestination)
                 .GetRuntimeProperties().Where(x => x.CanWrite).ToList();
 
