@@ -10,5 +10,6 @@ namespace Repo2.SDK.WPF45.GlobalHooks
 
         void  StartListening ();
         void  StopListening  ();
+        bool  IsListening    { get; }
     }
 }

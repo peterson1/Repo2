@@ -39,13 +39,15 @@ namespace Repo2.SDK.WPF45.GlobalHooks
         }
 
 
-        public void StartListening () => SetHook();
-        public void StopListening  () => UnsetHook();
+        public bool  IsListening     { get; private set; }
+        public void  StartListening  () => SetHook();
+        public void  StopListening   () => UnsetHook();
 
 
         public void SetHook()
         {
             _hookID = SetHook(_proc);
+            IsListening = true;
             SetStatus("Hook set.");
         }
 
@@ -53,6 +55,7 @@ namespace Repo2.SDK.WPF45.GlobalHooks
         public void UnsetHook()
         {
             UnhookWindowsHookEx(_hookID);
+            IsListening = false;
             SetStatus("Hook unset.");
         }
 
