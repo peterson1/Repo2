@@ -7,6 +7,7 @@ namespace Repo2.UnitTests.Lib.TestTools.MoqExtensions
 {
     public class Any
     {
+        public static bool              Bool  => It.IsAny<bool>();
         public static ulong             ULong => It.IsAny<ulong>();
         public static uint              UInt  => It.IsAny<uint>();
         public static string            Text  => It.IsAny<string>();
